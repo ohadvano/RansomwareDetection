@@ -91,10 +91,10 @@ using namespace std;
 typedef RwThreatDetector* RwDetector;
 static RwDetector RansomwareMonitor;
 
-static time_t _fileSystemLockDownStart = nullptr;
+static time_t _fileSystemLockDownStart = null;
 static double _fileSystemLockDownDurationInSeconds = 60; // 1 Minute
-static char* _rwLockDownStartMessage = "Set lock down start message for user";
-static char* _rwInLockDownMessage = "Set in lock down message for user";
+static string _rwLockDownStartMessage = "Set lock down start message for user";
+static string _rwInLockDownMessage = "Set in lock down message for user";
 
 /* Returns true if the system is in lock down because of previous malicious action
    Should also prompt the user when in lockdown */
