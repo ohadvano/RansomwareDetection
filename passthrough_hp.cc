@@ -100,7 +100,8 @@ static string _rwInLockDownMessage = "Set in lock down message for user";
    Should also prompt the user when in lockdown */
 bool IsInLockDown()
 {
-    if (_fileSystemLockDownStart == nullptr)
+    // Zero case means not initialized
+    if (_fileSystemLockDownStart == 0)
     {
         return false;
     }
