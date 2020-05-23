@@ -93,7 +93,7 @@ using namespace FileSystemActions;
 // RansomwareMonitor
 typedef RwThreatDetector* RwDetector;
 static RwDetector RansomwareMonitor;
-static RwMonitorLoader disposableLoader = RwMonitorLoader(RansomwareMonitor);
+static RwMonitorLoader disposableLoader = RwMonitorLoader((RwThreatDetector*)RansomwareMonitor);
 
 static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
 static double _fileSystemLockDownDurationInSeconds = 60; // 1 Minute
