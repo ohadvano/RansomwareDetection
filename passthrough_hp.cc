@@ -1284,7 +1284,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
         ino,
-        (in_buf->buf[0]).size,
+        (in_buf->buf[0]).size2,
         (in_buf->buf[0]).mem,
         (in_buf->buf[0]).fd,
         (in_buf->buf[0]).pos,
