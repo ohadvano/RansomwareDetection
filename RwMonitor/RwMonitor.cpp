@@ -12,20 +12,6 @@ namespace RwMonitor
         Safe
     };
 
-    class RwMonitorLoader
-    {
-        public:
-            RwMonitorLoader(RwThreatDetector* monitorToLoad)
-            {
-                monitorToLoad->AddHeuristic(new FileTypeChangesHeuristic());
-                monitorToLoad->AddHeuristic(new SimilarityMeasurementHeuristic());
-                monitorToLoad->AddHeuristic(new ShannonAnthropyHeuristic());
-                monitorToLoad->AddHeuristic(new SecondaryIndicatorsHeuristic());
-                monitorToLoad->AddHeuristic(new UnionIndicationHeuristic());
-                monitorToLoad->AddHeuristic(new IndicatorEvationHeuristic());
-            }
-    };
-    
     class RwThreatDetector
     {
         public:
@@ -83,5 +69,19 @@ namespace RwMonitor
         private:
             pthread_mutex_t _actionLock;
             std::list<HeuristicBase*>* _heuristics;
+    };
+    
+    class RwMonitorLoader
+    {
+        public:
+            RwMonitorLoader(RwThreatDetector* monitorToLoad)
+            {
+                monitorToLoad->AddHeuristic(new FileTypeChangesHeuristic());
+                monitorToLoad->AddHeuristic(new SimilarityMeasurementHeuristic());
+                monitorToLoad->AddHeuristic(new ShannonAnthropyHeuristic());
+                monitorToLoad->AddHeuristic(new SecondaryIndicatorsHeuristic());
+                monitorToLoad->AddHeuristic(new UnionIndicationHeuristic());
+                monitorToLoad->AddHeuristic(new IndicatorEvationHeuristic());
+            }
     };
 }
