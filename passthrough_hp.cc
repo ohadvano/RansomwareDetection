@@ -1366,11 +1366,9 @@ static void sfs_flock(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi,
     pid_t callingPid = getpid();
     FsAction action = FlockAction(
         ino,
-        mode,
-        offset,
-        length,
         FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
                             fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        op,
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
