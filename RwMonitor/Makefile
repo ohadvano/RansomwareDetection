@@ -15,7 +15,7 @@ $(LINK_TARGET) : $(OBJS)
 
 FsAction.o: FsAction.cpp
 Heuristics.o: Heuristics.cpp
-RwMonitor.o: RwMonitor.cpp RwMonitorLoader.cpp
+RwMonitor.o: RwMonitor.cpp
 RwMonitorUnitTests.o: RwMonitorUnitTests.cpp
 
 clean:

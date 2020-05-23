@@ -90,7 +90,7 @@ using namespace std;
 using namespace RwMonitor;
 using namespace FileSystemActions;
 
-// RansomwareMonitor
+// RansomwareMonitor7
 typedef RwThreatDetector* RwDetector;
 static RwDetector RansomwareMonitor;
 static RwMonitorLoader disposableLoader = RwMonitorLoader((RwThreatDetector*)RansomwareMonitor);
