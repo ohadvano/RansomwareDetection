@@ -294,9 +294,7 @@ namespace FileSystemActions
 
             ReadDirPlusAction(uint64_t inode, FileInfoContract fileInfo, int callingProccessId) 
                 : FsAction("LookupAction", callingProccessId), 
-                    Inode(inode), 
-                    Size(size),
-                    Offset(offset),
+                    Inode(inode),
                     FileInfo(fileInfo)
             {
             }
