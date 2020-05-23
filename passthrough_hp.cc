@@ -91,7 +91,7 @@ using namespace std;
 typedef RwThreatDetector* RwDetector;
 static RwDetector RansomwareMonitor;
 
-static time_t _fileSystemLockDownStart = null;
+static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
 static double _fileSystemLockDownDurationInSeconds = 60; // 1 Minute
 static string _rwLockDownStartMessage = "Set lock down start message for user";
 static string _rwInLockDownMessage = "Set in lock down message for user";
