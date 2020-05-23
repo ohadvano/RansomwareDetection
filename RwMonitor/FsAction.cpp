@@ -290,11 +290,9 @@ namespace FileSystemActions
     {
         public:
             uint64_t Inode;
-            size_t Size;
-            off_t Offset;
             FileInfoContract FileInfo;
 
-            ReadDirPlusAction(uint64_t inode, size_t size, off_t offset, FileInfoContract fileInfo, int callingProccessId) 
+            ReadDirPlusAction(uint64_t inode, FileInfoContract fileInfo, int callingProccessId) 
                 : FsAction("LookupAction", callingProccessId), 
                     Inode(inode), 
                     Size(size),

@@ -122,7 +122,7 @@ void StartLockDown()
 {
     time_t now = time(0);
     _fileSystemLockDownStart = now;
-    cout << _rwLockDownMessage << endl;
+    cout << _rwLockDownStartMessage << endl;
 }
 
 /* Returns true if the action is legal
