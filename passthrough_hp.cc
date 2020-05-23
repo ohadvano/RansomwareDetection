@@ -136,19 +136,19 @@ using namespace FileSystemActions;
 bool PerformRansomwareValidations(FsAction action)
 {
     return false;
-    if (IsInLockDown())
-    {
-        return false;
-    }
+    // if (IsInLockDown())
+    // {
+    //     return false;
+    // }
 
-    RiskStatus risk = RansomwareMonitor->CanPerform(action);
-    if (risk == Risky)
-    {
-        StartLockDown();
-        return false;
-    }
+    // RiskStatus risk = RansomwareMonitor->CanPerform(action);
+    // if (risk == Risky)
+    // {
+    //     StartLockDown();
+    //     return false;
+    // }
 
-    return true;
+    // return true;
 }
 
 ////////////////////// End ransomware detection helpers ////////////////////////////
