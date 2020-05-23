@@ -90,6 +90,7 @@ using namespace std;
 // RansomwareMonitor
 typedef RwThreatDetector* RwDetector;
 static RwDetector RansomwareMonitor;
+static RwMonitorLoader disposableLoader = RwMonitorLoader(RansomwareMonitor);
 
 static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
 static double _fileSystemLockDownDurationInSeconds = 60; // 1 Minute
@@ -120,7 +121,9 @@ bool IsInLockDown()
 /* Starts file system lockdown and prompts user about it */
 void StartLockDown()
 {
+    // time(0) returns current system time
     time_t now = time(0);
+
     _fileSystemLockDownStart = now;
     cout << _rwLockDownStartMessage << endl;
 }
