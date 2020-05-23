@@ -80,12 +80,15 @@
 #include <thread>
 #include <iomanip>
 
+using namespace std;
+
+////////////////////// Ransomware Detection Helpers ////////////////////////////
+
 // RansomwareMonitor includes
 #include "RwMonitor/RwMonitor.cpp"
 
 using namespace RwMonitor;
 using namespace FileSystemActions;
-using namespace std;
 
 // RansomwareMonitor
 typedef RwThreatDetector* RwDetector;
@@ -146,6 +149,8 @@ bool PerformRansomwareValidations(FsAction action)
 
     return true;
 }
+
+////////////////////// End ransomware detection helpers ////////////////////////////
 
 /* We are re-using pointers to our `struct sfs_inode` and `struct
    sfs_dirp` elements as inodes and file handles. This means that we
