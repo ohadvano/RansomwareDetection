@@ -88,8 +88,8 @@ using namespace FileSystemActions;
 using namespace std;
 
 // RansomwareMonitor
-typedef RwThreatDetector* RwMonitor;
-static RwMonitor RansomwareMonitor;
+typedef RwThreatDetector* RwDetector;
+static RwDetector RansomwareMonitor;
 
 static time_t _fileSystemLockDownStart = nullptr;
 static double _fileSystemLockDownDurationInSeconds = 60; // 1 Minute
