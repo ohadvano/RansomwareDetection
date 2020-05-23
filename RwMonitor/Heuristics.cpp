@@ -14,7 +14,7 @@ namespace Heuristics
         public:
             virtual bool IsValidAction(FsAction action) = 0;
 
-            ~HeuristicBase()
+            virtual ~HeuristicBase()
             {
             }
     };
