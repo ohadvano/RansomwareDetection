@@ -75,7 +75,7 @@ namespace FileSystemActions
             mode_t Mode;
 
             MakedirAction(uint64_t parent, const char* name, mode_t mode, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("MakedirAction", callingProccessId), 
                     Parent(parent), 
                     Name(name), 
                     Mode(mode)
@@ -93,7 +93,7 @@ namespace FileSystemActions
             dev_t Rdev;
 
             MakeNodeAction(uint64_t parent, const char* name, mode_t mode, dev_t rdev, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("MakeNodeAction", callingProccessId), 
                     Parent(parent), 
                     Name(name), 
                     Mode(mode), 
@@ -111,7 +111,7 @@ namespace FileSystemActions
             const char* Name;
 
             SymLinkAction(const char* link, uint64_t parent, const char* name, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("SymLinkAction", callingProccessId), 
                     Link(link), 
                     Parent(parent), 
                     Name(name)
@@ -128,7 +128,7 @@ namespace FileSystemActions
             const char* Name;
 
             LinkAction(uint64_t inode, uint64_t parent, const char* name, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("LinkAction", callingProccessId), 
                     Inode(inode), 
                     Parent(parent), 
                     Name(name)
@@ -144,7 +144,7 @@ namespace FileSystemActions
             const char* Name;
 
             UnLinkAction(uint64_t parent, const char* name, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("UnLinkAction", callingProccessId), 
                     Parent(parent), 
                     Name(name)
             {
@@ -159,7 +159,7 @@ namespace FileSystemActions
             const char* Name;
 
             RmdirAction(uint64_t parent, const char* name, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("RmdirAction", callingProccessId), 
                     Parent(parent), 
                     Name(name)
             {
@@ -177,7 +177,7 @@ namespace FileSystemActions
             unsigned int Flags;
 
             RenameAction(uint64_t parent, const char* name, uint64_t newParent, const char* newName, unsigned int flags, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("RenameAction", callingProccessId), 
                     Parent(parent), 
                     Name(name),
                     NewParent(newParent), 
@@ -195,7 +195,7 @@ namespace FileSystemActions
             uint64_t Nlookup;
 
             ForgetAction(uint64_t parent, uint64_t nlookup, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("ForgetAction", callingProccessId), 
                     Parent(parent), 
                     Nlookup(nlookup)
             {
@@ -212,7 +212,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             GetAttrAction(uint64_t inode, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("GetAttrAction", callingProccessId), 
                     Inode(inode), 
                     FileInfo(fileInfo)
             {
@@ -229,7 +229,7 @@ namespace FileSystemActions
             int Valid;
 
             SetAttrAction(uint64_t inode, struct stat attr, FileInfoContract fileInfo, int valid, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("SetAttrAction", callingProccessId), 
                     Inode(inode), 
                     Attr(attr),
                     FileInfo(fileInfo),
@@ -245,7 +245,7 @@ namespace FileSystemActions
             uint64_t Inode;
 
             ReadLinkAction(uint64_t inode, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("ReadLinkAction", callingProccessId), 
                     Inode(inode)
             {
             }
@@ -259,7 +259,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             OpenDirAction(uint64_t inode, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("OpenDirAction", callingProccessId), 
                     Inode(inode), 
                     FileInfo(fileInfo)
             {
@@ -276,7 +276,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             ReadDirAction(uint64_t inode, size_t size, off_t offset, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("ReadDirAction", callingProccessId), 
                     Inode(inode), 
                     Size(size),
                     Offset(offset),
@@ -295,7 +295,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             ReadDirPlusAction(uint64_t inode, size_t size, off_t offset, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("ReadDirPlusAction", callingProccessId), 
                     Inode(inode), 
                     Size(size),
                     Offset(offset),
@@ -312,7 +312,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             ReleaseDirAction(uint64_t inode, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("ReleaseDirAction", callingProccessId), 
                     Inode(inode), 
                     FileInfo(fileInfo)
             {
@@ -328,7 +328,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             FsyncDirAction(uint64_t inode, int dataSync, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("FsyncDirAction", callingProccessId), 
                     Inode(inode), 
                     DataSync(dataSync),
                     FileInfo(fileInfo)
@@ -346,7 +346,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             CreateAction(uint64_t parent, const char* name, mode_t mode, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("CreateAction", callingProccessId), 
                     Parent(parent), 
                     Name(name),
                     Mode(mode),
@@ -363,7 +363,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             OpenAction(uint64_t inode, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("OpenAction", callingProccessId), 
                     Inode(inode),
                     FileInfo(fileInfo)
             {
@@ -378,7 +378,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             ReleaseAction(uint64_t inode, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("ReleaseAction", callingProccessId), 
                     Inode(inode),
                     FileInfo(fileInfo)
             {
@@ -393,7 +393,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             FlushAction(uint64_t inode, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("FlushAction", callingProccessId), 
                     Inode(inode),
                     FileInfo(fileInfo)
             {
@@ -410,7 +410,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             ReadAction(uint64_t inode, size_t size, off_t offset, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("ReadAction", callingProccessId), 
                     Inode(inode),
                     Size(size),
                     Offset(offset),
@@ -432,7 +432,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             WriteBufAction(uint64_t inode, size_t size, void* mem, int fd, off_t pos, off_t offset, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("WriteBufAction", callingProccessId), 
                     Inode(inode),
                     Size(size),
                     Mem(mem),
@@ -451,7 +451,7 @@ namespace FileSystemActions
             uint64_t Inode;
 
             StatFsAction(uint64_t inode, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("StatFsAction", callingProccessId), 
                     Inode(inode)
             {
             }
@@ -468,7 +468,7 @@ namespace FileSystemActions
             FileInfoContract FileInfo;
 
             FallocateAction(uint64_t inode, int mode, off_t offset, off_t length, FileInfoContract fileInfo, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("FallocateAction", callingProccessId), 
                     Inode(inode),
                     Mode(mode),
                     Offset(offset),
@@ -487,7 +487,7 @@ namespace FileSystemActions
             int Op;
 
             FlockAction(uint64_t inode, FileInfoContract fileInfo, int op, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("FlockAction", callingProccessId), 
                     Inode(inode),
                     FileInfo(fileInfo),
                     Op(op)
@@ -504,7 +504,7 @@ namespace FileSystemActions
             size_t Size;
 
             GetxAttrAction(uint64_t inode, const char* name, size_t size, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("GetxAttrAction", callingProccessId), 
                     Inode(inode),
                     Name(name),
                     Size(size)
@@ -520,7 +520,7 @@ namespace FileSystemActions
             size_t Size;
 
             ListxAttrAction(uint64_t inode, size_t size, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("ListxAttrAction", callingProccessId), 
                     Inode(inode),
                     Size(size)
             {
@@ -538,7 +538,7 @@ namespace FileSystemActions
             int Flags;
 
             SetxAttrAction(uint64_t inode, const char* name, const char* value, size_t size, int flags, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("SetxAttrAction", callingProccessId), 
                     Inode(inode),
                     Name(name),
                     Value(value),
@@ -556,7 +556,7 @@ namespace FileSystemActions
             const char* Name;
 
             RemovexAttrAction(uint64_t inode, const char* name, int callingProccessId) 
-                : FsAction("LookupAction", callingProccessId), 
+                : FsAction("RemovexAttrAction", callingProccessId), 
                     Inode(inode),
                     Name(name)
             {

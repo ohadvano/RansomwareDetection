@@ -60,7 +60,7 @@ namespace RwMonitor
 
                 for (std::list<HeuristicBase*>::iterator it = _heuristics->begin(); it != _heuristics->end(); ++it)
                 {
-                    delete *it;
+                    delete it;
                 }
 
                 delete _heuristics;
