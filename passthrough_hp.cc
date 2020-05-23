@@ -140,6 +140,8 @@ bool PerformRansomwareValidations(FsAction action)
         StartLockDown();
         return false;
     }
+
+    return true;
 }
 
 /* We are re-using pointers to our `struct sfs_inode` and `struct
@@ -736,7 +738,7 @@ static void sfs_forget_multi(fuse_req_t req, size_t count,
 {
     // TODO
 
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < (int)count; i++)
         forget_one(forgets[i].ino, forgets[i].nlookup);
     fuse_reply_none(req);
 }
