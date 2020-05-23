@@ -985,7 +985,7 @@ static void sfs_readdirplus(fuse_req_t req, fuse_ino_t ino, size_t size,
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = ReadDirPlusAction(
-        ino, 
+        ino,
         size,
         offset,
         FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
@@ -1007,7 +1007,7 @@ static void sfs_releasedir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 {
     // Ransomware monitor
     pid_t callingPid = getpid();
-    FsAction action = ReadDirPlusAction(
+    FsAction action = ReleaseDirAction(
         ino, 
         FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
                             fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
@@ -1200,7 +1200,7 @@ static void sfs_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
 {
     // Ransomware monitor
     pid_t callingPid = getpid();
-    FsAction action = FlushAction(
+    FsAction action = FsyncDirAction(
         ino,
         datasync,
         FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
