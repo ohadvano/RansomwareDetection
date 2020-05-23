@@ -1307,7 +1307,7 @@ static void sfs_statfs(fuse_req_t req, fuse_ino_t ino)
 {
     // Ransomware monitor
     pid_t callingPid = getpid();
-    FsAction action = ReadAction(
+    FsAction action = StatFsAction(
         ino,
         callingPid);
 

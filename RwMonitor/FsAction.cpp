@@ -390,13 +390,11 @@ namespace FileSystemActions
     {
         public:
             uint64_t Inode;
-            int DataSync;
             FileInfoContract FileInfo;
 
-            FlushAction(uint64_t inode, int dataSync, FileInfoContract fileInfo, int callingProccessId) 
+            FlushAction(uint64_t inode, FileInfoContract fileInfo, int callingProccessId) 
                 : FsAction("LookupAction", callingProccessId), 
                     Inode(inode),
-                    DataSync(dataSync),
                     FileInfo(fileInfo)
             {
             }
