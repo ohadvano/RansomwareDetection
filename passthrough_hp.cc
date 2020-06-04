@@ -74,7 +74,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <list>
-#include "cxxopts.hpp"
 #include <mutex>
 #include <fstream>
 #include <thread>
@@ -86,6 +85,7 @@ using namespace std;
 
 // RansomwareMonitor includes
 #include "RwMonitor/RwMonitor.cpp"
+#include "Utilities/cxxopts.hpp"
 
 using namespace RwMonitor;
 using namespace FileSystemActions;
