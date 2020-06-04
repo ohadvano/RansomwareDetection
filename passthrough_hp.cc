@@ -90,10 +90,9 @@ using namespace std;
 using namespace RwMonitor;
 using namespace FileSystemActions;
 
-// RansomwareMonitor7
+// RansomwareMonitor
 typedef RwThreatDetector* RwDetector;
-static RwDetector RansomwareMonitor;
-static RwMonitorLoader disposableLoader = RwMonitorLoader((RwThreatDetector*)RansomwareMonitor);
+RwDetector RansomwareMonitor = new RwThreatDetector();
 
 static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
 static double _fileSystemLockDownDurationInSeconds = 60; // 1 Minute
@@ -1686,7 +1685,8 @@ static void maximize_fd_limit()
 
 int main(int argc, char *argv[]) 
 {
-printf("1\n");
+    delete (new RwMonitorLoader((RwThreatDetector*)RansomwareMonitor));
+
     // Parse command line options
     auto options {parse_options(argc, argv)};
 
@@ -1695,13 +1695,11 @@ printf("1\n");
     // so try to get rid of any resource softlimit.
     maximize_fd_limit();
 
-printf("2\n");
-
     // Initialize filesystem root
     fs.root.fd = -1;
     fs.root.nlookup = 9999;
     fs.timeout = options.count("nocache") ? 0 : 86400.0;
-printf("3\n");
+
     struct stat stat;
     auto ret = lstat(fs.source.c_str(), &stat);
     if (ret == -1)
@@ -1709,11 +1707,11 @@ printf("3\n");
     if (!S_ISDIR(stat.st_mode))
         errx(1, "ERROR: source is not a directory");
     fs.src_dev = stat.st_dev;
-printf("4\n");
+
     fs.root.fd = open(fs.source.c_str(), O_PATH);
     if (fs.root.fd == -1)
         err(1, "ERROR: open(\"%s\", O_PATH)", fs.source.c_str());
-printf("5\n");
+
     // Initialize fuse
     fuse_args args = FUSE_ARGS_INIT(0, nullptr);
     if (fuse_opt_add_arg(&args, argv[0]) ||
@@ -1721,8 +1719,6 @@ printf("5\n");
         fuse_opt_add_arg(&args, "default_permissions,fsname=hpps") ||
         (options.count("debug-fuse") && fuse_opt_add_arg(&args, "-odebug")))
         errx(3, "ERROR: Out of memory");
-
-printf("6\n");
 
     fuse_lowlevel_ops sfs_oper {};
     assign_operations(sfs_oper);
@@ -1732,9 +1728,10 @@ printf("6\n");
 
     if (fuse_set_signal_handlers(se) != 0)
         goto err_out2;
-printf("7\n");
     // Don't apply umask, use modes exactly as specified
     umask(0);
+
+    // OK
 
     // Mount and run main loop
     struct fuse_loop_config loop_config;
@@ -1749,6 +1746,8 @@ printf("7\n");
 
     fuse_session_unmount(se);
 
+    printf("7\n");
+
 err_out3:
     fuse_remove_signal_handlers(se);
 err_out2:
@@ -1758,4 +1757,3 @@ err_out1:
 
     return ret ? 1 : 0;
 }
-
