@@ -1731,13 +1731,12 @@ int main(int argc, char *argv[])
     // Don't apply umask, use modes exactly as specified
     umask(0);
 
-    // OK
-
     // Mount and run main loop
     struct fuse_loop_config loop_config;
     loop_config.clone_fd = 0;
     loop_config.max_idle_threads = 10;
-    printf("7\n");
+
+    // OK
     if (fuse_session_mount(se, argv[2]) != 0)
         goto err_out3;
     if (options.count("single"))
@@ -1745,8 +1744,9 @@ int main(int argc, char *argv[])
     else
         ret = fuse_session_loop_mt(se, &loop_config);
 
-    fuse_session_unmount(se);
+    printf("7\n");
 
+    fuse_session_unmount(se);
 
 err_out3:
     fuse_remove_signal_handlers(se);
