@@ -1737,6 +1737,7 @@ int main(int argc, char *argv[])
     struct fuse_loop_config loop_config;
     loop_config.clone_fd = 0;
     loop_config.max_idle_threads = 10;
+    printf("7\n");
     if (fuse_session_mount(se, argv[2]) != 0)
         goto err_out3;
     if (options.count("single"))
@@ -1746,7 +1747,6 @@ int main(int argc, char *argv[])
 
     fuse_session_unmount(se);
 
-    printf("7\n");
 
 err_out3:
     fuse_remove_signal_handlers(se);
