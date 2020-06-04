@@ -90,65 +90,64 @@ using namespace std;
 using namespace RwMonitor;
 using namespace FileSystemActions;
 
-// // RansomwareMonitor7
-// typedef RwThreatDetector* RwDetector;
-// static RwDetector RansomwareMonitor;
-// static RwMonitorLoader disposableLoader = RwMonitorLoader((RwThreatDetector*)RansomwareMonitor);
+// RansomwareMonitor7
+typedef RwThreatDetector* RwDetector;
+static RwDetector RansomwareMonitor;
+static RwMonitorLoader disposableLoader = RwMonitorLoader((RwThreatDetector*)RansomwareMonitor);
 
-// static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
-// static double _fileSystemLockDownDurationInSeconds = 60; // 1 Minute
-// static string _rwLockDownStartMessage = "Set lock down start message for user";
-// static string _rwInLockDownMessage = "Set in lock down message for user";
+static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
+static double _fileSystemLockDownDurationInSeconds = 60; // 1 Minute
+static string _rwLockDownStartMessage = "Set lock down start message for user";
+static string _rwInLockDownMessage = "Set in lock down message for user";
 
-// /* Returns true if the system is in lock down because of previous malicious action
-//    Should also prompt the user when in lockdown */
-// bool IsInLockDown()
-// {
-//     // Zero case means not initialized
-//     if (_fileSystemLockDownStart == 0)
-//     {
-//         return false;
-//     }
+/* Returns true if the system is in lock down because of previous malicious action
+   Should also prompt the user when in lockdown */
+bool IsInLockDown()
+{
+    // Zero case means not initialized
+    if (_fileSystemLockDownStart == 0)
+    {
+        return false;
+    }
 
-//     time_t now = time(0);
-//     double timePassed = difftime(now, _fileSystemLockDownStart);
-//     if (timePassed < _fileSystemLockDownDurationInSeconds)
-//     {
-//         cout << _rwInLockDownMessage << endl;
-//         return true;
-//     }
+    time_t now = time(0);
+    double timePassed = difftime(now, _fileSystemLockDownStart);
+    if (timePassed < _fileSystemLockDownDurationInSeconds)
+    {
+        cout << _rwInLockDownMessage << endl;
+        return true;
+    }
 
-//     return false;
-// }
+    return false;
+}
 
-// /* Starts file system lockdown and prompts user about it */
-// void StartLockDown()
-// {
-//     // time(0) returns current system time
-//     time_t now = time(0);
+/* Starts file system lockdown and prompts user about it */
+void StartLockDown()
+{
+    // time(0) returns current system time
+    time_t now = time(0);
 
-//     _fileSystemLockDownStart = now;
-//     cout << _rwLockDownStartMessage << endl;
-// }
+    _fileSystemLockDownStart = now;
+    cout << _rwLockDownStartMessage << endl;
+}
 
 /* Returns true if the action is legal
    Returns false if the action is illegal for any reason (also if in lock down) */
 bool PerformRansomwareValidations(FsAction action)
 {
-    return false;
-    // if (IsInLockDown())
-    // {
-    //     return false;
-    // }
+    if (IsInLockDown())
+    {
+        return false;
+    }
 
-    // RiskStatus risk = RansomwareMonitor->CanPerform(action);
-    // if (risk == Risky)
-    // {
-    //     StartLockDown();
-    //     return false;
-    // }
+    RiskStatus risk = RansomwareMonitor->CanPerform(action);
+    if (risk == Risky)
+    {
+        StartLockDown();
+        return false;
+    }
 
-    // return true;
+    return true;
 }
 
 ////////////////////// End ransomware detection helpers ////////////////////////////
@@ -1612,6 +1611,7 @@ static void assign_operations(fuse_lowlevel_ops &sfs_oper)
     sfs_oper.removexattr = sfs_removexattr;
 #endif
 }
+
 
 static void print_usage(char *prog_name) 
 {
