@@ -286,7 +286,7 @@ printf("22\n");
 
     FsAction action = GetAttrAction(
         ino, 
-        nullptr,
+        NULL,
         callingPid);
 
     // FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
