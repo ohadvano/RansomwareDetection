@@ -285,8 +285,9 @@ printf("11\n");
 printf("22\n");
     FsAction action = GetAttrAction(
         ino, 
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        nullptr,
+        // FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
+        //                     fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
         callingPid);
 printf("33\n");
     // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
