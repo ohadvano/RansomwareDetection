@@ -290,11 +290,11 @@ printf("22\n");
         callingPid);
 
 printf("33\n");
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
+    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
+    if (shouldIgnoreRequest)
+    {
+        return;
+    }
 printf("44\n");
 
     (void)fi;
