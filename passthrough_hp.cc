@@ -279,23 +279,18 @@ static void sfs_init(void *userdata, fuse_conn_info *conn)
 
 static void sfs_getattr(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
-printf("11\n");
     // Ransomware monitor
     pid_t callingPid = getpid();
-printf("22\n");
-
     FsAction action = GetAttrAction(
         ino, 
-        FileInfoContract(), 
+        FileInfoContract(),
         callingPid);
 
-printf("33\n");
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
     {
         return;
     }
-printf("44\n");
 
     (void)fi;
     Inode& inode = get_inode(ino);
@@ -395,8 +390,7 @@ static void sfs_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
     FsAction action = SetAttrAction(
         ino, 
         *attr,
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         valid,
         callingPid);
 
@@ -809,8 +803,7 @@ static void sfs_opendir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
     pid_t callingPid = getpid();
     FsAction action = OpenDirAction(
         ino, 
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -977,8 +970,7 @@ static void sfs_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
         ino, 
         size,
         offset,
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -1001,8 +993,7 @@ static void sfs_readdirplus(fuse_req_t req, fuse_ino_t ino, size_t size,
         ino,
         size,
         offset,
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -1022,8 +1013,7 @@ static void sfs_releasedir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
     pid_t callingPid = getpid();
     FsAction action = ReleaseDirAction(
         ino, 
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -1048,8 +1038,7 @@ static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
         parent,
         name,
         mode, 
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -1090,8 +1079,7 @@ static void sfs_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
     FsAction action = FsyncDirAction(
         ino, 
         datasync,
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -1117,8 +1105,7 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
     pid_t callingPid = getpid();
     FsAction action = OpenAction(
         ino,
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -1170,8 +1157,7 @@ static void sfs_release(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
     pid_t callingPid = getpid();
     FsAction action = ReleaseAction(
         ino,
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -1192,8 +1178,7 @@ static void sfs_flush(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
     pid_t callingPid = getpid();
     FsAction action = FlushAction(
         ino,
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -1216,8 +1201,7 @@ static void sfs_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
     FsAction action = FsyncDirAction(
         ino,
         datasync,
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -1256,8 +1240,7 @@ static void sfs_read(fuse_req_t req, fuse_ino_t ino, size_t size, off_t off,
         ino,
         size,
         off,
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -1300,8 +1283,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
         (in_buf->buf[0]).fd,
         (in_buf->buf[0]).pos,
         off,
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -1351,8 +1333,7 @@ static void sfs_fallocate(fuse_req_t req, fuse_ino_t ino, int mode,
         mode,
         offset,
         length,
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
@@ -1379,8 +1360,7 @@ static void sfs_flock(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi,
     pid_t callingPid = getpid();
     FsAction action = FlockAction(
         ino,
-        FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
-                            fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
+        FileInfoContract(), 
         op,
         callingPid);
 
