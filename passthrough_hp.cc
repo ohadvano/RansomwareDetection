@@ -279,22 +279,22 @@ static void sfs_init(void *userdata, fuse_conn_info *conn)
 
 static void sfs_getattr(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
-printf("1");
+printf("11");
     // Ransomware monitor
     pid_t callingPid = getpid();
-printf("2");
+printf("22");
     // FsAction action = GetAttrAction(
     //     ino, 
     //     FileInfoContract(fi->flags, fi->writepage, fi->direct_io, fi->keep_cache, fi->flush, fi->nonseekable, fi->flock_release, 
     //                         fi->cache_readdir, fi->padding, fi->padding2, fi->fh, fi->lock_owner, fi->poll_events), 
     //     callingPid);
-printf("3");
+printf("33");
     // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     // if (shouldIgnoreRequest)
     // {
     //     return;
     // }
-printf("4");
+printf("44");
 
     (void)fi;
     Inode& inode = get_inode(ino);
