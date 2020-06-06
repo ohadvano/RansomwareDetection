@@ -49,6 +49,8 @@ namespace FileSystemActions
                 : Flags(flags), WritePage(writePage), DirectIo(directIo), KeepCache(keepCache), Flush(flush), 
                     NonSeekable(nonSeekable), FlockRelease(flockRelease), CacheReaddir(cacheReaddir), Padding(padding), Padding2(padding2),
                     Fh(fh), LockOwner(lockOwner), PollEvents(pollEvents) { }
+
+            FileInfoContract() { }
     };
 
     // Lookup
