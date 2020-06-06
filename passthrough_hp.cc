@@ -1722,20 +1722,14 @@ int main(int argc, char *argv[])
     if (fuse_session_mount(se, argv[2]) != 0)
         goto err_out3;
 
-    // OK
-
     if (options.count("single"))
     {
-        printf("a\n");
         ret = fuse_session_loop(se);
     }
     else
     {
-        printf("b\n");
         ret = fuse_session_loop_mt(se, &loop_config);
     }
-
-    printf("7\n");
 
     fuse_session_unmount(se);
 
