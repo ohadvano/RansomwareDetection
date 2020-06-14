@@ -78,6 +78,7 @@
 #include <fstream>
 #include <thread>
 #include <iomanip>
+#include "Utilities/cxxopts.hpp"
 
 using namespace std;
 
@@ -85,7 +86,6 @@ using namespace std;
 
 // RansomwareMonitor includes
 #include "RwMonitor/RwMonitor.cpp"
-#include "Utilities/cxxopts.hpp"
 
 using namespace RwMonitor;
 using namespace FileSystemActions;
@@ -147,6 +147,11 @@ bool PerformRansomwareValidations(FsAction action)
     }
 
     return true;
+}
+
+void InternalDebug(string name)
+{
+    cout << name << endl;
 }
 
 ////////////////////// End ransomware detection helpers ////////////////////////////
@@ -257,6 +262,8 @@ static int get_fs_fd(fuse_ino_t ino)
 
 static void sfs_init(void *userdata, fuse_conn_info *conn) 
 {
+    InternalDebug("sfs_init");
+
     (void)userdata;
     if (conn->capable & FUSE_CAP_EXPORT_SUPPORT)
         conn->want |= FUSE_CAP_EXPORT_SUPPORT;
@@ -279,6 +286,9 @@ static void sfs_init(void *userdata, fuse_conn_info *conn)
 
 static void sfs_getattr(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
+    InternalDebug("sfs_getattr");
+
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = GetAttrAction(
@@ -385,6 +395,8 @@ out_err:
 static void sfs_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
                         int valid, fuse_file_info *fi) 
 {
+    InternalDebug("sfs_setattr");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = SetAttrAction(
@@ -479,6 +491,8 @@ static int do_lookup(fuse_ino_t parent, const char *name,
 
 static void sfs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name) 
 {
+    InternalDebug("sfs_lookup");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = LookupAction(parent, name, callingPid);
@@ -542,6 +556,8 @@ out:
 static void sfs_mknod(fuse_req_t req, fuse_ino_t parent, const char *name,
                       mode_t mode, dev_t rdev) 
 {
+    InternalDebug("sfs_mknod");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = MakeNodeAction(parent, name, mode, rdev, callingPid);
@@ -559,6 +575,8 @@ static void sfs_mknod(fuse_req_t req, fuse_ino_t parent, const char *name,
 static void sfs_mkdir(fuse_req_t req, fuse_ino_t parent, const char *name,
                       mode_t mode) 
 {
+    InternalDebug("sfs_mkdir");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = MakedirAction(parent, name, mode, callingPid);
@@ -576,6 +594,8 @@ static void sfs_mkdir(fuse_req_t req, fuse_ino_t parent, const char *name,
 static void sfs_symlink(fuse_req_t req, const char *link, fuse_ino_t parent,
                         const char *name) 
 {
+    InternalDebug("sfs_symlink");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = SymLinkAction(link, parent, name, callingPid);
@@ -593,6 +613,8 @@ static void sfs_symlink(fuse_req_t req, const char *link, fuse_ino_t parent,
 static void sfs_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
                      const char *name) 
 {
+    InternalDebug("sfs_link");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = LinkAction(ino, parent, name, callingPid);
@@ -636,6 +658,8 @@ static void sfs_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
 
 static void sfs_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name) 
 {
+    InternalDebug("sfs_rmdir");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = RmdirAction(parent, name, callingPid);
@@ -657,6 +681,8 @@ static void sfs_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
                        fuse_ino_t newparent, const char *newname,
                        unsigned int flags) 
 {
+    InternalDebug("sfs_rename");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = RenameAction(parent, name, newparent, newname, flags, callingPid);
@@ -681,6 +707,8 @@ static void sfs_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
 
 static void sfs_unlink(fuse_req_t req, fuse_ino_t parent, const char *name) 
 {
+    InternalDebug("sfs_unlink");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = UnLinkAction(parent, name, callingPid);
@@ -723,6 +751,8 @@ static void forget_one(fuse_ino_t ino, uint64_t n)
 
 static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup) 
 {
+    InternalDebug("sfs_forget");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = ForgetAction(ino, nlookup, callingPid);
@@ -741,6 +771,8 @@ static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup)
 static void sfs_forget_multi(fuse_req_t req, size_t count,
                              fuse_forget_data *forgets) 
 {
+    InternalDebug("sfs_forget_multi");
+
     // TODO
 
     for (int i = 0; i < (int)count; i++)
@@ -751,6 +783,8 @@ static void sfs_forget_multi(fuse_req_t req, size_t count,
 
 static void sfs_readlink(fuse_req_t req, fuse_ino_t ino) 
 {
+    InternalDebug("sfs_readlink");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = ReadLinkAction(ino, callingPid);
@@ -799,6 +833,8 @@ static DirHandle *get_dir_handle(fuse_file_info *fi)
 
 static void sfs_opendir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
+    InternalDebug("sfs_opendir");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = OpenDirAction(
@@ -964,6 +1000,8 @@ error:
 static void sfs_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
                         off_t offset, fuse_file_info *fi) 
 {
+    InternalDebug("sfs_readdir");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = ReadDirAction(
@@ -987,6 +1025,8 @@ static void sfs_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
 static void sfs_readdirplus(fuse_req_t req, fuse_ino_t ino, size_t size,
                             off_t offset, fuse_file_info *fi) 
 {
+    InternalDebug("sfs_readdirplus");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = ReadDirPlusAction(
@@ -1009,6 +1049,8 @@ static void sfs_readdirplus(fuse_req_t req, fuse_ino_t ino, size_t size,
 
 static void sfs_releasedir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 {
+    InternalDebug("sfs_releasedir");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = ReleaseDirAction(
@@ -1032,6 +1074,8 @@ static void sfs_releasedir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
                        mode_t mode, fuse_file_info *fi) 
 {
+    InternalDebug("sfs_create");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = CreateAction(
@@ -1074,6 +1118,8 @@ static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
 static void sfs_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
                          fuse_file_info *fi) 
 {
+    InternalDebug("sfs_fsyncdir");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = FsyncDirAction(
@@ -1101,6 +1147,8 @@ static void sfs_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
 
 static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
+    InternalDebug("sfs_open");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = OpenAction(
@@ -1153,6 +1201,8 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 
 static void sfs_release(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
+    InternalDebug("sfs_release");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = ReleaseAction(
@@ -1174,6 +1224,8 @@ static void sfs_release(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 
 static void sfs_flush(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 {
+    InternalDebug("sfs_flush");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = FlushAction(
@@ -1196,6 +1248,8 @@ static void sfs_flush(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 static void sfs_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
                       fuse_file_info *fi)
 {
+    InternalDebug("sfs_fsync");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = FsyncDirAction(
@@ -1234,6 +1288,8 @@ static void do_read(fuse_req_t req, size_t size, off_t off, fuse_file_info *fi)
 static void sfs_read(fuse_req_t req, fuse_ino_t ino, size_t size, off_t off,
                      fuse_file_info *fi) 
 {
+    InternalDebug("sfs_read");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = ReadAction(
@@ -1274,6 +1330,8 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi) 
 {
+    InternalDebug("sfs_write_buf");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
@@ -1300,6 +1358,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
 static void sfs_statfs(fuse_req_t req, fuse_ino_t ino) 
 {
+    InternalDebug("sfs_statfs");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = StatFsAction(
@@ -1326,6 +1386,8 @@ static void sfs_statfs(fuse_req_t req, fuse_ino_t ino)
 static void sfs_fallocate(fuse_req_t req, fuse_ino_t ino, int mode,
                           off_t offset, off_t length, fuse_file_info *fi) 
 {
+    InternalDebug("sfs_fallocate");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = FallocateAction(
@@ -1356,6 +1418,8 @@ static void sfs_fallocate(fuse_req_t req, fuse_ino_t ino, int mode,
 static void sfs_flock(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi,
                       int op) 
 {
+    InternalDebug("sfs_flock");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = FlockAction(
@@ -1380,6 +1444,8 @@ static void sfs_flock(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi,
 static void sfs_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
                          size_t size) 
 {
+    InternalDebug("sfs_getxattr");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = GetxAttrAction(
@@ -1438,6 +1504,8 @@ out:
 
 static void sfs_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size) 
 {
+    InternalDebug("sfs_listxattr");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = ListxAttrAction(
@@ -1495,6 +1563,8 @@ out:
 static void sfs_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
                          const char *value, size_t size, int flags) 
 {
+    InternalDebug("sfs_setxattr");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = ListxAttrAction(
@@ -1527,6 +1597,8 @@ static void sfs_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
 
 static void sfs_removexattr(fuse_req_t req, fuse_ino_t ino, const char *name) 
 {
+    InternalDebug("sfs_removexattr");
+
     // Ransomware monitor
     pid_t callingPid = getpid();
     FsAction action = RemovexAttrAction(
