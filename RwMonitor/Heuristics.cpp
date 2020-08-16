@@ -45,7 +45,7 @@ namespace Heuristics
     class HeuristicBase
     {
         public:
-            virtual bool IsValidAction(FsAction action) = 0;
+            virtual void CalculateTH(FsAction action) = 0;
 
             virtual ~HeuristicBase()
             {
