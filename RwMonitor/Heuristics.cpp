@@ -18,7 +18,7 @@ namespace Heuristics
         private:
             FsAction _action;
             time_t _actionTime;
-    }
+    };
 
     class ActionsHistory
     {
@@ -40,7 +40,7 @@ namespace Heuristics
             
         private:
             std::list<ActionRecord>* _actionRecords;
-    }
+    };
 
     class HeuristicBase
     {
