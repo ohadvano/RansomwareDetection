@@ -9,6 +9,12 @@ namespace Heuristics
     class ActionRecord
     {
         public:
+            ActionRecord()
+            {
+                _action = nullptr;
+                _actionTime = time(0);
+            }
+
             ActionRecord(FsAction action)
             {
                 _action = action;
