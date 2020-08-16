@@ -6,8 +6,41 @@ using namespace std;
 
 namespace Heuristics
 {
-    template <class T>
-    class ActionsHistory : std::list<T> { };
+    class ActionRecord
+    {
+        public:
+            ActionRecord(FsAction action)
+            {
+                _action = action;
+                _actionTime = time(0);
+            }
+
+        private:
+            FsAction _action;
+            time_t _actionTime;
+    }
+
+    class ActionsHistory
+    {
+        public:
+            ActionsHistory()
+            {
+                _actionRecords = new list<ActionRecord>();
+            }
+
+            void AddNewAction(FsAction newAction)
+            {
+                _actionRecords->push_front(ActionRecord(newAction));
+            }
+
+            ~ActionsHistory()
+            {
+                delete _actionRecords;
+            }
+            
+        private:
+            std::list<ActionRecord>* _actionRecords;
+    }
 
     class HeuristicBase
     {
@@ -17,6 +50,8 @@ namespace Heuristics
             virtual ~HeuristicBase()
             {
             }
+
+            double heuristicTH = 0;
     };
 
     class FileTypeChangesHeuristic : public HeuristicBase
@@ -24,22 +59,32 @@ namespace Heuristics
         public:
             FileTypeChangesHeuristic()
             {
-
+                _renameHistory = new ActionsHistory();
             }
 
-            bool IsValidAction(FsAction action) override
+            void CalculateTH(FsAction action) override
             {
-                return true;
+                if (action.ActionName == "RenameAction")
+                {
+                    _renameHistory->AddNewAction(action);
+                }
             }
 
             ~FileTypeChangesHeuristic()
             {
-
+                delete _renameHistory;
             }
 
         private:
-            // Add histories
-            // ActionsHistory<MakeDirAction> _makeDirHistory;
+            ActionsHistory* _renameHistory;
+
+            bool ScanHistory()
+            {
+                time_t currentTime = time(0);
+
+                // TODO Check for false cases
+                return true;
+            }
     };
 
     class SimilarityMeasurementHeuristic : public HeuristicBase
@@ -50,9 +95,8 @@ namespace Heuristics
 
             }
 
-            bool IsValidAction(FsAction action) override
+            void CalculateTH(FsAction action) override
             {
-                return true;
             }
 
             ~SimilarityMeasurementHeuristic()
@@ -73,9 +117,8 @@ namespace Heuristics
 
             }
 
-            bool IsValidAction(FsAction action) override
+            void CalculateTH(FsAction action) override
             {
-                return true;
             }
 
             ~ShannonAnthropyHeuristic()
@@ -96,9 +139,8 @@ namespace Heuristics
 
             }
 
-            bool IsValidAction(FsAction action) override
+            void CalculateTH(FsAction action) override
             {
-                return true;
             }
 
             ~SecondaryIndicatorsHeuristic()
@@ -119,9 +161,8 @@ namespace Heuristics
 
             }
 
-            bool IsValidAction(FsAction action) override
+            void CalculateTH(FsAction action) override
             {
-                return true;
             }
 
             ~UnionIndicationHeuristic()
@@ -142,9 +183,8 @@ namespace Heuristics
 
             }
 
-            bool IsValidAction(FsAction action) override
+            void CalculateTH(FsAction action) override
             {
-                return true;
             }
 
             ~IndicatorEvationHeuristic()
