@@ -1,53 +1,15 @@
 #include <list>
 #include "FsAction.cpp"
+#include "Logger.cpp"
+#include "TempWriter.cpp"
 
 using namespace FileSystemActions;
+using namespace Log;
+using namespace TempFile;
 using namespace std;
 
 namespace Heuristics
 {
-    class ActionRecord
-    {
-        public:
-            ActionRecord()
-            {
-                _action = nullptr;
-                _actionTime = time(0);
-            }
-
-            ActionRecord(FsAction action)
-            {
-                _action = action;
-                _actionTime = time(0);
-            }
-
-        private:
-            FsAction _action;
-            time_t _actionTime;
-    };
-
-    class ActionsHistory
-    {
-        public:
-            ActionsHistory()
-            {
-                _actionRecords = new list<ActionRecord>();
-            }
-
-            void AddNewAction(FsAction newAction)
-            {
-                _actionRecords->push_front(ActionRecord(newAction));
-            }
-
-            ~ActionsHistory()
-            {
-                delete _actionRecords;
-            }
-            
-        private:
-            std::list<ActionRecord>* _actionRecords;
-    };
-
     class HeuristicBase
     {
         public:
@@ -58,148 +20,68 @@ namespace Heuristics
             }
 
             double heuristicTH = 0;
+
+            TempWriter* _tempWriter;
+            Logger* _logger;
     };
 
     class FileTypeChangesHeuristic : public HeuristicBase
     {
         public:
-            FileTypeChangesHeuristic()
+            FileTypeChangesHeuristic(Logger* logger, TempWriter* tempWriter)
             {
-                _renameHistory = new ActionsHistory();
+                _tempWriter = tempWriter;
+                _logger = logger;
+
+                _writeBufHistory = new ActionsHistory();
             }
 
             void CalculateTH(FsAction action) override
             {
-                if (action.ActionName == "RenameAction")
+                if (action.ActionName == "WriteBufAction")
                 {
-                    _renameHistory->AddNewAction(action);
+                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
+                    string filePath = GetFilePathFromWriteAction(writeAction);
+
+                    if (!filePath == _tempWriter->TempFilePath && 
+                        !filePath == _logger->LogPath)
+                    {
+                        _logger->WriteLog("Running file utility on: [" + filePath + "]");
+                        string beforeType = RunFileUtility(filePath);
+
+                        _tempWriter->Lock();
+                        _tempWriter->Write();
+                        string afterType = RunFileUtility(_tempFilePath);
+                        _tempWriter->Unlock();
+
+                        if (beforeType != afterType)
+                        {
+                            _logger->WriteLog("File type change detected, before type: [" + beforeType + "], after type: [" + afterType + "]");
+                            // TODO: Use generics in history to save the real action
+                            _writeBufHistory->AddNewAction(writeAction);
+                        }
+                    }
                 }
+
+                // Calculate new TH
             }
 
             ~FileTypeChangesHeuristic()
             {
-                delete _renameHistory;
+                delete _writeBufHistory;
             }
 
         private:
-            ActionsHistory* _renameHistory;
+            ActionsHistory* _writeBufHistory;
 
-            bool ScanHistory()
-            {
-                time_t currentTime = time(0);
-
-                // TODO Check for false cases
-                return true;
-            }
-    };
-
-    class SimilarityMeasurementHeuristic : public HeuristicBase
-    {
-        public:
-            SimilarityMeasurementHeuristic()
+            string GetFilePathFromWriteAction(WriteBufAction* writeAction)
             {
 
             }
 
-            void CalculateTH(FsAction action) override
-            {
-            }
-
-            ~SimilarityMeasurementHeuristic()
+            string RunFileUtility(string filePath)
             {
 
             }
-        
-        private:
-            // Add histories
-            // ActionsHistory<MakeDirAction> _makeDirHistory;
-    };
-
-    class ShannonAnthropyHeuristic : public HeuristicBase
-    {
-        public:
-            ShannonAnthropyHeuristic()
-            {
-
-            }
-
-            void CalculateTH(FsAction action) override
-            {
-            }
-
-            ~ShannonAnthropyHeuristic()
-            {
-
-            }
-        
-        private:
-            // Add histories
-            // ActionsHistory<MakeDirAction> _makeDirHistory;
-    };
-
-    class SecondaryIndicatorsHeuristic : public HeuristicBase
-    {
-        public:
-            SecondaryIndicatorsHeuristic()
-            {
-
-            }
-
-            void CalculateTH(FsAction action) override
-            {
-            }
-
-            ~SecondaryIndicatorsHeuristic()
-            {
-
-            }
-        
-        private:
-            // Add histories
-            // ActionsHistory<MakeDirAction> _makeDirHistory;
-    };
-
-    class UnionIndicationHeuristic : public HeuristicBase
-    {
-        public:
-            UnionIndicationHeuristic()
-            {
-
-            }
-
-            void CalculateTH(FsAction action) override
-            {
-            }
-
-            ~UnionIndicationHeuristic()
-            {
-
-            }
-        
-        private:
-            // Add histories
-            // ActionsHistory<MakeDirAction> _makeDirHistory;
-    };
-
-    class IndicatorEvationHeuristic : public HeuristicBase
-    {
-        public:
-            IndicatorEvationHeuristic()
-            {
-
-            }
-
-            void CalculateTH(FsAction action) override
-            {
-            }
-
-            ~IndicatorEvationHeuristic()
-            {
-
-            }
-        
-        private:
-            // Add histories
-            // ActionsHistory<MakeDirAction> _makeDirHistory;
     };
 }

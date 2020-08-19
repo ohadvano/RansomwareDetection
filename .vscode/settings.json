@@ -40,6 +40,8 @@
         "utility": "cpp",
         "typeinfo": "cpp",
         "iostream": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "xstring": "cpp",
+        "regex": "cpp"
     }
 }

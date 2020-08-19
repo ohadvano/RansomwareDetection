@@ -9,6 +9,48 @@ using namespace std;
 
 namespace FileSystemActions
 {
+    class ActionRecord
+    {
+        public:
+            ActionRecord()
+            {
+                _action = nullptr;
+                _actionTime = time(0);
+            }
+
+            ActionRecord(FsAction action)
+            {
+                _action = action;
+                _actionTime = time(0);
+            }
+
+        private:
+            FsAction _action;
+            time_t _actionTime;
+    };
+
+    class ActionsHistory
+    {
+        public:
+            ActionsHistory()
+            {
+                _actionRecords = new list<ActionRecord>();
+            }
+
+            void AddNewAction(FsAction newAction)
+            {
+                _actionRecords->push_front(ActionRecord(newAction));
+            }
+
+            ~ActionsHistory()
+            {
+                delete _actionRecords;
+            }
+            
+        private:
+            std::list<ActionRecord>* _actionRecords;
+    };
+
     // Abstract class that represents a general file system action
     class FsAction 
     {
