@@ -23,6 +23,17 @@ namespace Heuristics
 
             TempWriter* _tempWriter;
             Logger* _logger;
+
+            
+            string GetFilePathFromWriteAction(WriteBufAction* writeAction)
+            {
+                return "x";
+            }
+
+            string GetNewContent(string filePath, WriteBufAction* writeAction)
+            {
+                return "x";
+            }
     };
 
     class FileTypeChangesHeuristic : public HeuristicBase
@@ -43,20 +54,15 @@ namespace Heuristics
                     WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
                     string filePath = GetFilePathFromWriteAction(writeAction);
 
-                    if (!filePath == _tempWriter->TempFilePath && 
-                        !filePath == _logger->LogPath)
-                    {
-                        _logger->WriteLog("Running file utility on: [" + filePath + "]");
-                        string beforeType = RunFileUtility(filePath);
-                        _tempWriter->Write();
-                        string afterType = RunFileUtility(_tempFilePath);
+                    _logger->WriteLog("Running file utility on: [" + filePath + "]");
+                    string beforeType = RunFileUtility(filePath);
+                    _tempWriter->Write(GetNewContent(filePath, writeAction));
+                    string afterType = RunFileUtility(_tempFilePath);
 
-                        if (beforeType != afterType)
-                        {
-                            _logger->WriteLog("File type change detected, before type: [" + beforeType + "], after type: [" + afterType + "]");
-                            // TODO: Use generics in history to save the real action
-                            _writeBufHistory->AddNewAction(writeAction);
-                        }
+                    if (beforeType != afterType)
+                    {
+                        _logger->WriteLog("File type change detected, before type: [" + beforeType + "], after type: [" + afterType + "]");
+                        _writeBufHistory->AddNewAction(writeAction);
                     }
                 }
 
@@ -70,11 +76,6 @@ namespace Heuristics
 
         private:
             ActionHistory<WriteBufAction*>* _writeBufHistory;
-
-            string GetFilePathFromWriteAction(WriteBufAction* writeAction)
-            {
-
-            }
 
             string RunFileUtility(string filePath)
             {
@@ -100,6 +101,23 @@ namespace Heuristics
 
             void CalculateTH(FsAction action) override
             {
+                if (action.ActionName == "WriteBufAction")
+                {
+                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
+                    string filePath = GetFilePathFromWriteAction(writeAction);
+
+                    string beforeType = RunFileUtility(filePath);
+                    _tempWriter->Write(GetNewContent(filePath, writeAction));
+                    _logger->WriteLog("Running file utility on: [" + filePath + "]");
+                    string afterType = RunFileUtility(_tempFilePath);
+
+                    if (beforeType != afterType)
+                    {
+                        _logger->WriteLog("File type change detected, before type: [" + beforeType + "], after type: [" + afterType + "]");
+                        _writeBufHistory->AddNewAction(writeAction);
+                    }
+                }
+
                 RefreshTH();
             }
 
@@ -112,6 +130,11 @@ namespace Heuristics
             ActionHistory<WriteBufAction*>* _writeBufHistory;
 
             void RefreshTH()
+            {
+
+            }
+
+            string RunSdHash(string fileBeforePath, string fileAfterPath)
             {
 
             }
