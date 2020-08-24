@@ -1,0 +1,8 @@
+/bin/sh: 1: ./bootstrap.sh: Permission denied
+/bin/sh: 1: ./b2: not found
+/usr/bin/ld: cannot find -lboost_system
+/usr/bin/ld: cannot find -lboost_filesystem
+/usr/bin/ld: cannot find -lboost_program_options
+/usr/bin/ld: cannot find -lboost_thread
+collect2: error: ld returned 1 exit status
+make: *** [stream] Error 1
