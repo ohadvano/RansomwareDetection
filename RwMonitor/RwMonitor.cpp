@@ -154,9 +154,12 @@ namespace RwMonitor
                 Logger* logger = monitorToLoad->GetLogger();
                 TempWriter* tempWriter = monitorToLoad->GetTempWriter();
 
+                int similarityMeasurementHeuristicThreshold = 0;
+                int shannonAnthropyHeuristicThreshold = 0;
+
                 monitorToLoad->AddHeuristic(new FileTypeChangesHeuristic(logger, tempWriter));
-                monitorToLoad->AddHeuristic(new SimilarityMeasurementHeuristic(logger, tempWriter));
-                monitorToLoad->AddHeuristic(new ShannonAnthropyHeuristic(logger, tempWriter));
+                monitorToLoad->AddHeuristic(new SimilarityMeasurementHeuristic(logger, tempWriter, similarityMeasurementHeuristicThreshold));
+                monitorToLoad->AddHeuristic(new ShannonAnthropyHeuristic(logger, tempWriter, shannonAnthropyHeuristicThreshold));
                 monitorToLoad->AddHeuristic(new SecondaryIndicatorsHeuristic(logger, tempWriter));
                 monitorToLoad->AddHeuristic(new UnionIndicationHeuristic(logger, tempWriter));
                 monitorToLoad->AddHeuristic(new IndicatorEvationHeuristic(logger, tempWriter));

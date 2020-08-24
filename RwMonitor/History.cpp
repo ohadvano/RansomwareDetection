@@ -1,6 +1,3 @@
-#ifndef _HISTORY_H_
-#define _HISTORY_H_
-
 #include <string>
 #include <ctime>
 #include <sys/stat.h>
@@ -52,5 +49,4 @@ namespace ActionsHistory
         private:
             std::list<ActionRecord<T>>* _actionRecords;
     };
-
 }
