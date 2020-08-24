@@ -29,6 +29,8 @@ namespace RwMonitor
 
                 _heuristics = new list<HeuristicBase*>();
 
+                _isInternal = false;
+
                 if (pthread_mutex_init(&_actionLock, nullptr) != 0)
                 {
                     fprintf(stderr, "error: _actionLock mutex init has failed");
@@ -38,8 +40,14 @@ namespace RwMonitor
 
             RiskStatus CanPerform(FsAction action)
             {
+                if (_isInternal)
+                {
+                    return Safe;
+                }
+
                 // TODO: Consider remove the lock
                 pthread_mutex_lock(&_actionLock);
+                _isInternal = true;
 
                 // Calculate the new threshold after the action came to the system
                 for (std::list<HeuristicBase*>::iterator it = _heuristics->begin(); it != _heuristics->end(); ++it)
@@ -52,6 +60,7 @@ namespace RwMonitor
                 // Decide if the system is in risk state
                 bool isRisky = IsSystemAtRiskWithNewThresholds();
 
+                _isInternal = false;
                 pthread_mutex_unlock(&_actionLock);
 
                 if (isRisky)
@@ -98,7 +107,8 @@ namespace RwMonitor
             }
 
         private:
-            pthread_mutex_t _actionLock; // TODO: delete?
+            pthread_mutex_t _actionLock;
+            __thread bool _isInternal;
 
             Logger* _logger;
             TempWriter* _tempWriter;

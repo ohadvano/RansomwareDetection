@@ -33,7 +33,7 @@ namespace Heuristics
                 _tempWriter = tempWriter;
                 _logger = logger;
 
-                _writeBufHistory = new ActionsHistory();
+                _writeBufHistory = new ActionHistory<WriteBufAction*>();
             }
 
             void CalculateTH(FsAction action) override
@@ -48,11 +48,8 @@ namespace Heuristics
                     {
                         _logger->WriteLog("Running file utility on: [" + filePath + "]");
                         string beforeType = RunFileUtility(filePath);
-
-                        _tempWriter->Lock();
                         _tempWriter->Write();
                         string afterType = RunFileUtility(_tempFilePath);
-                        _tempWriter->Unlock();
 
                         if (beforeType != afterType)
                         {
@@ -63,7 +60,7 @@ namespace Heuristics
                     }
                 }
 
-                // Calculate new TH
+                RefreshTH();
             }
 
             ~FileTypeChangesHeuristic()
@@ -72,7 +69,7 @@ namespace Heuristics
             }
 
         private:
-            ActionsHistory* _writeBufHistory;
+            ActionHistory<WriteBufAction*>* _writeBufHistory;
 
             string GetFilePathFromWriteAction(WriteBufAction* writeAction)
             {
@@ -80,6 +77,71 @@ namespace Heuristics
             }
 
             string RunFileUtility(string filePath)
+            {
+
+            }
+
+            void RefreshTH()
+            {
+
+            }
+    };
+
+    class SimilarityMeasurementHeuristic : public HeuristicBase
+    {
+        public:
+            SimilarityMeasurementHeuristic(Logger* logger, TempWriter* tempWriter)
+            {
+                _tempWriter = tempWriter;
+                _logger = logger;
+
+                _writeBufHistory = new ActionHistory<WriteBufAction*>();
+            }
+
+            void CalculateTH(FsAction action) override
+            {
+                RefreshTH();
+            }
+
+            ~FileTypeChangesHeuristic()
+            {
+                delete _writeBufHistory;
+            }
+
+        private:
+            ActionHistory<WriteBufAction*>* _writeBufHistory;
+
+            void RefreshTH()
+            {
+
+            }
+    };
+
+    class ShannonAnthropyHeuristic : public HeuristicBase
+    {
+        public:
+            ShannonAnthropyHeuristic(Logger* logger, TempWriter* tempWriter)
+            {
+                _tempWriter = tempWriter;
+                _logger = logger;
+
+                _writeBufHistory = new ActionHistory<WriteBufAction*>();
+            }
+
+            void CalculateTH(FsAction action) override
+            {
+                RefreshTH();
+            }
+
+            ~FileTypeChangesHeuristic()
+            {
+                delete _writeBufHistory;
+            }
+
+        private:
+            ActionHistory<WriteBufAction*>* _writeBufHistory;
+
+            void RefreshTH()
             {
 
             }
