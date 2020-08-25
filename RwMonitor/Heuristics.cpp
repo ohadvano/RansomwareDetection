@@ -63,7 +63,12 @@ namespace Heuristics
 
             int Abs(int input)
             {
+                if (input < 0)
+                {
+                    return input * -1;
+                }
 
+                return input;
             }
 
             string RunFileUtility(string filePath)
@@ -170,7 +175,7 @@ namespace Heuristics
             }
     };
 
-    class ShannonAnthropyHeuristic : public HeuristicBase
+    class ShannonEnthropyHeuristic : public HeuristicBase
     {
         public:
             ShannonAnthropyHeuristic(Logger* logger, TempWriter* tempWriter, int threshold)
@@ -244,5 +249,85 @@ namespace Heuristics
 
 				return infocontent;
 			}
+    };
+
+    class FilesDeletionHeuristic : public HeuristicBase
+    {
+        public:
+            FilesDeletionHeuristic(Logger* logger, TempWriter* tempWriter)
+            {
+                _tempWriter = tempWriter;
+                _logger = logger;
+
+                _rmdirHistory = new ActionHistory<RmdirAction*>();
+                _forgetHistory = new ActionHistory<ForgetAction*>();
+            }
+
+            void CalculateTH(FsAction action) override
+            {
+                if (action.ActionName == "ForgetAction")
+                {
+                    ForgetAction* forgetAction = dynamic_cast<ForgetAction*>(&action);
+                    _forgetHistory->AddNewAction(forgetAction);
+                }
+                else if (action.ActionName == "RmdirAction")
+                {
+                    RmdirAction* rmdirAction = dynamic_cast<RmdirAction*>(&action);
+                    _rmdirHistory->AddNewAction(rmdirAction);
+                }
+
+                RefreshTH();
+            }
+
+            ~FilesDeletionHeuristic()
+            {
+                delete _deletionHistory;
+            }
+
+        private:
+            ActionHistory<RmdirAction*>* _rmdirHistory;
+            ActionHistory<ForgetAction*>* _forgetHistory;
+
+            void RefreshTH()
+            {
+
+            }
+    };
+
+    class SuspiciousKeywordsHeuristicThreshold : public HeuristicBase
+    {
+        public:
+            SuspiciousKeywordsHeuristicThreshold(Logger* logger, TempWriter* tempWriter, string* suspiciousKeywords)
+            {
+                _tempWriter = tempWriter;
+                _logger = logger;
+                _suspiciousKeywords = suspiciousKeywords;
+                _writeHistory = new ActionHistory<WriteBufAction*>();
+            }
+
+            void CalculateTH(FsAction action) override
+            {
+                if (action.ActionName == "WriteBufAction")
+                {
+                    string filePath = GetFilePathFromWriteAction(writeAction);
+                    string newContent = GetNewContent(filePath, WriteBufAction); // TODO: get only the write content and not new content
+                }
+
+                RefreshTH();
+            }
+
+            ~SuspiciousKeywordsHeuristicThreshold()
+            {
+                delete _writeHistory;
+            }
+
+        private:
+            ActionHistory<WriteBufAction*>* _writeHistory;
+            string* _suspiciousKeywords;
+
+            void RefreshTH()
+            {
+
+            }
     };
 }

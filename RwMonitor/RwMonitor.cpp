@@ -2,11 +2,13 @@
 #include "Heuristics.cpp"
 #include "Logger.cpp"
 #include "TempWriter.cpp"
+#include "ConfigurationProvider.cpp"
 
 using namespace Log;
 using namespace TempFile;
 using namespace Heuristics;
 using namespace FileSystemActions;
+using namespace Configurations;
 
 namespace RwMonitor
 {
@@ -21,10 +23,10 @@ namespace RwMonitor
         public:
             RwThreatDetector()
             {
-                string logFilePath = "C:\\";
+                string logFilePath = ConfigurationProvider.GetLogFilePath();
                 _logger = new Logger(logFilePath);
 
-                string tempFilePath = "C:\\";
+                string tempFilePath = ConfigurationProvider.GetTempFilePath();
                 _tempWriter = new TempWriter(tempFilePath);
 
                 _heuristics = new list<HeuristicBase*>();
@@ -154,15 +156,17 @@ namespace RwMonitor
                 Logger* logger = monitorToLoad->GetLogger();
                 TempWriter* tempWriter = monitorToLoad->GetTempWriter();
 
-                int similarityMeasurementHeuristicThreshold = 0;
-                int shannonAnthropyHeuristicThreshold = 0;
+                string configFileContent = GetConfigFileContent("parameters.config");
+
+                int similarityMeasurementHeuristicThreshold = ConfigurationProvider.GetSimilarityThreshold(configFileContent);
+                int shannonEnthropyHeuristicThreshold = ConfigurationProvider.GetEnthropyThreshold(configFileContent);
+                string suspiciousKeywords[] = ConfigurationProvider.GetSuspiciousKeywords(configFileContent);
 
                 monitorToLoad->AddHeuristic(new FileTypeChangesHeuristic(logger, tempWriter));
                 monitorToLoad->AddHeuristic(new SimilarityMeasurementHeuristic(logger, tempWriter, similarityMeasurementHeuristicThreshold));
-                monitorToLoad->AddHeuristic(new ShannonAnthropyHeuristic(logger, tempWriter, shannonAnthropyHeuristicThreshold));
-                monitorToLoad->AddHeuristic(new SecondaryIndicatorsHeuristic(logger, tempWriter));
-                monitorToLoad->AddHeuristic(new UnionIndicationHeuristic(logger, tempWriter));
-                monitorToLoad->AddHeuristic(new IndicatorEvationHeuristic(logger, tempWriter));
+                monitorToLoad->AddHeuristic(new ShannonEnthropyHeuristic(logger, tempWriter, shannonEnthropyHeuristicThreshold));
+                monitorToLoad->AddHeuristic(new FilesDeletionHeuristic(logger, tempWriter));
+                monitorToLoad->AddHeuristic(new SuspiciousKeywordsHeuristicThreshold(logger, tempWriter, suspiciousKeywords));
             }
     };
 }

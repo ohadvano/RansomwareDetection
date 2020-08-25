@@ -8,7 +8,7 @@ namespace Log
     class Logger
     {
         public:
-            string LogPath;
+            string LogPath; //TODO change to char*
 
             Logger(string logPath)
             {

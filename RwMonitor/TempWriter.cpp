@@ -7,6 +7,8 @@ namespace TempFile
     class TempWriter
     {
         public:
+            string TempFilePath; // TODO: char* instead of string
+
             TempWriter(string tempFilePath)
             {
                 TempFilePath = tempFilePath;
@@ -22,8 +24,6 @@ namespace TempFile
             {
                 // Delete file
             }
-
-            string TempFilePath;
 
         private:
             pthread_mutex_t* _tempFileMutex;
