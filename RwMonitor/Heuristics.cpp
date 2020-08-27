@@ -297,7 +297,7 @@ namespace Heuristics
     class SuspiciousKeywordsHeuristicThreshold : public HeuristicBase
     {
         public:
-            SuspiciousKeywordsHeuristicThreshold(Logger* logger, TempWriter* tempWriter, string* suspiciousKeywords)
+            SuspiciousKeywordsHeuristicThreshold(Logger* logger, TempWriter* tempWriter, vector<string> suspiciousKeywords)
             {
                 _tempWriter = tempWriter;
                 _logger = logger;
@@ -323,7 +323,7 @@ namespace Heuristics
 
         private:
             ActionHistory<WriteBufAction*>* _writeHistory;
-            string* _suspiciousKeywords;
+            vector<string> _suspiciousKeywords;
 
             void RefreshTH()
             {

@@ -3,6 +3,7 @@
 #include "Logger.cpp"
 #include "TempWriter.cpp"
 #include "ConfigurationProvider.cpp"
+#include <vector>
 
 using namespace Log;
 using namespace TempFile;
@@ -23,10 +24,12 @@ namespace RwMonitor
         public:
             RwThreatDetector()
             {
-                string logFilePath = ConfigurationProvider.GetLogFilePath();
+                _configurationProvider = new ConfigurationProvider("parameters.config");
+
+                char* logFilePath = _configurationProvider.GetLogFilePath();
                 _logger = new Logger(logFilePath);
 
-                string tempFilePath = ConfigurationProvider.GetTempFilePath();
+                char* tempFilePath = _configurationProvider.GetTempFilePath();
                 _tempWriter = new TempWriter(tempFilePath);
 
                 _heuristics = new list<HeuristicBase*>();
@@ -108,12 +111,14 @@ namespace RwMonitor
                 delete _logger;
             }
 
+            Configurations::ConfigurationProvider* _configurationProvider;
+
         private:
             pthread_mutex_t _actionLock;
             __thread bool _isInternal;
 
-            Logger* _logger;
-            TempWriter* _tempWriter;
+            Log::Logger* _logger;
+            TempFile::TempWriter* _tempWriter;
             std::list<HeuristicBase*>* _heuristics;
 
             bool IsSystemAtRiskWithNewThresholds()
@@ -153,14 +158,14 @@ namespace RwMonitor
         public:
             RwMonitorLoader(RwThreatDetector* monitorToLoad)
             {
-                Logger* logger = monitorToLoad->GetLogger();
-                TempWriter* tempWriter = monitorToLoad->GetTempWriter();
+                Configurations::ConfigurationProvider* cp = monitorToLoad->_configurationProvider;
 
-                string configFileContent = GetConfigFileContent("parameters.config");
+                Log::Logger* logger = monitorToLoad->GetLogger();
+                TempFile::TempWriter* tempWriter = monitorToLoad->GetTempWriter();
 
-                int similarityMeasurementHeuristicThreshold = ConfigurationProvider.GetSimilarityThreshold(configFileContent);
-                int shannonEnthropyHeuristicThreshold = ConfigurationProvider.GetEnthropyThreshold(configFileContent);
-                string suspiciousKeywords[] = ConfigurationProvider.GetSuspiciousKeywords(configFileContent);
+                int similarityMeasurementHeuristicThreshold = cp.GetSimilarityThreshold();
+                int shannonEnthropyHeuristicThreshold = cp.GetEnthropyThreshold();
+                vector<string> suspiciousKeywords = cp.GetSuspiciousKeywords();
 
                 monitorToLoad->AddHeuristic(new FileTypeChangesHeuristic(logger, tempWriter));
                 monitorToLoad->AddHeuristic(new SimilarityMeasurementHeuristic(logger, tempWriter, similarityMeasurementHeuristicThreshold));

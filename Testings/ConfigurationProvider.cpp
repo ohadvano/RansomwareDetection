@@ -57,12 +57,12 @@ namespace Configurations
             char* _logFilePath;
             char* _tmpFilePath;
 
-            const char* _logFilePathRegex = "LogFilePath: #(.*)#;";
-            const char* _tmpFilePathRegex = "TempFilePath: #(.*)#;";
-            const char* _systemLockDownDurationRegex = "SystemLockDownDuration: #(.*)#;";
-            const char* _similarityThRegex = "SimilarityMeasurement: #(.*)#;";
-            const char* _enthropyThRegex = "ShannonEnthropy: #(.*)#;";
-            const char* _suspiciousKeywordsRegex = "SuspiciousKeywords: #(.*)#;";
+            regex _logFilePathRegex = regex("LogFilePath: #(.*)#;");
+            regex _tmpFilePathRegex = regex("TempFilePath: #(.*)#;");
+            regex _systemLockDownDurationRegex = regex("SystemLockDownDuration: #(.*)#;");
+            regex _similarityThRegex = regex("SimilarityMeasurement: #(.*)#;");
+            regex _enthropyThRegex = regex("ShannonEnthropy: #(.*)#;");
+            regex _suspiciousKeywordsRegex = regex("SuspiciousKeywords: #(.*)#;");
 
             
             void Init(char* configPath)
@@ -81,25 +81,44 @@ namespace Configurations
                 char* logFilePathString = Parse(str, _logFilePathRegex);
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
 
+                cout << "Similarity " << similarityString << endl;
+                cout << "Enthropy " << enthropyString << endl;
+                cout << "SuspiciousKeywordsString " << suspiciousKeywordsString << endl;
+                cout << "logFilePathString " << logFilePathString << endl;
+                cout << "tmpFilePathString " << tmpFilePathString << endl;
+                cout << "systemLockDownDurationString " << systemLockDownDurationString << endl;
+
                 _similarityTh = ConvertToInt(similarityString);
                 _enthropyTh = ConvertToInt(enthropyString);
                 _systemLockDownDuration = ConvertToInt(systemLockDownDurationString);
                 _suspiciousKeywords = SplitToWords(suspiciousKeywordsString, ',');
                 _logFilePath = logFilePathString;
                 _tmpFilePath = tmpFilePathString;
+
+                cout << "Similarity final " << _similarityTh << endl;
+                cout << "Enthropy final " << _enthropyTh << endl;
+                cout << "systemLockDownDurationString final " << _systemLockDownDuration << endl;
+                cout << "logFilePathString final " << _logFilePath << endl;
+                cout << "tmpFilePathString final " << _tmpFilePath << endl;
+
+                cout << endl;
+                for (std::vector<string>::iterator it = _suspiciousKeywords.begin() ; it != _suspiciousKeywords.end(); ++it)
+                {
+                    std::cout << ' ' << *it;
+                }
             }
 
             char* Parse(string str, regex reg)
             {
                 std::smatch m;
-                std::cout << std::regex_match(str, m, regex) << std::endl;
+                std::cout << std::regex_match(str, m, reg) << std::endl;
                 for (auto result : m) 
                 {
                     stringstream buffer;
                     buffer << result;
                     string str1 = buffer.str();
                     int n = str1.length(); 
-                    char char_array[n + 1];
+                    char* char_array = (char*)malloc(sizeof(char) * (n+1));
                     strcpy(char_array, str1.c_str()); 
                     return char_array;
                 }
@@ -108,8 +127,9 @@ namespace Configurations
             int ConvertToInt(char* str)
             {
                 string strAsString(str);
+                stringstream stream1(strAsString); 
                 int val = 0;
-                str >> val;
+                stream1 >> val;
                 return val;
             }
 
