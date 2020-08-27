@@ -80,13 +80,6 @@ namespace Configurations
                 char* logFilePathString = Parse(str, _logFilePathRegex);
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
 
-                cout << "Similarity: $" << similarityString << "$" << endl;
-                cout << "Enthropy: $" << enthropyString << "$" << endl;
-                cout << "SuspiciousKeywordsString: $" << suspiciousKeywordsString << "$" << endl;
-                cout << "logFilePathString: $" << logFilePathString << "$" << endl;
-                cout << "tmpFilePathString: $" << tmpFilePathString << "$" << endl;
-                cout << "systemLockDownDurationString: $" << systemLockDownDurationString << "$" << endl;
-
                 _similarityTh = ConvertToInt(similarityString);
                 _enthropyTh = ConvertToInt(enthropyString);
                 _systemLockDownDuration = ConvertToInt(systemLockDownDurationString);
@@ -94,18 +87,15 @@ namespace Configurations
                 _logFilePath = logFilePathString;
                 _tmpFilePath = tmpFilePathString;
 
-                cout << endl << endl;
-
-                // cout << "Similarity final " << _similarityTh << endl;
-                // cout << "Enthropy final " << _enthropyTh << endl;
-                // cout << "systemLockDownDurationString final " << _systemLockDownDuration << endl;
-                // cout << "logFilePathString final " << _logFilePath << endl;
-                // cout << "tmpFilePathString final " << _tmpFilePath << endl;
-
+                cout << "Similarity final " << _similarityTh << endl;
+                cout << "Enthropy final " << _enthropyTh << endl;
+                cout << "systemLockDownDurationString final " << _systemLockDownDuration << endl;
+                cout << "logFilePathString final " << _logFilePath << endl;
+                cout << "tmpFilePathString final " << _tmpFilePath << endl;
                 cout << endl;
                 for (std::vector<string>::iterator it = _suspiciousKeywords.begin() ; it != _suspiciousKeywords.end(); ++it)
                 {
-                    std::cout << ' ' << *it;
+                    std::cout << *it << endl;
                 }
             }
 
