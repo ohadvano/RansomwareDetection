@@ -111,27 +111,29 @@ namespace Configurations
 
             char* Parse(string str, regex reg)
             {
+                std::smatch m;
                 vector<string> lines = SplitToWords(str, '\n');
                 for (std::vector<string>::iterator it = _suspiciousKeywords.begin() ; it != _suspiciousKeywords.end(); ++it)
                 {
-                    std::cout << ' ' << *it;
+                    string current = *it;
+                    cout << current << endl;
+
+                    if (std::regex_match(str, m, reg))
+                    {
+                        for (auto result : m) 
+                        {
+                            stringstream buffer;
+                            buffer << result;
+                            string str1 = buffer.str();
+                            int n = str1.length(); 
+                            char* char_array = (char*)malloc(sizeof(char) * (n+1));
+                            strcpy(char_array, str1.c_str()); 
+                            return char_array;
+                        }
+                    }
                 }
 
-                cout << endl << endl;
-                
-                std::smatch m;
-                cout << str << endl;
-                cout << std::regex_match(str, m, reg) << std::endl;
-                for (auto result : m) 
-                {
-                    stringstream buffer;
-                    buffer << result;
-                    string str1 = buffer.str();
-                    int n = str1.length(); 
-                    char* char_array = (char*)malloc(sizeof(char) * (n+1));
-                    strcpy(char_array, str1.c_str()); 
-                    return char_array;
-                }
+                cout << endl;
             }
 
             int ConvertToInt(char* str)
