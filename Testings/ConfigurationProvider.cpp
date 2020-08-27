@@ -96,7 +96,7 @@ namespace Configurations
                 _tmpFilePath = tmpFilePathString;
 
                 cout << endl << endl;
-                
+
                 cout << "Similarity final " << _similarityTh << endl;
                 cout << "Enthropy final " << _enthropyTh << endl;
                 cout << "systemLockDownDurationString final " << _systemLockDownDuration << endl;
@@ -113,7 +113,8 @@ namespace Configurations
             char* Parse(string str, regex reg)
             {
                 std::smatch m;
-                std::cout << std::regex_match(str, m, reg) << std::endl;
+                cout << str << endl;
+                cout << std::regex_match(str, m, reg) << std::endl;
                 for (auto result : m) 
                 {
                     stringstream buffer;
