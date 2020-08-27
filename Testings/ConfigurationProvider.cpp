@@ -118,7 +118,7 @@ namespace Configurations
                     string current = *it;
                     cout << current << endl;
 
-                    if (std::regex_match(str, m, reg))
+                    if (std::regex_match(current, m, reg))
                     {
                         cout << "yes" << endl;
 
