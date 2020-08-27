@@ -120,6 +120,8 @@ namespace Configurations
 
                     if (std::regex_match(str, m, reg))
                     {
+                        cout << "yes" << endl;
+
                         for (auto result : m) 
                         {
                             stringstream buffer;
@@ -130,6 +132,10 @@ namespace Configurations
                             strcpy(char_array, str1.c_str()); 
                             return char_array;
                         }
+                    }
+                    else 
+                    {
+                        cout << "no" << endl;
                     }
                 }
 
