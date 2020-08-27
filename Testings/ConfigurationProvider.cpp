@@ -80,12 +80,12 @@ namespace Configurations
                 char* logFilePathString = Parse(str, _logFilePathRegex);
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
 
-                cout << "Similarity " << similarityString << endl;
-                cout << "Enthropy " << enthropyString << endl;
-                cout << "SuspiciousKeywordsString " << suspiciousKeywordsString << endl;
-                cout << "logFilePathString " << logFilePathString << endl;
-                cout << "tmpFilePathString " << tmpFilePathString << endl;
-                cout << "systemLockDownDurationString " << systemLockDownDurationString << endl;
+                cout << "Similarity: $" << similarityString << "$" << endl;
+                cout << "Enthropy: $" << enthropyString << "$" << endl;
+                cout << "SuspiciousKeywordsString: $" << suspiciousKeywordsString << "$" << endl;
+                cout << "logFilePathString: $" << logFilePathString << "$" << endl;
+                cout << "tmpFilePathString: $" << tmpFilePathString << "$" << endl;
+                cout << "systemLockDownDurationString: $" << systemLockDownDurationString << "$" << endl;
 
                 _similarityTh = ConvertToInt(similarityString);
                 _enthropyTh = ConvertToInt(enthropyString);
@@ -118,16 +118,11 @@ namespace Configurations
                     string current = *it;
                     if (std::regex_match(current, m, reg))
                     {
-                        for (auto result : m) 
-                        {
-                            stringstream buffer;
-                            buffer << result;
-                            string str1 = buffer.str();
-                            int n = str1.length(); 
-                            char* char_array = (char*)malloc(sizeof(char) * (n+1));
-                            strcpy(char_array, str1.c_str()); 
-                            return char_array;
-                        }
+                        string res = m[1];
+                        stringstream buffer;
+                        char* char_array = (char*)malloc(res.length() + 1);
+                        strcpy(char_array, res.c_str()); 
+                        return char_array;
                     }
                 }
             }
