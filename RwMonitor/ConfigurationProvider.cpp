@@ -57,13 +57,12 @@ namespace Configurations
             char* _logFilePath;
             char* _tmpFilePath;
 
-            const char* _logFilePathRegex = "LogFilePath: #(.*)#;";
-            const char* _tmpFilePathRegex = "TempFilePath: #(.*)#;";
-            const char* _systemLockDownDurationRegex = "SystemLockDownDuration: #(.*)#;";
-            const char* _similarityThRegex = "SimilarityMeasurement: #(.*)#;";
-            const char* _enthropyThRegex = "ShannonEnthropy: #(.*)#;";
-            const char* _suspiciousKeywordsRegex = "SuspiciousKeywords: #(.*)#;";
-
+            regex _logFilePathRegex = regex("LogFilePath: #(.*)#;");
+            regex _tmpFilePathRegex = regex("TempFilePath: #(.*)#;");
+            regex _systemLockDownDurationRegex = regex("SystemLockDownDuration: #(.*)#;");
+            regex _similarityThRegex = regex("SimilarityMeasurement: #(.*)#;");
+            regex _enthropyThRegex = regex("ShannonEnthropy: #(.*)#;");
+            regex _suspiciousKeywordsRegex = regex("SuspiciousKeywords: #(.*)#;");
             
             void Init(char* configPath)
             {
@@ -92,24 +91,27 @@ namespace Configurations
             char* Parse(string str, regex reg)
             {
                 std::smatch m;
-                std::cout << std::regex_match(str, m, regex) << std::endl;
-                for (auto result : m) 
+                vector<string> lines = SplitToWords(str, '\n');
+                for (std::vector<string>::iterator it = lines.begin() ; it != lines.end(); ++it)
                 {
-                    stringstream buffer;
-                    buffer << result;
-                    string str1 = buffer.str();
-                    int n = str1.length(); 
-                    char char_array[n + 1];
-                    strcpy(char_array, str1.c_str()); 
-                    return char_array;
+                    string current = *it;
+                    if (std::regex_match(current, m, reg))
+                    {
+                        string res = m[1];
+                        stringstream buffer;
+                        char* char_array = (char*)malloc(res.length() + 1);
+                        strcpy(char_array, res.c_str()); 
+                        return char_array;
+                    }
                 }
             }
 
             int ConvertToInt(char* str)
             {
                 string strAsString(str);
+                stringstream stream1(strAsString); 
                 int val = 0;
-                str >> val;
+                stream1 >> val;
                 return val;
             }
 
@@ -118,6 +120,20 @@ namespace Configurations
                 string strAsString(str);
                 vector<string> result;
                 stringstream ss (strAsString);
+                string item;
+
+                while (getline (ss, item, delim)) 
+                {
+                    result.push_back (item);
+                }
+
+                return result;
+            }
+
+            vector<string> SplitToWords (string str, char delim) 
+            {
+                vector<string> result;
+                stringstream ss (str);
                 string item;
 
                 while (getline (ss, item, delim)) 

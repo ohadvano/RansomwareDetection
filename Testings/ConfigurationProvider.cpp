@@ -86,17 +86,6 @@ namespace Configurations
                 _suspiciousKeywords = SplitToWords(suspiciousKeywordsString, ',');
                 _logFilePath = logFilePathString;
                 _tmpFilePath = tmpFilePathString;
-
-                cout << "Similarity final " << _similarityTh << endl;
-                cout << "Enthropy final " << _enthropyTh << endl;
-                cout << "systemLockDownDurationString final " << _systemLockDownDuration << endl;
-                cout << "logFilePathString final " << _logFilePath << endl;
-                cout << "tmpFilePathString final " << _tmpFilePath << endl;
-                cout << endl;
-                for (std::vector<string>::iterator it = _suspiciousKeywords.begin() ; it != _suspiciousKeywords.end(); ++it)
-                {
-                    std::cout << *it << endl;
-                }
             }
 
             char* Parse(string str, regex reg)
