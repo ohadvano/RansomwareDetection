@@ -80,12 +80,12 @@ namespace Configurations
                 char* logFilePathString = Parse(str, _logFilePathRegex);
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
 
-                // cout << "Similarity " << similarityString << endl;
-                // cout << "Enthropy " << enthropyString << endl;
-                // cout << "SuspiciousKeywordsString " << suspiciousKeywordsString << endl;
-                // cout << "logFilePathString " << logFilePathString << endl;
-                // cout << "tmpFilePathString " << tmpFilePathString << endl;
-                // cout << "systemLockDownDurationString " << systemLockDownDurationString << endl;
+                cout << "Similarity " << similarityString << endl;
+                cout << "Enthropy " << enthropyString << endl;
+                cout << "SuspiciousKeywordsString " << suspiciousKeywordsString << endl;
+                cout << "logFilePathString " << logFilePathString << endl;
+                cout << "tmpFilePathString " << tmpFilePathString << endl;
+                cout << "systemLockDownDurationString " << systemLockDownDurationString << endl;
 
                 _similarityTh = ConvertToInt(similarityString);
                 _enthropyTh = ConvertToInt(enthropyString);
@@ -116,12 +116,8 @@ namespace Configurations
                 for (std::vector<string>::iterator it = lines.begin() ; it != lines.end(); ++it)
                 {
                     string current = *it;
-                    cout << current << endl;
-
                     if (std::regex_match(current, m, reg))
                     {
-                        cout << "yes" << endl;
-
                         for (auto result : m) 
                         {
                             stringstream buffer;
@@ -133,13 +129,7 @@ namespace Configurations
                             return char_array;
                         }
                     }
-                    else 
-                    {
-                        cout << "no" << endl;
-                    }
                 }
-
-                cout << endl;
             }
 
             int ConvertToInt(char* str)
