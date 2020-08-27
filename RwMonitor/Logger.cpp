@@ -8,9 +8,9 @@ namespace Log
     class Logger
     {
         public:
-            string LogPath; //TODO change to char*
+            char* LogPath;
 
-            Logger(string logPath)
+            Logger(char* logPath)
             {
                 LogPath = logPath;
 
@@ -26,8 +26,5 @@ namespace Log
             {
                 // TODO: Write to log with "Error" before text with timestamp
             }
-
-        private:
-            pthread_mutex_t* _logMutex;
     };
 }
