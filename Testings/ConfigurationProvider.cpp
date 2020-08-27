@@ -113,7 +113,7 @@ namespace Configurations
             {
                 std::smatch m;
                 vector<string> lines = SplitToWords(str, '\n');
-                for (std::vector<string>::iterator it = _suspiciousKeywords.begin() ; it != _suspiciousKeywords.end(); ++it)
+                for (std::vector<string>::iterator it = lines.begin() ; it != lines.end(); ++it)
                 {
                     string current = *it;
                     cout << current << endl;
