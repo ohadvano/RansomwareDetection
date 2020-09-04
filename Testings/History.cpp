@@ -44,6 +44,11 @@ namespace ActionsHistory
             {
                 _actionRecords->push_front(ActionRecord<T>(newAction));
             }
+
+            ~ActionHistory()
+            {
+                delete _actionRecords;
+            }
             
         private:
             std::list<ActionRecord<T>>* _actionRecords;
