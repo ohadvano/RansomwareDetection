@@ -1,11 +1,11 @@
 // 'Hello World!' program 
  
 #include <iostream>
-#include "ConfigurationProvider.cpp"
+#include "History.cpp"
 
-using namespace Configurations;
+using namespace ActionsHistory;
 
 int main()
 {
-    ConfigurationProvider* cp = new ConfigurationProvider("parameters.config");
+    ActionRecord* r = new ActionRecord();
 }

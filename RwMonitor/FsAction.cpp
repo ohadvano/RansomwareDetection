@@ -1,5 +1,5 @@
-#ifndef _FSACTION
-#define _FSACTION
+#ifndef _HFSACTION
+#define _HFSACTION
 
 #include <string>
 #include <ctime>

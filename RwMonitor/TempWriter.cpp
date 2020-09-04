@@ -1,3 +1,6 @@
+#ifndef _HTMPWRITER
+#define _HTMPWRITER
+
 #include <string>
 #include <ctime>
 #include <fstream>
@@ -59,4 +62,4 @@ namespace TempFile
     };
 }
 
-
+#endif

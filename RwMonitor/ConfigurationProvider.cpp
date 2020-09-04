@@ -1,3 +1,6 @@
+#ifndef _HCP
+#define _HCP
+
 #include <string>
 #include <ctime>
 #include <sys/stat.h>
@@ -145,3 +148,5 @@ namespace Configurations
             }
     };
 }
+
+#endif

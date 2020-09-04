@@ -1,3 +1,6 @@
+#ifndef _HLOGGER
+#define _HLOGGER
+
 #include <string>
 #include <ctime>
 #include <fstream>
@@ -67,3 +70,5 @@ namespace Log
             }
     };
 }
+
+#endif

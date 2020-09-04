@@ -1,3 +1,6 @@
+#ifndef _HHEURISTIC
+#define _HHEURISTIC
+
 #include <list>
 #include <map>
 #include <algorithm>
@@ -376,3 +379,5 @@ namespace Heuristics
             }
     };
 }
+
+#endif
