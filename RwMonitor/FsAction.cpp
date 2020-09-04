@@ -23,6 +23,8 @@ namespace FileSystemActions
             {
 
             }
+
+            virtual ~FsAction() = default;
     };
 
     class FileInfoContract

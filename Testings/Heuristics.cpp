@@ -224,7 +224,7 @@ namespace Heuristics
     class ShannonEnthropyHeuristic : public HeuristicBase
     {
         public:
-            ShannonAnthropyHeuristic(Logger* logger, TempWriter* tempWriter, int threshold)
+            ShannonEnthropyHeuristic(Logger* logger, TempWriter* tempWriter, int threshold)
             {
                 _tempWriter = tempWriter;
                 _logger = logger;
