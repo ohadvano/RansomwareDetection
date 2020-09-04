@@ -4,6 +4,7 @@
 #include <string>
 #include <ctime>
 #include <sys/stat.h>
+#include <list>
 
 using namespace std;
 
@@ -39,12 +40,12 @@ namespace ActionsHistory
                 _actionRecords = new list<ActionRecord<T>>();
             }
 
-            void AddNewAction<T>(T newAction)
+            void AddNewAction(T newAction)
             {
-                _actionRecords->push_front(ActionRecord(newAction));
+                _actionRecords->push_front(ActionRecord<T>(newAction));
             }
 
-            ~ActionsHistory()
+            ~ActionHistory()
             {
                 delete _actionRecords;
             }

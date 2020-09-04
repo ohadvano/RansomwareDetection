@@ -5,5 +5,5 @@ using namespace ActionsHistory;
 
 int main()
 {
-    ActionRecord<string>* r = new ActionRecord<string>();
+    ActionsHistory<string>* r = new ActionsHistory<string>();
 }
