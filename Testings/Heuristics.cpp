@@ -2,6 +2,7 @@
 #define _HHEURISTIC
 
 #include <list>
+#include <vector>
 #include <map>
 #include <algorithm>
 #include <cmath>
