@@ -105,5 +105,3 @@ namespace FileSystemActions
             }
     };
 }
-
-#endif
