@@ -17,7 +17,7 @@ namespace Configurations
     class ConfigurationProvider
     {
         public:
-            ConfigurationProvider(char* configPath)
+            ConfigurationProvider(char const* configPath)
             {
                 Init(configPath);
             }
@@ -67,7 +67,7 @@ namespace Configurations
             regex _enthropyThRegex = regex("ShannonEnthropy: #(.*)#;");
             regex _suspiciousKeywordsRegex = regex("SuspiciousKeywords: #(.*)#;");
             
-            void Init(char* configPath)
+            void Init(char const* configPath)
             {
                 ifstream inFile;
                 inFile.open(configPath);
