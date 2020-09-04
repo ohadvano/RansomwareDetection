@@ -249,7 +249,7 @@ namespace Heuristics
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
                     uint8* inputAfter = ReadFile(_tempWriter->TempFilePath);
                     int lengthAfter = GetLength(inputAfter);
-                    double enthropyAfter = CalculateEntropy(inputBefore, lengthBefore);
+                    double enthropyAfter = CalculateEntropy(inputAfter, lengthAfter);
 
                     if (Abs(enthropyBefore - enthropyAfter) < _threshold)
                     {
