@@ -359,8 +359,9 @@ namespace Heuristics
             {
                 if (action.ActionName == "WriteBufAction")
                 {
+                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
                     string filePath = GetFilePathFromWriteAction(writeAction);
-                    string newContent = GetNewContent(filePath, WriteBufAction);
+                    string newContent = GetNewContent(filePath, writeAction);
                 }
 
                 RefreshTH();
