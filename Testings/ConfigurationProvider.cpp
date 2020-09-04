@@ -17,7 +17,7 @@ namespace Configurations
     class ConfigurationProvider
     {
         public:
-            ConfigurationProvider(char* configPath)
+            ConfigurationProvider(char const* configPath)
             {
                 Init(configPath);
             }
