@@ -116,7 +116,7 @@ namespace RwMonitor
 
         private:
             pthread_mutex_t _actionLock;
-            __thread bool _isInternal;
+            bool _isInternal;
 
             Log::Logger* _logger;
             TempFile::TempWriter* _tempWriter;

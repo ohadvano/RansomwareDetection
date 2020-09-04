@@ -13,6 +13,7 @@ namespace FileSystemActions
     {
         public:
             string ActionName;
+            virtual ~FsAction() = default;
 
         protected:
             time_t ActionDate;
@@ -24,7 +25,6 @@ namespace FileSystemActions
 
             }
 
-            virtual ~FsAction() = default;
     };
 
     class FileInfoContract
