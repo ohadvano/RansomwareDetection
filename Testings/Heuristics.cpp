@@ -149,12 +149,9 @@ namespace Heuristics
                     WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
                     string filePath = GetFilePathFromWriteAction(writeAction);
 
-                    // Example log
-                    // _logger->WriteLog("Running file utility on: [" + filePath + "]");
-
                     string beforeType = RunFileUtility(filePath);
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
-                    string afterType = RunFileUtility(_tempFilePath);
+                    string afterType = RunFileUtility(_tempWriter->TempFilePath);
 
                     if (beforeType != afterType)
                     {
