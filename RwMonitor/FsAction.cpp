@@ -1,3 +1,6 @@
+#ifndef _FSACTION
+#define _FSACTION
+
 #include <string>
 #include <ctime>
 #include <sys/stat.h>
@@ -6,7 +9,6 @@ using namespace std;
 
 namespace FileSystemActions
 {
-    // Abstract class that represents a general file system action
     class FsAction 
     {
         public:
@@ -50,7 +52,6 @@ namespace FileSystemActions
             FileInfoContract() { }
     };
 
-    // WriteBuf
     class WriteBufAction : public FsAction
     {
         public:
@@ -75,7 +76,6 @@ namespace FileSystemActions
             }
     };
 
-    // Rmdir
     class RmdirAction : public FsAction
     {
         public:
@@ -90,7 +90,6 @@ namespace FileSystemActions
             }
     };
 
-    // Forget
     class ForgetAction : public FsAction
     {
         public:
@@ -105,3 +104,5 @@ namespace FileSystemActions
             }
     };
 }
+
+#endif
