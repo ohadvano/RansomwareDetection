@@ -1,9 +1,8 @@
 #include <iostream>
-#include "History.cpp"
+#include "Heuristics.cpp"
 
-using namespace ActionsHistory;
+using namespace Heuristics;
 
 int main()
 {
-    ActionHistory<string>* r = new ActionHistory<string>();
 }
