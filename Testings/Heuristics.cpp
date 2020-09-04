@@ -102,7 +102,7 @@ namespace Heuristics
                 return s_num;
             }
         private:
-            char* _tmpFile = "temp_file_res.txt";
+            char const* _tmpFile = "temp_file_res.txt";
             string execute_program(string prog_name, string arg1, string arg2)
             { 
                 int pid = fork();
@@ -237,7 +237,7 @@ namespace Heuristics
             {
                 if (action.ActionName == "WriteBufAction")
                 {
-                    WriteBufAction writeAction = dynamic_cast<WriteBufAction>(&action);
+                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
                     string filePath = GetFilePathFromWriteAction(writeAction);
 
                     // Before
