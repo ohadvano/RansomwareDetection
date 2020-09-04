@@ -2,6 +2,7 @@
 #define _HHEURISTIC
 
 #include <list>
+#include <vector>
 #include <map>
 #include <algorithm>
 #include <cmath>
@@ -101,7 +102,7 @@ namespace Heuristics
                 return s_num;
             }
         private:
-            char* _tmpFile = "temp_file_res.txt";
+            char const* _tmpFile = "temp_file_res.txt";
             string execute_program(string prog_name, string arg1, string arg2)
             { 
                 int pid = fork();
@@ -148,12 +149,9 @@ namespace Heuristics
                     WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
                     string filePath = GetFilePathFromWriteAction(writeAction);
 
-                    // Example log
-                    // _logger->WriteLog("Running file utility on: [" + filePath + "]");
-
                     string beforeType = RunFileUtility(filePath);
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
-                    string afterType = RunFileUtility(_tempFilePath);
+                    string afterType = RunFileUtility(_tempWriter->TempFilePath);
 
                     if (beforeType != afterType)
                     {
@@ -208,7 +206,7 @@ namespace Heuristics
                 RefreshTH();
             }
 
-            ~FileTypeChangesHeuristic()
+            ~SimilarityMeasurementHeuristic()
             {
                 delete _writeBufHistory;
             }
@@ -226,7 +224,7 @@ namespace Heuristics
     class ShannonEnthropyHeuristic : public HeuristicBase
     {
         public:
-            ShannonAnthropyHeuristic(Logger* logger, TempWriter* tempWriter, int threshold)
+            ShannonEnthropyHeuristic(Logger* logger, TempWriter* tempWriter, int threshold)
             {
                 _tempWriter = tempWriter;
                 _logger = logger;
@@ -244,13 +242,13 @@ namespace Heuristics
 
                     // Before
                     uint8* inputBefore = ReadFile(filePath);
-                    int lengthBefore = GetLength(byteStream);
+                    int lengthBefore = GetLength(inputBefore);
                     double enthropyBefore = CalculateEntropy(inputBefore, lengthBefore);
 
                     // After
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
                     uint8* inputAfter = ReadFile(_tempWriter->TempFilePath);
-                    int lengthAfter = GetLength(byteStream);
+                    int lengthAfter = GetLength(inputAfter);
                     double enthropyAfter = CalculateEntropy(inputBefore, lengthBefore);
 
                     if (Abs(enthropyBefore - enthropyAfter) < _threshold)
@@ -262,7 +260,7 @@ namespace Heuristics
                 RefreshTH();
             }
 
-            ~FileTypeChangesHeuristic()
+            ~ShannonEnthropyHeuristic()
             {
                 delete _writeBufHistory;
             }
@@ -329,7 +327,8 @@ namespace Heuristics
 
             ~FilesDeletionHeuristic()
             {
-                delete _deletionHistory;
+                delete _rmdirHistory;
+                delete _forgetHistory;
             }
 
         private:
@@ -357,8 +356,9 @@ namespace Heuristics
             {
                 if (action.ActionName == "WriteBufAction")
                 {
+                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
                     string filePath = GetFilePathFromWriteAction(writeAction);
-                    string newContent = GetNewContent(filePath, WriteBufAction); // TODO: get only the write content and not new content
+                    string newContent = GetNewContent(filePath, writeAction);
                 }
 
                 RefreshTH();
