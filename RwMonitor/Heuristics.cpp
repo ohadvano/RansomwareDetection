@@ -6,6 +6,19 @@
 #include "Logger.cpp"
 #include "TempWriter.cpp"
 #include "History.cpp"
+#include <string>
+#include <ctime>
+#include <fstream>
+#include <iostream>
+#include <time.h>
+#include <cstdlib>
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <sys/wait.h>
+#include <sstream>
 
 using namespace FileSystemActions;
 using namespace Log;
@@ -73,12 +86,44 @@ namespace Heuristics
 
             string RunFileUtility(string filePath)
             {
-
+                return execute_program("EXE_FILE", filePath, "DONT_CARE");
             }
             
             int RunSdHash(string fileBeforePath, string fileAfterPath)
             {
+                string s = execute_program("EXE_SDHASH", fileBeforePath, fileAfterPath);
+                int s_num = 0;
+                stringstream geek(s);
+                geek >> s_num;
+                return s_num;
+            }
+        private:
+            char* _tmpFile = "temp_file_res.txt";
+            string execute_program(string prog_name, string arg1, string arg2)
+            { 
+                int pid = fork();
+                if (pid==0)
+                {
+                    string command = "bash ./helper.sh " + prog_name + " " + _tmpFile + " " + arg1 + " " + arg2;
+                    const char* c_command = command.c_str();
+                    system(c_command);
+                    exit(0);
+                }
+                else
+                {
+                    wait(NULL);
+                    string res;
+                    string full_res;
+                    ifstream file(_tmpFile);
 
+                    while(getline(file,res))
+                    {
+                        full_res=full_res+res;
+                    }
+
+                    remove(_tmpFile);	
+                    return full_res;	
+                }
             }
     };
 

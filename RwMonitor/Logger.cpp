@@ -1,7 +1,13 @@
 #include <string>
 #include <ctime>
+#include <fstream>
+#include <iostream>
+#include <time.h>
 
 using namespace std;
+
+#define DTTMFMT "%Y-%m-%d %H:%M:%S "
+#define DTTMSZ 21
 
 namespace Log
 {
@@ -14,17 +20,50 @@ namespace Log
             {
                 LogPath = logPath;
 
-                // TODO: Create log in path
+                if (std::ifstream(LogPath))
+                {
+                    return;
+                }
+                else
+                {
+                    std::ofstream file { LogPath };
+                }            
             }
 
             void WriteLog(string logInfo)
             {
-                // TODO: Write to log with timestamp
+                if (!std::ifstream(LogPath))
+                {
+                    return;			
+                }
+
+                char buff[DTTMSZ];
+                std::ofstream file;
+                file.open(LogPath, std::ios_base::app);
+                file << getDtTm (buff) << logInfo << endl;
+                file.close();            
             }
 
             void WriteError(string logError)
             {
-                // TODO: Write to log with "Error" before text with timestamp
+                if (!std::ifstream(LogPath))
+                {
+                    return;
+                }
+
+                char buff[DTTMSZ];
+                std::ofstream file;
+                file.open(LogPath, std::ios_base::app);
+                file << getDtTm (buff) << "ERROR: " << logError << endl;
+                file.close();
+            }
+
+        private:
+            char* getDtTm (char *buff) 
+            {
+                time_t t = time (0);
+                strftime(buff, DTTMSZ, DTTMFMT, localtime(&t));
+                return buff;
             }
     };
 }
