@@ -107,6 +107,8 @@ namespace Configurations
                         return char_array;
                     }
                 }
+
+                return nullptr;
             }
 
             int ConvertToInt(char* str)

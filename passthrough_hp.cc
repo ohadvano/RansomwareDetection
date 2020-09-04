@@ -96,7 +96,6 @@ typedef RwThreatDetector* RwDetector;
 RwDetector RansomwareMonitor = new RwThreatDetector();
 
 static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
-static double _fileSystemLockDownDurationInSeconds = RansomwareMonitor->_configurationProvider->GetSystemLockDownDuration(); // 1 Minute
 static string _rwLockDownStartMessage = "Set lock down start message for user";
 static string _rwInLockDownMessage = "Set in lock down message for user";
 
@@ -104,6 +103,8 @@ static string _rwInLockDownMessage = "Set in lock down message for user";
    Should also prompt the user when in lockdown */
 bool IsInLockDown()
 {
+    double fileSystemLockDownDurationInSeconds = RansomwareMonitor->_configurationProvider->GetSystemLockDownDuration();
+
     // Zero case means not initialized
     if (_fileSystemLockDownStart == 0)
     {
@@ -112,7 +113,7 @@ bool IsInLockDown()
 
     time_t now = time(0);
     double timePassed = difftime(now, _fileSystemLockDownStart);
-    if (timePassed < _fileSystemLockDownDurationInSeconds)
+    if (timePassed < fileSystemLockDownDurationInSeconds)
     {
         cout << _rwInLockDownMessage << endl;
         return true;
