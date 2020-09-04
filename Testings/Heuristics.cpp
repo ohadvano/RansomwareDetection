@@ -208,7 +208,7 @@ namespace Heuristics
                 RefreshTH();
             }
 
-            ~FileTypeChangesHeuristic()
+            ~SimilarityMeasurementHeuristic()
             {
                 delete _writeBufHistory;
             }
@@ -262,7 +262,7 @@ namespace Heuristics
                 RefreshTH();
             }
 
-            ~FileTypeChangesHeuristic()
+            ~ShannonEnthropyHeuristic()
             {
                 delete _writeBufHistory;
             }
@@ -358,7 +358,7 @@ namespace Heuristics
                 if (action.ActionName == "WriteBufAction")
                 {
                     string filePath = GetFilePathFromWriteAction(writeAction);
-                    string newContent = GetNewContent(filePath, WriteBufAction); // TODO: get only the write content and not new content
+                    string newContent = GetNewContent(filePath, WriteBufAction);
                 }
 
                 RefreshTH();
