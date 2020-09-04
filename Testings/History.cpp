@@ -40,7 +40,7 @@ namespace ActionsHistory
                 _actionRecords = new list<ActionRecord<T>>();
             }
 
-            void AddNewAction<T>(T newAction)
+            void AddNewAction(T newAction)
             {
                 _actionRecords->push_front(ActionRecord(newAction));
             }
