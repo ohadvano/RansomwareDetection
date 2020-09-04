@@ -24,12 +24,13 @@ namespace RwMonitor
         public:
             RwThreatDetector()
             {
-                _configurationProvider = new ConfigurationProvider("parameters.config");
+                char const* configFileName = "parameters.config";
+                _configurationProvider = new ConfigurationProvider(configFileName);
 
-                char* logFilePath = _configurationProvider.GetLogFilePath();
+                char* logFilePath = _configurationProvider->GetLogFilePath();
                 _logger = new Logger(logFilePath);
 
-                char* tempFilePath = _configurationProvider.GetTempFilePath();
+                char* tempFilePath = _configurationProvider->GetTempFilePath();
                 _tempWriter = new TempWriter(tempFilePath);
 
                 _heuristics = new list<HeuristicBase*>();
@@ -163,9 +164,9 @@ namespace RwMonitor
                 Log::Logger* logger = monitorToLoad->GetLogger();
                 TempFile::TempWriter* tempWriter = monitorToLoad->GetTempWriter();
 
-                int similarityMeasurementHeuristicThreshold = cp.GetSimilarityThreshold();
-                int shannonEnthropyHeuristicThreshold = cp.GetEnthropyThreshold();
-                vector<string> suspiciousKeywords = cp.GetSuspiciousKeywords();
+                int similarityMeasurementHeuristicThreshold = cp->GetSimilarityThreshold();
+                int shannonEnthropyHeuristicThreshold = cp->GetEnthropyThreshold();
+                vector<string> suspiciousKeywords = cp->GetSuspiciousKeywords();
 
                 monitorToLoad->AddHeuristic(new FileTypeChangesHeuristic(logger, tempWriter));
                 monitorToLoad->AddHeuristic(new SimilarityMeasurementHeuristic(logger, tempWriter, similarityMeasurementHeuristicThreshold));
