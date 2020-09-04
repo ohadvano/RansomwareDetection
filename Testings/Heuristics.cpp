@@ -330,7 +330,8 @@ namespace Heuristics
 
             ~FilesDeletionHeuristic()
             {
-                delete _deletionHistory;
+                delete _rmdirHistory;
+                delete _forgetHistory;
             }
 
         private:
