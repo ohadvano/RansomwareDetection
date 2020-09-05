@@ -74,13 +74,29 @@
 #include <cstdio>
 #include <cstdlib>
 #include <list>
-#include "Utilities/cxxopts.hpp"
 #include <mutex>
 #include <fstream>
 #include <thread>
 #include <iomanip>
+#include "Utilities/cxxopts.hpp"
 
 using namespace std;
+
+////////////////////// Ransomware Detection Helpers ////////////////////////////
+
+// RansomwareMonitor includes
+#include "RwMonitor/RwMonitor.cpp"
+#include "RwMonitor/ConfigurationProvider.cpp"
+
+using namespace RwMonitor;
+using namespace FileSystemActions;
+
+void InternalDebug(string name)
+{
+    cout << name << endl;
+}
+
+////////////////////// End ransomware detection helpers ////////////////////////////
 
 /* We are re-using pointers to our `struct sfs_inode` and `struct
    sfs_dirp` elements as inodes and file handles. This means that we
