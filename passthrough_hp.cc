@@ -93,7 +93,6 @@ using namespace FileSystemActions;
 
 // RansomwareMonitor
 typedef RwThreatDetector* RwDetector;
-RwDetector RansomwareMonitor = new RwThreatDetector();
 
 void InternalDebug(string name)
 {
@@ -1295,6 +1294,8 @@ static void maximize_fd_limit() {
 
 
 int main(int argc, char *argv[]) {
+    
+    RwDetector RansomwareMonitor = new RwThreatDetector();
 
     InternalDebug("1");
     // delete (new RwMonitorLoader((RwThreatDetector*)RansomwareMonitor));
