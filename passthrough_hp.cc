@@ -91,6 +91,10 @@ using namespace std;
 using namespace RwMonitor;
 using namespace FileSystemActions;
 
+// RansomwareMonitor
+typedef RwThreatDetector* RwDetector;
+RwDetector RansomwareMonitor = new RwThreatDetector();
+
 void InternalDebug(string name)
 {
     cout << name << endl;
@@ -1293,7 +1297,7 @@ static void maximize_fd_limit() {
 int main(int argc, char *argv[]) {
 
     InternalDebug("1");
-    delete (new RwMonitorLoader((RwThreatDetector*)RansomwareMonitor));
+    // delete (new RwMonitorLoader((RwThreatDetector*)RansomwareMonitor));
     InternalDebug("2");
 
     // Parse command line options
