@@ -18,15 +18,13 @@ namespace Configurations
     {
         public:
             ConfigurationProvider(char const* configPath)
-            {
-                // Open file and write, Till Logger
+            {           
+                Init(configPath);
+                                // Open file and write, Till Logger
                 ofstream myfile;
-                myfile.open ("example1.txt");
+                myfile.open ("example2.txt");
                 myfile << "Writing this to a file.\n";
                 myfile.close();
-                
-
-                Init(configPath);
             }
 
             int GetSimilarityThreshold()
