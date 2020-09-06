@@ -113,25 +113,23 @@ namespace Configurations
 
             int ConvertToInt(char* str)
             {
-                
-                // Open file and write, Till Logger
                 ofstream myfile;
                 myfile.open ("example1.txt");
-                myfile << "Writing this to a file.\n";
+
+                if (str == nullptr)
+                {
+                    myfile << "ok" << endl;
+                }
+                else
+                {
+                    myfile << str << endl;
+                }
+                
+                
                 myfile.close();
 
                 string strAsString(str);
-
-                myfile.open ("example2.txt");
-                myfile << "Writing this to a file.\n";
-                myfile.close();
-
                 stringstream stream1(strAsString); 
-
-                myfile.open ("example3.txt");
-                myfile << "Writing this to a file.\n";
-                myfile.close();
-
                 int val = 0;
                 stream1 >> val;
                 return val;
