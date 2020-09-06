@@ -22,20 +22,8 @@ namespace TempFile
 
             TempWriter(char* tempFilePath)
             {
-                string path = "Run/";
+                string path = "Run//";
                 path += tempFilePath;
-
-                time_t rawtime;
-                struct tm * timeinfo;
-                char buffer[80];
-
-                time (&rawtime);
-                timeinfo = localtime(&rawtime);
-
-                strftime(buffer,sizeof(buffer),"%d-%m-%Y_%H-%M-%S",timeinfo);
-                std::string date(buffer);
-  
-                path += date;
 
                 char* finalTempFilePath = (char*)malloc(path.length() + 1);
                 strcpy(finalTempFilePath, path.c_str()); 
