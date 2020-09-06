@@ -83,37 +83,10 @@ namespace Configurations
                 char* logFilePathString = Parse(str, _logFilePathRegex);
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
 
-
-
                 _similarityTh = ConvertToInt(similarityString);
-
-                                // Open file and write, Till Logger
-                ofstream myfile;
-                myfile.open ("example1.txt");
-                myfile << "Writing this to a file.\n";
-                myfile.close();
-
                 _enthropyTh = ConvertToInt(enthropyString);
-
-                // Open file and write, Till Logger
-                myfile.open ("example1.txt");
-                myfile << "Writing this to a file.\n";
-                myfile.close();
-                
                 _systemLockDownDuration = ConvertToInt(systemLockDownDurationString);
-
-                                // Open file and write, Till Logger
-                myfile.open ("example1.txt");
-                myfile << "Writing this to a file.\n";
-                myfile.close();
-
                 _suspiciousKeywords = SplitToWords(suspiciousKeywordsString, ',');
-
-                                // Open file and write, Till Logger
-                myfile.open ("example1.txt");
-                myfile << "Writing this to a file.\n";
-                myfile.close();
-                
                 _logFilePath = logFilePathString;
                 _tmpFilePath = tmpFilePathString;
             }
@@ -140,8 +113,25 @@ namespace Configurations
 
             int ConvertToInt(char* str)
             {
+                
+                // Open file and write, Till Logger
+                ofstream myfile;
+                myfile.open ("example1.txt");
+                myfile << "Writing this to a file.\n";
+                myfile.close();
+
                 string strAsString(str);
+
+                myfile.open ("example2.txt");
+                myfile << "Writing this to a file.\n";
+                myfile.close();
+
                 stringstream stream1(strAsString); 
+
+                myfile.open ("example3.txt");
+                myfile << "Writing this to a file.\n";
+                myfile.close();
+
                 int val = 0;
                 stream1 >> val;
                 return val;
