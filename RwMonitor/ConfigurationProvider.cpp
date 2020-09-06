@@ -79,7 +79,6 @@ namespace Configurations
                 inFile.open(configPath);
 
                 // Open file and write, Till Logger
-                ofstream myfile;
                 myfile.open ("example3.txt");
                 myfile << "Writing this to a file.\n";
                 myfile.close();
@@ -89,7 +88,6 @@ namespace Configurations
                 string str = strStream.str();
 
                 // Open file and write, Till Logger
-                ofstream myfile;
                 myfile.open ("example4.txt");
                 myfile << "Writing this to a file.\n";
                 myfile.close();
@@ -102,7 +100,6 @@ namespace Configurations
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
 
                 // Open file and write, Till Logger
-                ofstream myfile;
                 myfile.open ("example5.txt");
                 myfile << "Writing this to a file.\n";
                 myfile.close();
