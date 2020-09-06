@@ -28,7 +28,7 @@ namespace TempFile
                 char* finalTempFilePath = (char*)malloc(path.length() + 1);
                 strcpy(finalTempFilePath, path.c_str()); 
 
-                TempFilePath = "Run//test.txt";
+                TempFilePath = finalTempFilePath;
 
                 if (std::ifstream(TempFilePath))
                 {

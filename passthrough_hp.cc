@@ -1741,6 +1741,7 @@ static void maximize_fd_limit()
 
 int main(int argc, char *argv[]) 
 {
+    mkdir("Run");
     RansomwareMonitor = new RwThreatDetector();
     delete (new RwMonitorLoader((RwThreatDetector*)RansomwareMonitor));
 
