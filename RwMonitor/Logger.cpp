@@ -36,10 +36,10 @@ namespace Log
   
                 path += date;
 
-                char* logPath2 = (char*)malloc(path.length() + 1);
-                strcpy(logPath2, path.c_str()); 
+                char* finalLogPath = (char*)malloc(path.length() + 1);
+                strcpy(finalLogPath, path.c_str()); 
 
-                LogPath = logPath;
+                LogPath = finalLogPath;
 
                 if (std::ifstream(LogPath))
                 {

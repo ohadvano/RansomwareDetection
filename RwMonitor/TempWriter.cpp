@@ -37,10 +37,10 @@ namespace TempFile
   
                 path += date;
 
-                char* tempFilePath2 = (char*)malloc(path.length() + 1);
-                strcpy(tempFilePath2, path.c_str()); 
+                char* finalTempFilePath = (char*)malloc(path.length() + 1);
+                strcpy(finalTempFilePath, path.c_str()); 
 
-                TempFilePath = tempFilePath;
+                TempFilePath = finalTempFilePath;
 
                 if (std::ifstream(TempFilePath))
                 {
