@@ -113,21 +113,6 @@ namespace Configurations
 
             int ConvertToInt(char* str)
             {
-                ofstream myfile;
-                myfile.open ("example1.txt");
-
-                if (str == nullptr)
-                {
-                    myfile << "ok" << endl;
-                }
-                else
-                {
-                    myfile << str << endl;
-                }
-                
-                
-                myfile.close();
-
                 string strAsString(str);
                 stringstream stream1(strAsString); 
                 int val = 0;
