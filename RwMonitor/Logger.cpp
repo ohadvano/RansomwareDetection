@@ -29,7 +29,7 @@ namespace Log
                 }
                 else
                 {
-                    std::ofstream file { LogPath };
+                    std::ofstream file { "Run/" + LogPath };
                 }            
             }
 

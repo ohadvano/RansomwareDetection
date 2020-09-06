@@ -30,7 +30,7 @@ namespace TempFile
                 }
                 else
                 {
-                    std::ofstream file { TempFilePath };
+                    std::ofstream file { "Run/" + TempFilePath };
                 }
             }
 
