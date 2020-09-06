@@ -37,8 +37,8 @@ namespace Log
                 path += date;
 
                 stringstream buffer;
-                char* logPath = (char*)malloc(path.length() + 1);
-                strcpy(logPath, path.c_str()); 
+                char* logPath2 = (char*)malloc(path.length() + 1);
+                strcpy(logPath2, path.c_str()); 
 
                 LogPath = logPath;
 
