@@ -37,7 +37,6 @@ namespace TempFile
   
                 path += date;
 
-                stringstream buffer;
                 char* tempFilePath2 = (char*)malloc(path.length() + 1);
                 strcpy(tempFilePath2, path.c_str()); 
 
