@@ -94,6 +94,7 @@ using namespace FileSystemActions;
 // RansomwareMonitor
 typedef RwThreatDetector* RwDetector;
 RwDetector RansomwareMonitor;
+Logger* logger;
 
 static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
 static string _rwLockDownStartMessage = "Set lock down start message for user";
@@ -1744,6 +1745,7 @@ int main(int argc, char *argv[])
     mkdir("Run", 0777);
     RansomwareMonitor = new RwThreatDetector();
     delete (new RwMonitorLoader((RwThreatDetector*)RansomwareMonitor));
+    logger = RansomwareMonitor->GetLogger();
 
     // Parse command line options
     auto options {parse_options(argc, argv)};
