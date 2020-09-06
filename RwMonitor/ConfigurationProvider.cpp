@@ -20,11 +20,6 @@ namespace Configurations
             ConfigurationProvider(char const* configPath)
             {           
                 Init(configPath);
-                                // Open file and write, Till Logger
-                ofstream myfile;
-                myfile.open ("example2.txt");
-                myfile << "Writing this to a file.\n";
-                myfile.close();
             }
 
             int GetSimilarityThreshold()
@@ -74,12 +69,30 @@ namespace Configurations
             
             void Init(char const* configPath)
             {
+                // Open file and write, Till Logger
+                ofstream myfile;
+                myfile.open ("example2.txt");
+                myfile << "Writing this to a file.\n";
+                myfile.close();
+
                 ifstream inFile;
                 inFile.open(configPath);
+
+                // Open file and write, Till Logger
+                ofstream myfile;
+                myfile.open ("example3.txt");
+                myfile << "Writing this to a file.\n";
+                myfile.close();
 
                 stringstream strStream;
                 strStream << inFile.rdbuf();
                 string str = strStream.str();
+
+                // Open file and write, Till Logger
+                ofstream myfile;
+                myfile.open ("example4.txt");
+                myfile << "Writing this to a file.\n";
+                myfile.close();
 
                 char* similarityString = Parse(str, _similarityThRegex);
                 char* enthropyString = Parse(str, _enthropyThRegex);
@@ -87,6 +100,12 @@ namespace Configurations
                 char* suspiciousKeywordsString = Parse(str, _suspiciousKeywordsRegex);
                 char* logFilePathString = Parse(str, _logFilePathRegex);
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
+
+                // Open file and write, Till Logger
+                ofstream myfile;
+                myfile.open ("example5.txt");
+                myfile << "Writing this to a file.\n";
+                myfile.close();
 
                 _similarityTh = ConvertToInt(similarityString);
                 _enthropyTh = ConvertToInt(enthropyString);
