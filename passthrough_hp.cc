@@ -93,7 +93,7 @@ using namespace FileSystemActions;
 
 // RansomwareMonitor
 typedef RwThreatDetector* RwDetector;
-RwDetector RansomwareMonitor = new RwThreatDetector();
+RwDetector RansomwareMonitor;
 
 static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
 static string _rwLockDownStartMessage = "Set lock down start message for user";
@@ -1741,9 +1741,8 @@ static void maximize_fd_limit()
 
 int main(int argc, char *argv[]) 
 {
-    InternalDebug("1");
+    RansomwareMonitor = new RwThreatDetector();
     delete (new RwMonitorLoader((RwThreatDetector*)RansomwareMonitor));
-    InternalDebug("2");
 
     // Parse command line options
     auto options {parse_options(argc, argv)};
