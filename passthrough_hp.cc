@@ -266,6 +266,7 @@ static int get_fs_fd(fuse_ino_t ino)
 static void sfs_init(void *userdata, fuse_conn_info *conn) 
 {
     InternalDebug("sfs_init");
+    logger->WriteLog("test from init");
 
     (void)userdata;
     if (conn->capable & FUSE_CAP_EXPORT_SUPPORT)
