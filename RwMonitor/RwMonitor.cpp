@@ -24,6 +24,12 @@ namespace RwMonitor
         public:
             RwThreatDetector()
             {
+                // Open file and write, Till Logger
+                ofstream myfile;
+                myfile.open ("example.txt");
+                myfile << "Writing this to a file.\n";
+                myfile.close();
+
                 char const* configFileName = "parameters.config";
                 _configurationProvider = new ConfigurationProvider(configFileName);
 
