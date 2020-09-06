@@ -27,12 +27,6 @@ namespace RwMonitor
                 char const* configFileName = "parameters.config";
                 _configurationProvider = new ConfigurationProvider(configFileName);
 
-                // Open file and write, Till Logger
-                ofstream myfile;
-                myfile.open ("example.txt");
-                myfile << "Writing this to a file.\n";
-                myfile.close();
-                
                 char* logFilePath = _configurationProvider->GetLogFilePath();
                 _logger = new Logger(logFilePath);
 
