@@ -112,7 +112,7 @@ bool IsInLockDown()
 
     time_t now = time(0);
     double timePassed = difftime(now, _fileSystemLockDownStart);
-    if (timePassed < fileSystemLockDownDurationInSeconds)
+    if (timePassed < _fileSystemLockDownDurationInSeconds)
     {
         cout << _rwInLockDownMessage << endl;
         return true;
