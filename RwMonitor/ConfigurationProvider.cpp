@@ -83,6 +83,12 @@ namespace Configurations
                 char* logFilePathString = Parse(str, _logFilePathRegex);
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
 
+                // Open file and write, Till Logger
+                ofstream myfile;
+                myfile.open ("example1.txt");
+                myfile << "Writing this to a file.\n";
+                myfile.close();
+
                 _similarityTh = ConvertToInt(similarityString);
                 _enthropyTh = ConvertToInt(enthropyString);
                 _systemLockDownDuration = ConvertToInt(systemLockDownDurationString);
@@ -91,8 +97,7 @@ namespace Configurations
                 _tmpFilePath = tmpFilePathString;
                 
                                 // Open file and write, Till Logger
-                ofstream myfile;
-                myfile.open ("example1.txt");
+                myfile.open ("example2.txt");
                 myfile << "Writing this to a file.\n";
                 myfile.close();
             }
