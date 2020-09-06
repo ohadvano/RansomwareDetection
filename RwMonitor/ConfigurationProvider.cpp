@@ -83,23 +83,39 @@ namespace Configurations
                 char* logFilePathString = Parse(str, _logFilePathRegex);
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
 
-                // Open file and write, Till Logger
+
+
+                _similarityTh = ConvertToInt(similarityString);
+
+                                // Open file and write, Till Logger
                 ofstream myfile;
                 myfile.open ("example1.txt");
                 myfile << "Writing this to a file.\n";
                 myfile.close();
 
-                _similarityTh = ConvertToInt(similarityString);
                 _enthropyTh = ConvertToInt(enthropyString);
-                _systemLockDownDuration = ConvertToInt(systemLockDownDurationString);
-                _suspiciousKeywords = SplitToWords(suspiciousKeywordsString, ',');
-                _logFilePath = logFilePathString;
-                _tmpFilePath = tmpFilePathString;
-                
-                                // Open file and write, Till Logger
-                myfile.open ("example2.txt");
+
+                // Open file and write, Till Logger
+                myfile.open ("example1.txt");
                 myfile << "Writing this to a file.\n";
                 myfile.close();
+                
+                _systemLockDownDuration = ConvertToInt(systemLockDownDurationString);
+
+                                // Open file and write, Till Logger
+                myfile.open ("example1.txt");
+                myfile << "Writing this to a file.\n";
+                myfile.close();
+
+                _suspiciousKeywords = SplitToWords(suspiciousKeywordsString, ',');
+
+                                // Open file and write, Till Logger
+                myfile.open ("example1.txt");
+                myfile << "Writing this to a file.\n";
+                myfile.close();
+                
+                _logFilePath = logFilePathString;
+                _tmpFilePath = tmpFilePathString;
             }
 
             char* Parse(string str, regex reg)
