@@ -94,8 +94,8 @@ using namespace FileSystemActions;
 // RansomwareMonitor
 typedef RwThreatDetector* RwDetector;
 RwDetector RansomwareMonitor;
-Logger* logger;
-
+Logger* _logger;
+double _fileSystemLockDownDurationInSeconds;
 static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
 static string _rwLockDownStartMessage = "Set lock down start message for user";
 static string _rwInLockDownMessage = "Set in lock down message for user";
@@ -104,8 +104,6 @@ static string _rwInLockDownMessage = "Set in lock down message for user";
    Should also prompt the user when in lockdown */
 bool IsInLockDown()
 {
-    double fileSystemLockDownDurationInSeconds = RansomwareMonitor->_configurationProvider->GetSystemLockDownDuration();
-
     // Zero case means not initialized
     if (_fileSystemLockDownStart == 0)
     {
@@ -1745,7 +1743,9 @@ int main(int argc, char *argv[])
     mkdir("Run", 0777);
     RansomwareMonitor = new RwThreatDetector();
     delete (new RwMonitorLoader((RwThreatDetector*)RansomwareMonitor));
-    logger = RansomwareMonitor->GetLogger();
+
+    _fileSystemLockDownDurationInSeconds = RansomwareMonitor->_configurationProvider->GetSystemLockDownDuration();
+    _logger = RansomwareMonitor->GetLogger();
 
     // Parse command line options
     auto options {parse_options(argc, argv)};
