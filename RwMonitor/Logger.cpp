@@ -21,6 +21,25 @@ namespace Log
 
             Logger(char* logPath)
             {
+                string path = "Run/";
+                path += logPath;
+
+                time_t rawtime;
+                struct tm * timeinfo;
+                char buffer[80];
+
+                time (&rawtime);
+                timeinfo = localtime(&rawtime);
+
+                strftime(buffer,sizeof(buffer),"%d-%m-%Y_%H-%M-%S",timeinfo);
+                std::string date(buffer);
+  
+                path += date;
+
+                stringstream buffer;
+                char* logPath = (char*)malloc(path.length() + 1);
+                strcpy(logPath, path.c_str()); 
+
                 LogPath = logPath;
 
                 if (std::ifstream(LogPath))
@@ -29,7 +48,7 @@ namespace Log
                 }
                 else
                 {
-                    std::ofstream file { "Run//" + LogPath };
+                    std::ofstream file { LogPath };
                 }            
             }
 

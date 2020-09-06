@@ -22,6 +22,25 @@ namespace TempFile
 
             TempWriter(char* tempFilePath)
             {
+                string path = "Run/";
+                path += tempFilePath;
+
+                time_t rawtime;
+                struct tm * timeinfo;
+                char buffer[80];
+
+                time (&rawtime);
+                timeinfo = localtime(&rawtime);
+
+                strftime(buffer,sizeof(buffer),"%d-%m-%Y_%H-%M-%S",timeinfo);
+                std::string date(buffer);
+  
+                path += date;
+
+                stringstream buffer;
+                char* tempFilePath = (char*)malloc(path.length() + 1);
+                strcpy(tempFilePath, path.c_str()); 
+
                 TempFilePath = tempFilePath;
 
                 if (std::ifstream(TempFilePath))
@@ -30,7 +49,7 @@ namespace TempFile
                 }
                 else
                 {
-                    std::ofstream file { "Run//" + TempFilePath };
+                    std::ofstream file { TempFilePath };
                 }
             }
 
