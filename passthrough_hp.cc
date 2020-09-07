@@ -1341,7 +1341,6 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string str_fd = s2.str();
     string str_pos = s3.str();
 
-    _logger->WriteLog();
     _logger->WriteLog(str_size);
     _logger->WriteLog(str_fd);
     _logger->WriteLog(str_pos);
