@@ -108,7 +108,6 @@ namespace Heuristics
                 int pid = fork();
                 if (pid==0)
                 {
-                    // string command = "bash ./helper.sh " + prog_name + " " + _tmpFile + " " + arg1 + " " + arg2;
                     string command;
                     if (prog_name == "EXE_FILE")
                     {
@@ -135,7 +134,6 @@ namespace Heuristics
                         full_res=full_res+res;
                     }
 
-                    remove(_tmpFile);	
                     return full_res;	
                 }
             }
