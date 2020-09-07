@@ -1332,10 +1332,19 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     // Ransomware monitor
 
-    _logger->WriteLog((in_buf->buf[0]).size);
-    _logger->WriteLog((in_buf->buf[0]).mem);
-    _logger->WriteLog((in_buf->buf[0]).fd);
-    _logger->WriteLog((in_buf->buf[0]).pos);
+    stringstream s1, s2, s3, s4;
+    s1 << (in_buf->buf[0]).size;
+    s2 << (in_buf->buf[0]).fd;
+    s3 << (in_buf->buf[0]).pos;
+
+    string str_size = s1.str();
+    string str_fd = s2.str();
+    string str_pos = s3.str();
+
+    _logger->WriteLog();
+    _logger->WriteLog(str_size);
+    _logger->WriteLog(str_fd);
+    _logger->WriteLog(str_pos);
 
 
     pid_t callingPid = getpid();
