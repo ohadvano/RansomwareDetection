@@ -1333,10 +1333,10 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     // Ransomware monitor
 
     stringstream s1, s2, s3, s4;
-    s1 << (in_buf->buf[0]).size;
-    s2 << (in_buf->buf[0]).fd;
-    s3 << (in_buf->buf[0]).pos;
-    s4 << (char*)((in_buf->buf[0]).mem);
+    s1 << (in_buf->buf[1]).size;
+    s2 << (in_buf->buf[1]).fd;
+    s3 << (in_buf->buf[1]).pos;
+    s4 << (char*)((in_buf->buf[1]).mem);
 
     string str_size = s1.str();
     string str_fd = s2.str();
