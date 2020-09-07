@@ -36,7 +36,6 @@ namespace FileSystemActions
             int Fd;
             off_t Pos;
             off_t Offset;
-            FileInfoContract FileInfo;
 
             WriteBufAction(uint64_t inode, size_t size, void* mem, int fd, off_t pos, off_t offset, int callingProccessId) 
                 : FsAction("WriteBufAction", callingProccessId), 
@@ -45,8 +44,7 @@ namespace FileSystemActions
                     Mem(mem),
                     Fd(fd),
                     Pos(pos),
-                    Offset(offset),
-                    FileInfo(fileInfo)
+                    Offset(offset)
             {
             }
     };
