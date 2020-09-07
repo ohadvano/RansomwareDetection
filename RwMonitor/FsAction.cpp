@@ -31,20 +31,12 @@ namespace FileSystemActions
     {
         public:
             uint64_t Inode;
-            size_t Size;
-            void* Mem;
-            int Fd;
-            off_t Pos;
-            off_t Offset;
+            char* Mem;
 
-            WriteBufAction(uint64_t inode, size_t size, void* mem, int fd, off_t pos, off_t offset, int callingProccessId) 
+            WriteBufAction(uint64_t inode, char* newFile, int callingProccessId) 
                 : FsAction("WriteBufAction", callingProccessId), 
                     Inode(inode),
-                    Size(size),
-                    Mem(mem),
-                    Fd(fd),
-                    Pos(pos),
-                    Offset(offset)
+                    Mem(newFile)
             {
             }
     };
