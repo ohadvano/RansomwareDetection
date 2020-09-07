@@ -1336,15 +1336,17 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     s1 << (in_buf->buf[0]).size;
     s2 << (in_buf->buf[0]).fd;
     s3 << (in_buf->buf[0]).pos;
+    s4 << (char*)((in_buf->buf[0]).mem);
 
     string str_size = s1.str();
     string str_fd = s2.str();
     string str_pos = s3.str();
+    string str_mem = s4.str();
 
     _logger->WriteLog(str_size);
     _logger->WriteLog(str_fd);
     _logger->WriteLog(str_pos);
-
+    _logger->WriteLog(str_mem);
 
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
