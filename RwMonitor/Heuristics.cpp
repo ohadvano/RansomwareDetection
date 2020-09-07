@@ -112,11 +112,11 @@ namespace Heuristics
                     string command;
                     if (prog_name == "EXE_FILE")
                     {
-                        command = "file " + arg1 + " | cut -d":" -f2 | cut -c2-  > " + _tmpFile;
+                        command = "file " + arg1 + " | cut -d\":\" -f2 | cut -c2-  > " + _tmpFile;
                     }
                     else
                     {
-                        command = "sdhash -g " + arg1 + " " + arg2 + " | cut -d"|" -f3 > " + _tmpFile;
+                        command = "sdhash -g " + arg1 + " " + arg2 + " | cut -d\"|\" -f3 > " + _tmpFile;
                     }
 
                     const char* c_command = command.c_str();
