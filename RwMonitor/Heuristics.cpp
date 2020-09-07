@@ -212,7 +212,7 @@ namespace Heuristics
                     s1 << similarityMeasurementScore;
                     string str_size = s1.str();
 
-                    _logger->WriteLog("sdhash: " + s1);
+                    _logger->WriteLog("sdhash: " + str_size);
                     if (similarityMeasurementScore < _threshold)
                     {
                         _writeBufHistory->AddNewAction(writeAction);
