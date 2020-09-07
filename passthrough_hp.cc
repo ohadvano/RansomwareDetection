@@ -1334,19 +1334,41 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     stringstream s1, s2, s3, s4;
     s1 << (in_buf->buf[0]).size;
-    s2 << ino;
+    s1 << (in_buf->buf[0]).fd;
     s3 << (in_buf->buf[0]).pos;
     s4 << (char*)((in_buf->buf[0]).mem);
+    s5 << off;
 
     string str_size = s1.str();
     string str_fd = s2.str();
     string str_pos = s3.str();
     string str_mem = s4.str();
+    string str_off = s5.str();
 
-    _logger->WriteLog(str_size);
-    _logger->WriteLog(str_fd);
-    _logger->WriteLog(str_pos);
-    _logger->WriteLog(str_mem);
+    stringstream s1, s2, s3, s4;
+    s11 << (in_buf->buf[1]).size;
+    s11 << (in_buf->buf[1]).fd;
+    s31 << (in_buf->buf[1]).pos;
+    s41 << (char*)((in_buf->buf[1]).mem);
+    s51 << off;
+
+    string str_size1 = s11.str();
+    string str_fd1 = s21.str();
+    string str_pos1 = s31.str();
+    string str_mem1 = s41.str();
+    string str_off1 = s51.str();
+
+    _logger->WriteLog("size0: " + str_size);
+    _logger->WriteLog("fd0: " + str_fd);
+    _logger->WriteLog("pos0: " + str_pos);
+    _logger->WriteLog("data0: " + str_mem);
+    _logger->WriteLog("off: " + str_off);
+
+    _logger->WriteLog("size1: " + str_size1);
+    _logger->WriteLog("fd1: " + str_fd1);
+    _logger->WriteLog("pos1: " + str_pos1);
+    _logger->WriteLog("data1: " + str_mem1);
+    _logger->WriteLog("off: " + str_off1);
 
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
