@@ -108,7 +108,17 @@ namespace Heuristics
                 int pid = fork();
                 if (pid==0)
                 {
-                    string command = "bash ./helper.sh " + prog_name + " " + _tmpFile + " " + arg1 + " " + arg2;
+                    // string command = "bash ./helper.sh " + prog_name + " " + _tmpFile + " " + arg1 + " " + arg2;
+                    string command;
+                    if (prog_name == "EXE_FILE")
+                    {
+                        command = "file " + arg1 + " | cut -d":" -f2 | cut -c2-  > " + _tmpFile;
+                    }
+                    else
+                    {
+                        command = "sdhash -g " + arg1 + " " + arg2 + " | cut -d"|" -f3 > " + _tmpFile;
+                    }
+
                     const char* c_command = command.c_str();
                     system(c_command);
                     exit(0);
