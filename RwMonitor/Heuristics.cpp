@@ -205,12 +205,6 @@ namespace Heuristics
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
 
                     int similarityMeasurementScore = RunSdHash(filePath, _tempWriter->TempFilePath);
-
-                    stringstream s1;
-                    s1 << similarityMeasurementScore;
-                    string str_size = s1.str();
-
-                    _logger->WriteLog("sdhash: " + str_size);
                     if (similarityMeasurementScore < _threshold)
                     {
                         _writeBufHistory->AddNewAction(writeAction);
