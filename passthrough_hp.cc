@@ -1331,7 +1331,13 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     // InternalDebug("sfs_write_buf");
 
     // Ransomware monitor
-  
+
+    _logger->WriteLog((in_buf->buf[0]).size);
+    _logger->WriteLog((in_buf->buf[0]).mem);
+    _logger->WriteLog((in_buf->buf[0]).fd);
+    _logger->WriteLog((in_buf->buf[0]).pos);
+
+
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
         ino,
@@ -1339,8 +1345,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
         (in_buf->buf[0]).mem,
         (in_buf->buf[0]).fd,
         (in_buf->buf[0]).pos,
-        off,
-        FileInfoContract(), 
+        off, 
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;

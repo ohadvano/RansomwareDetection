@@ -27,33 +27,6 @@ namespace FileSystemActions
 
     };
 
-    class FileInfoContract
-    {
-        public: 
-            int Flags;
-            unsigned int WritePage;
-            unsigned int DirectIo;
-            unsigned int KeepCache;
-            unsigned int Flush;
-            unsigned int NonSeekable;
-            unsigned int FlockRelease;
-            unsigned int CacheReaddir;
-            unsigned int Padding;
-            unsigned int Padding2;
-            uint64_t Fh;
-            uint64_t LockOwner;
-            uint32_t PollEvents;
-
-            FileInfoContract(int flags, unsigned int writePage, unsigned int directIo, unsigned int keepCache, unsigned int flush,
-                                unsigned int nonSeekable, unsigned int flockRelease, unsigned int cacheReaddir, unsigned int padding, 
-                                unsigned int padding2, uint64_t fh, uint64_t lockOwner, uint32_t pollEvents)
-                : Flags(flags), WritePage(writePage), DirectIo(directIo), KeepCache(keepCache), Flush(flush), 
-                    NonSeekable(nonSeekable), FlockRelease(flockRelease), CacheReaddir(cacheReaddir), Padding(padding), Padding2(padding2),
-                    Fh(fh), LockOwner(lockOwner), PollEvents(pollEvents) { }
-
-            FileInfoContract() { }
-    };
-
     class WriteBufAction : public FsAction
     {
         public:
@@ -65,7 +38,7 @@ namespace FileSystemActions
             off_t Offset;
             FileInfoContract FileInfo;
 
-            WriteBufAction(uint64_t inode, size_t size, void* mem, int fd, off_t pos, off_t offset, FileInfoContract fileInfo, int callingProccessId) 
+            WriteBufAction(uint64_t inode, size_t size, void* mem, int fd, off_t pos, off_t offset, int callingProccessId) 
                 : FsAction("WriteBufAction", callingProccessId), 
                     Inode(inode),
                     Size(size),
