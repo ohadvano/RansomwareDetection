@@ -1385,7 +1385,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     stringstream s1, s2, s3;
     s1 << (in_buf->buf[0]).size;
     s2 << (char*)((in_buf->buf[0]).mem);
-    s3 << get_fs_fd(ino);
+    s3 << get_fs_fd(fi->fh);
 
     string str_fd = s3.str();
     string str_size = s1.str();
