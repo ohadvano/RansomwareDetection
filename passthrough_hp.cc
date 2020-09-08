@@ -1397,11 +1397,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* path2 = GetPath2(ino);
     string link = GetLink(path2);
 
-    if (fi->fh == nullptr)
-    {
-        _logger->WriteLog("a");
-    }
-    else if (fi->fh == 0)
+    if (fi->fh == 0)
     {
         _logger->WriteLog("b");
     }
