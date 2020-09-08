@@ -1336,6 +1336,11 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     s100 << fi->fh;
     string str_fh = s100.str();
 
+    stringstream s200;
+    s200 << get_fs_fd(ino);
+    string str_fd2 = s200.str();
+
+
     stringstream s1, s2, s3, s4, s5;
     s1 << (in_buf->buf[0]).size;
     s1 << (in_buf->buf[0]).fd;
@@ -1362,18 +1367,15 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string str_mem1 = s41.str();
     string str_off1 = s51.str();
 
+    _logger->WriteLog("fd: " + str_fd2);
     _logger->WriteLog("fh: " + str_fh);
-
     _logger->WriteLog("size0: " + str_size);
     _logger->WriteLog("fd0: " + str_fd);
     _logger->WriteLog("pos0: " + str_pos);
-    _logger->WriteLog("data0: " + str_mem);
     _logger->WriteLog("off: " + str_off);
-
     _logger->WriteLog("size1: " + str_size1);
     _logger->WriteLog("fd1: " + str_fd1);
     _logger->WriteLog("pos1: " + str_pos1);
-    _logger->WriteLog("data1: " + str_mem1);
     _logger->WriteLog("off: " + str_off1);
 
     pid_t callingPid = getpid();
