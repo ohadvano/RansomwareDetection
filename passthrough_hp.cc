@@ -1349,6 +1349,16 @@ static string GetContent(fuse_ino_t ino)
     return ret;
 }
 
+static string GetLink(string path)
+{
+    int MAXSIZE = 0xFFF;
+    char filename[MAXSIZE];
+    r = readlink(path, filename, MAXSIZE);
+    filename[r] = '\0';
+    string ret(filename);
+    return ret;
+}
+
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi) 
 {
@@ -1366,12 +1376,14 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string str_mem = s2.str();
     string path = GetPath(ino);
     string contentWithFd = GetContent(ino);
+    string link = GetLink(path);
 
     _logger->WriteLog("fd: " + str_fd);
     _logger->WriteLog("size0: " + str_size);
     _logger->WriteLog("mem: " + str_mem);
     _logger->WriteLog("path: " + path);
     _logger->WriteLog("content with fd: " + contentWithFd);
+    _logger->WriteLog("link: " + link);
 
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
