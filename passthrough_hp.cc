@@ -1324,6 +1324,21 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
         fuse_reply_write(req, (size_t)res);
 }
 
+static string GetPath(fuse_ino_t ino)
+{
+    int fd = get_fs_fd(ino);
+
+    int MAXSIZE = 0xFFF;
+    char proclnk[MAXSIZE];
+    char filename[MAXSIZE];
+    ssize_t r;
+
+    sprintf(proclnk, "/proc/self/fd/%d", fd);
+    r = readlink(proclnk, filename, MAXSIZE);
+    filename[r] = '\0';
+    string ret(filename);
+    return ret;
+}
 
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi) 
@@ -1340,10 +1355,12 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string str_fd = s3.str();
     string str_size = s1.str();
     string str_mem = s2.str();
+    string path = GetPath(ino);
 
     _logger->WriteLog("fd: " + str_fd);
     _logger->WriteLog("size0: " + str_size);
     _logger->WriteLog("mem: " + str_mem);
+    _logger->WriteLog("path: " + path);
 
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
