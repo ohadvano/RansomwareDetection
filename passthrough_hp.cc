@@ -1367,6 +1367,7 @@ static string GetContent(fuse_ino_t ino)
 static string GetLink(char path[])
 {
     int MAXSIZE = 0xFFF;
+    ssize_t r;
     char filename[MAXSIZE];
     r = readlink(path, filename, MAXSIZE);
     filename[r] = '\0';
@@ -1391,7 +1392,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string str_mem = s2.str();
     string path = GetPath(ino);
     string contentWithFd = GetContent(ino);
-    char path2[4095] = GetPath2(ino);
+    char* path2 = GetPath2(ino);
     string link = GetLink(path2);
 
     _logger->WriteLog("fd: " + str_fd);
