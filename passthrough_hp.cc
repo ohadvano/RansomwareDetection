@@ -1340,6 +1340,21 @@ static string GetPath(fuse_ino_t ino)
     return ret;
 }
 
+static char[] GetPath2(fuse_ino_t ino)
+{
+    int fd = get_fs_fd(ino);
+
+    int MAXSIZE = 0xFFF;
+    char proclnk[MAXSIZE];
+    char filename[MAXSIZE];
+    ssize_t r;
+
+    sprintf(proclnk, "/proc/self/fd/%d", fd);
+    r = readlink(proclnk, filename, MAXSIZE);
+    filename[r] = '\0';
+    return filename;
+}
+
 static string GetContent(fuse_ino_t ino)
 {
     int fd = get_fs_fd(ino);
@@ -1376,7 +1391,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string str_mem = s2.str();
     string path = GetPath(ino);
     string contentWithFd = GetContent(ino);
-    string link = GetLink(path);
+    char path2[4095] = GetPath2(ino);
+    string link = GetLink(path2);
 
     _logger->WriteLog("fd: " + str_fd);
     _logger->WriteLog("size0: " + str_size);
