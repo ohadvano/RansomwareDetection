@@ -1332,51 +1332,18 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     // Ransomware monitor
 
-    stringstream s100;
-    s100 << fi->fh;
-    string str_fh = s100.str();
-
-    stringstream s200;
-    s200 << get_fs_fd(ino);
-    string str_fd2 = s200.str();
-
-
-    stringstream s1, s2, s3, s4, s5;
+    stringstream s1, s2, s3;
     s1 << (in_buf->buf[0]).size;
-    s1 << (in_buf->buf[0]).fd;
-    s3 << (in_buf->buf[0]).pos;
-    s4 << (char*)((in_buf->buf[0]).mem);
-    s5 << off;
+    s2 << (char*)((in_buf->buf[0]).mem);
+    s3 << oget_fs_fd(ino);
 
+    string str_fd = s3.str();
     string str_size = s1.str();
-    string str_fd = s2.str();
-    string str_pos = s3.str();
-    string str_mem = s4.str();
-    string str_off = s5.str();
+    string str_mem = s2.str();
 
-    stringstream s11, s21, s31, s41, s51;
-    s11 << (in_buf->buf[1]).size;
-    s11 << (in_buf->buf[1]).fd;
-    s31 << (in_buf->buf[1]).pos;
-    s41 << (char*)((in_buf->buf[1]).mem);
-    s51 << off;
-
-    string str_size1 = s11.str();
-    string str_fd1 = s21.str();
-    string str_pos1 = s31.str();
-    string str_mem1 = s41.str();
-    string str_off1 = s51.str();
-
-    _logger->WriteLog("fd: " + str_fd2);
-    _logger->WriteLog("fh: " + str_fh);
+    _logger->WriteLog("fd: " + str_fd);
     _logger->WriteLog("size0: " + str_size);
-    _logger->WriteLog("fd0: " + str_fd);
-    _logger->WriteLog("pos0: " + str_pos);
-    _logger->WriteLog("off: " + str_off);
-    _logger->WriteLog("size1: " + str_size1);
-    _logger->WriteLog("fd1: " + str_fd1);
-    _logger->WriteLog("pos1: " + str_pos1);
-    _logger->WriteLog("off: " + str_off1);
+    _logger->WriteLog("mem: " + str_mem);
 
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
