@@ -1364,7 +1364,7 @@ static string GetContent(fuse_ino_t ino)
     return ret;
 }
 
-static string GetLink(string path)
+static string GetLink(char path[])
 {
     int MAXSIZE = 0xFFF;
     char filename[MAXSIZE];
