@@ -1382,14 +1382,16 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     // Ransomware monitor
 
-    stringstream s1, s2, s3;
+    stringstream s1, s2, s3, s4;
     s1 << (in_buf->buf[0]).size;
     s2 << (char*)((in_buf->buf[0]).mem);
     s3 << get_fs_fd(ino);
+    s4 >> fi->fh;
 
     string str_fd = s3.str();
     string str_size = s1.str();
     string str_mem = s2.str();
+    string fh = s4.str();
     string path = GetPath(ino);
     string contentWithFd = GetContent(ino);
     char* path2 = GetPath2(ino);
@@ -1397,10 +1399,11 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     _logger->WriteLog("fd: " + str_fd);
     _logger->WriteLog("size0: " + str_size);
-    _logger->WriteLog("mem: " + str_mem);
     _logger->WriteLog("path: " + path);
     _logger->WriteLog("content with fd: " + contentWithFd);
     _logger->WriteLog("link: " + link);
+    _logger->WriteLog("fh: " + fh);
+    _logger->WriteLog("mem: " + str_mem);
 
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
