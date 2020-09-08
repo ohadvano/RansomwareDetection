@@ -1340,7 +1340,7 @@ static string GetPath(fuse_ino_t ino)
     return ret;
 }
 
-stattic string GetContent(fuse_ino_t ino)
+static string GetContent(fuse_ino_t ino)
 {
     int fd = get_fs_fd(ino);
     char[20] buff;
