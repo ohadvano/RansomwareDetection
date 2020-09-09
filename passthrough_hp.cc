@@ -1340,6 +1340,20 @@ static string GetPath(fuse_ino_t ino)
     return ret;
 }
 
+static string GetPath3(int fd)
+{
+    int MAXSIZE = 0xFFF;
+    char proclnk[MAXSIZE];
+    char filename[MAXSIZE];
+    ssize_t r;
+
+    sprintf(proclnk, "/proc/self/fd/%d", fd);
+    r = readlink(proclnk, filename, MAXSIZE);
+    filename[r] = '\0';
+    string ret(filename);
+    return ret;
+}
+
 static char* GetPath2(fuse_ino_t ino)
 {
     int fd = get_fs_fd(ino);
@@ -1382,6 +1396,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     // Ransomware monitor
 
+    int fh = (int)fi->fh;
+
     stringstream s1, s2, s3, s4;
     s1 << (in_buf->buf[0]).size;
     s2 << (char*)((in_buf->buf[0]).mem);
@@ -1394,8 +1410,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string fh = s4.str();
     string path = GetPath(ino);
     string contentWithFd = GetContent(ino);
-    char* path2 = GetPath2(ino);
-    string link = GetLink(path2);
+    string path2 = GetPath3(fh);
 
     std::ostringstream o;
     o << fi->fh;
@@ -1421,15 +1436,14 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     {
         _logger->WriteLog("f");
     }
-    
 
     _logger->WriteLog("fd: " + str_fd);
     _logger->WriteLog("size0: " + str_size);
     _logger->WriteLog("path: " + path);
     _logger->WriteLog("content with fd: " + contentWithFd);
-    _logger->WriteLog("link: " + link);
     _logger->WriteLog("fh: " + fh);
     _logger->WriteLog("mem: " + str_mem);
+    _logger->WriteLog("path2: " + path2);
 
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
