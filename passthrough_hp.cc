@@ -1396,25 +1396,23 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     // Ransomware monitor
 
-    int fh = (int)fi->fh;
+    int fh2 = (int)fi->fh;
 
     stringstream s1, s2, s3, s4;
     s1 << (in_buf->buf[0]).size;
     s2 << (char*)((in_buf->buf[0]).mem);
     s3 << get_fs_fd(ino);
-    s4 >> fi->fh;
 
     string str_fd = s3.str();
     string str_size = s1.str();
     string str_mem = s2.str();
-    string fh = s4.str();
     string path = GetPath(ino);
     string contentWithFd = GetContent(ino);
-    string path2 = GetPath3(fh);
+    string path2 = GetPath3(fh2);
 
     std::ostringstream o;
     o << fi->fh;
-    fh = o.str();
+    string fh = o.str();
 
     if (fi->fh == 0)
     {
