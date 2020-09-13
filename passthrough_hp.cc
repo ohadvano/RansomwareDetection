@@ -1331,8 +1331,10 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     char textBuf[20];
     pread(fi->fh, textBuf, 10, 0);
+    textBuf[10] = 0;
     string res(textBuf);
     _logger->WriteLog("asd" + res);
+    cerr << textBuf << endl;
 
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
