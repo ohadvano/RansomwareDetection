@@ -1336,7 +1336,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     sprintf(buf, "/proc/self/fd/%i", inode.fd);
     auto fd = open(buf, fi->flags & ~O_NOFOLLOW);
     char textBuf[20];
-    read(fd, textBuf, 20, 0);
+    read(fd, textBuf, 5);
     string res(textBuf);
     _logger->WriteLog(res);
 
