@@ -1324,71 +1324,6 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
         fuse_reply_write(req, (size_t)res);
 }
 
-static string GetPath(fuse_ino_t ino)
-{
-    int fd = get_fs_fd(ino);
-
-    int MAXSIZE = 0xFFF;
-    char proclnk[MAXSIZE];
-    char filename[MAXSIZE];
-    ssize_t r;
-
-    sprintf(proclnk, "/proc/self/fd/%d", fd);
-    r = readlink(proclnk, filename, MAXSIZE);
-    filename[r] = '\0';
-    string ret(filename);
-    return ret;
-}
-
-static string GetPath3(int fd)
-{
-    int MAXSIZE = 0xFFF;
-    char proclnk[MAXSIZE];
-    char filename[MAXSIZE];
-    ssize_t r;
-
-    sprintf(proclnk, "/proc/self/fd/%d", fd);
-    r = readlink(proclnk, filename, MAXSIZE);
-    filename[r] = '\0';
-    string ret(filename);
-    return ret;
-}
-
-static char* GetPath2(fuse_ino_t ino)
-{
-    int fd = get_fs_fd(ino);
-
-    int MAXSIZE = 0xFFF;
-    char proclnk[MAXSIZE];
-    char filename[MAXSIZE];
-    ssize_t r;
-
-    sprintf(proclnk, "/proc/self/fd/%d", fd);
-    r = readlink(proclnk, filename, MAXSIZE);
-    filename[r] = '\0';
-    return filename;
-}
-
-static string GetContent(fuse_ino_t ino)
-{
-    int fd = get_fs_fd(ino);
-    char buff[20];
-    ssize_t  res = read(fd, buff, 10);
-    string ret(buff);
-    return ret;
-}
-
-static string GetLink(char path[])
-{
-    int MAXSIZE = 0xFFF;
-    ssize_t r;
-    char filename[MAXSIZE];
-    r = readlink(path, filename, MAXSIZE);
-    filename[r] = '\0';
-    string ret(filename);
-    return ret;
-}
-
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi) 
 {
@@ -1396,52 +1331,14 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     // Ransomware monitor
 
-    int fh2 = (int)fi->fh;
-
-    stringstream s1, s2, s3, s4;
-    s1 << (in_buf->buf[0]).size;
-    s2 << (char*)((in_buf->buf[0]).mem);
-    s3 << get_fs_fd(ino);
-
-    string str_fd = s3.str();
-    string str_size = s1.str();
-    string str_mem = s2.str();
-    string path = GetPath(ino);
-    string contentWithFd = GetContent(ino);
-    string path2 = GetPath3(fh2);
-
-    std::ostringstream o;
-    o << fi->fh;
-    string fh = o.str();
-
-    if (fi->fh == 0)
-    {
-        _logger->WriteLog("b");
-    }
-    else if (fi-> fh == -1)
-    {
-        _logger->WriteLog("c");
-    }
-    else if (fi->fh > 0)
-    {
-        _logger->WriteLog("d");
-    }
-    else if (fi->fh < 0)
-    {
-        _logger->WriteLog("e");
-    }
-    else
-    {
-        _logger->WriteLog("f");
-    }
-
-    _logger->WriteLog("fd: " + str_fd);
-    _logger->WriteLog("size0: " + str_size);
-    _logger->WriteLog("path: " + path);
-    _logger->WriteLog("content with fd: " + contentWithFd);
-    _logger->WriteLog("fh: " + fh);
-    _logger->WriteLog("mem: " + str_mem);
-    _logger->WriteLog("path2: " + path2);
+    Inode& inode = get_inode(ino);
+    char buf[64];
+    sprintf(buf, "/proc/self/fd/%i", inode.fd);
+    auto fd = open(buf, fi->flags & ~O_NOFOLLOW);
+    char textBuf[20];
+    read(fd, textBuf, 20, 0);
+    string res(textBuf);
+    _logger->WriteLog(res);
 
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
