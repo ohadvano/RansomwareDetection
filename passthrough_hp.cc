@@ -1333,8 +1333,15 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     pread(fi->fh, textBuf, 10, 0);
     textBuf[10] = 0;
     string res(textBuf);
-    _logger->WriteLog("asd" + res);
+    _logger->WriteLog(res);
     cerr << textBuf << endl;
+
+    char buf[64];
+    char res2[100];
+    sprintf(buf, "/proc/self/fd/%i", fi->fh);
+    readlink(buf, res2, 100);
+    string res3(res2);
+    _logger->WriteLog(res3);
 
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
