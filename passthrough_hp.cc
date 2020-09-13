@@ -1329,16 +1329,10 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 {
     // InternalDebug("sfs_write_buf");
 
-    // Ransomware monitor
-
-    Inode& inode = get_inode(ino);
-    char buf[64];
-    sprintf(buf, "/proc/self/fd/%i", inode.fd);
-    auto fd = open(buf, fi->flags & ~O_NOFOLLOW);
     char textBuf[20];
-    read(fd, textBuf, 5);
+    pread(fi->fh, textBuf, 10, 0);
     string res(textBuf);
-    _logger->WriteLog(res);
+    _logger->WriteLog("asd" + res);
 
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
