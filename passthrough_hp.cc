@@ -1307,7 +1307,6 @@ static void sfs_read(fuse_req_t req, fuse_ino_t ino, size_t size, off_t off,
     do_read(req, size, off, fi);
 }
 
-
 static void do_write_buf(fuse_req_t req, size_t size, off_t off,
                          fuse_bufvec *in_buf, fuse_file_info *fi)
 {
@@ -1325,28 +1324,28 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 }
 
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
-                          off_t off, fuse_file_info *fi) 
+                          off_t off, fuse_file_info *fi)
 {
     // InternalDebug("sfs_write_buf");
 
-    char textBuf[20];
-    pread(fi->fh, textBuf, 10, 0);
-    textBuf[10] = 0;
-    string res(textBuf);
-    _logger->WriteLog(res);
-    cerr << textBuf << endl;
+    uint64_t fd = fi->fh;
 
+    int maxFilePath = 4096;
     char buf[64];
-    char res2[100];
     sprintf(buf, "/proc/self/fd/%i", fi->fh);
-    readlink(buf, res2, 100);
-    string res3(res2);
-    _logger->WriteLog(res3);
+    char path[maxFilePath];
+    readlink(buf, path, maxFilePath);
+    string filePath(path);
+
+    char* mem1 = (char*)((in_buf->buf[0]).mem);
+    char* mem2 = (char*)((in_buf->buf[1]).mem);
 
     pid_t callingPid = getpid();
     FsAction action = WriteBufAction(
-        ino,
-        (char*)((in_buf->buf[0]).mem),
+        filePath,
+        mem1,
+        mem2,
+        fd,
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;

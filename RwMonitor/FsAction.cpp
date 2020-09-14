@@ -22,21 +22,21 @@ namespace FileSystemActions
             FsAction(string actionName, int callingProccessId) 
                 : ActionName(actionName), ActionDate(time(0)), CallingProccessId(callingProccessId) 
             {
-
             }
-
     };
 
     class WriteBufAction : public FsAction
     {
         public:
-            uint64_t Inode;
-            char* Mem;
+            string FilePath;
+            char* InputData1;
+            char* InputData2;
 
-            WriteBufAction(uint64_t inode, char* newFile, int callingProccessId) 
+            WriteBufAction(string filePath, char* inputData1, char* inputData2, uint64_t fd, int callingProccessId) 
                 : FsAction("WriteBufAction", callingProccessId), 
-                    Inode(inode),
-                    Mem(newFile)
+                    FilePath(filePath),
+                    InputData1(inputData1),
+                    InputData2(inputData2)
             {
             }
     };
