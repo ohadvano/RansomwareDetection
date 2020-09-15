@@ -48,7 +48,9 @@ namespace Log
                 else
                 {
                     std::ofstream file { LogPath };
-                }            
+                }
+
+                WriteLog("[Log started]");
             }
 
             void WriteLog(string logInfo)
@@ -61,7 +63,7 @@ namespace Log
                 char buff[DTTMSZ];
                 std::ofstream file;
                 file.open(LogPath, std::ios_base::app);
-                file << getDtTm (buff) << logInfo << endl;
+                file << "[" << getDtTm (buff) << "]" << logInfo << endl;
                 file.close();            
             }
 
@@ -75,7 +77,7 @@ namespace Log
                 char buff[DTTMSZ];
                 std::ofstream file;
                 file.open(LogPath, std::ios_base::app);
-                file << getDtTm (buff) << "ERROR: " << logError << endl;
+                file << "[" << getDtTm (buff) << "]" << "[ERROR]" << logError << endl;
                 file.close();
             }
 

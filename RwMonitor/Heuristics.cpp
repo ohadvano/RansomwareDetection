@@ -48,16 +48,13 @@ namespace Heuristics
             TempWriter* _tempWriter;
             Logger* _logger;
 
-            string GetFilePathFromWriteAction(WriteBufAction* writeAction)
-            {
-                return "x";
-            }
-
             string GetNewContent(string filePath, WriteBufAction* writeAction)
             {
-                return "x";
+                char* mem1 = writeAction->InputData1;
+                string str(mem1);
+                return str;
             }
-            
+
 			uint8* ReadFile(string filePath)
 			{
 				string res;
@@ -111,6 +108,21 @@ namespace Heuristics
                 geek >> s_num;
                 return s_num;
             }
+
+            string GetThAsString()
+            {
+
+            }
+
+            string GetIntAsString(int val)
+            {
+                
+            }
+
+            string GetDoubleAsString(double val)
+            {
+
+            }
         private:
             char const* _tmpFile = "Run//temp_file_res.txt";
             string execute_program(string prog_name, string arg1, string arg2)
@@ -157,6 +169,8 @@ namespace Heuristics
                 _tempWriter = tempWriter;
                 _logger = logger;
 
+                _logger->WriteLog("[" + _heuristicName + "][Init]");
+
                 _writeBufHistory = new ActionHistory<WriteBufAction*>();
             }
 
@@ -164,33 +178,43 @@ namespace Heuristics
             {
                 if (action.ActionName == "WriteBufAction")
                 {
+                    _logger->WriteLog("[" + _heuristicName + "][Write action detected]");
+
                     WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
-                    string filePath = GetFilePathFromWriteAction(writeAction);
+
+                    string filePath = writeAction->FilePath;
+                    _logger->WriteLog("[" + _heuristicName + "][File path: " + forgetAction->FilePath + "]");
 
                     string beforeType = RunFileUtility(filePath);
+                    _logger->WriteLog("[" + _heuristicName + "][Type before: " + beforeType + "]");
+
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
                     string afterType = RunFileUtility(_tempWriter->TempFilePath);
+                    _logger->WriteLog("[" + _heuristicName + "][Type after: " + afterType + "]");
 
                     if (beforeType != afterType)
                     {
+                        _logger->WriteLog("[" + _heuristicName + "][File type change detected from: " + beforeType + " to: " + afterType + "]");
                         _writeBufHistory->AddNewAction(writeAction);
                     }
                 }
 
                 RefreshTH();
+                _logger->WriteLog("[" + _heuristicName + "][New threshold: " + GetThAsString() + "]");
             }
 
             ~FileTypeChangesHeuristic()
             {
+                _logger->WriteLog("[" + _heuristicName + "][Exit]");
                 delete _writeBufHistory;
             }
 
         private:
             ActionHistory<WriteBufAction*>* _writeBufHistory;
+            string _heuristicName = "File Type Changes";
 
             void RefreshTH()
             {
-
             }
     };
 
@@ -199,9 +223,12 @@ namespace Heuristics
         public:
             SimilarityMeasurementHeuristic(Logger* logger, TempWriter* tempWriter, int threshold)
             {
+                
                 _tempWriter = tempWriter;
                 _logger = logger;
                 _threshold = threshold;
+
+                _logger->WriteLog("[" + _heuristicName + "][Init]");
 
                 _writeBufHistory = new ActionHistory<WriteBufAction*>();
             }
@@ -210,32 +237,42 @@ namespace Heuristics
             {
                 if (action.ActionName == "WriteBufAction")
                 {
+                    _logger->WriteLog("[" + _heuristicName + "][Write action detected]");
+
                     WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
-                    string filePath = GetFilePathFromWriteAction(writeAction);
+
+                    string filePath = writeAction->FilePath;
+                    _logger->WriteLog("[" + _heuristicName + "][File path: " + forgetAction->FilePath + "]");
+
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
 
                     int similarityMeasurementScore = RunSdHash(filePath, _tempWriter->TempFilePath);
+                    _logger->WriteLog("[" + _heuristicName + "][Similarity score: " + GetIntAsString(similarityMeasurementScore) + "]");
+
                     if (similarityMeasurementScore < _threshold)
                     {
+                        _logger->WriteLog("[" + _heuristicName + "][Similarity measurement anormaliy detected]");
                         _writeBufHistory->AddNewAction(writeAction);
                     }
                 }
 
                 RefreshTH();
+                _logger->WriteLog("[" + _heuristicName + "][New threshold: " + GetThAsString() + "]");
             }
 
             ~SimilarityMeasurementHeuristic()
             {
+                _logger->WriteLog("[" + _heuristicName + "][Exit]");
                 delete _writeBufHistory;
             }
 
         private:
             ActionHistory<WriteBufAction*>* _writeBufHistory;
             int _threshold;
+            string _heuristicName = "Similarity Measurement";
 
             void RefreshTH()
             {
-
             }
     };
 
@@ -248,6 +285,8 @@ namespace Heuristics
                 _logger = logger;
                 _threshold = threshold;
 
+                _logger->WriteLog("[" + _heuristicName + "][Init]");
+
                 _writeBufHistory = new ActionHistory<WriteBufAction*>();
             }
 
@@ -255,14 +294,19 @@ namespace Heuristics
             {
                 if (action.ActionName == "WriteBufAction")
                 {
+                    _logger->WriteLog("[" + _heuristicName + "][Write action detected]");
+
                     WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
-                    string filePath = GetFilePathFromWriteAction(writeAction);
+
+                    string filePath = writeAction->FilePath;
+                    _logger->WriteLog("[" + _heuristicName + "][File path: " + filePath + "]");
 
                     // Before
                     uint8* inputBefore = ReadFile(filePath);
                     int lengthBefore = GetLength(inputBefore);
                     double enthropyBefore = CalculateEntropy(inputBefore, lengthBefore);
 					delete[] inputBefore;
+                    _logger->WriteLog("[" + _heuristicName + "][Enthropy before: " + GetDoubleAsString(enthropyBefore) + "]");
 
                     // After
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
@@ -270,27 +314,32 @@ namespace Heuristics
                     int lengthAfter = GetLength(inputAfter);
                     double enthropyAfter = CalculateEntropy(inputAfter, lengthAfter);
 					delete[] inputAfter;
+                    _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyBefore) + "]");
+
                     if (Abs(enthropyBefore - enthropyAfter) < _threshold)
                     {
+                        _logger->WriteLog("[" + _heuristicName + "][High enthropy detected]");
                         _writeBufHistory->AddNewAction(writeAction);
                     }
                 }
 
                 RefreshTH();
+                _logger->WriteLog("[" + _heuristicName + "][New threshold: " + GetThAsString() + "]");
             }
 
             ~ShannonEnthropyHeuristic()
             {
+                _logger->WriteLog("[" + _heuristicName + "][Exit]");
                 delete _writeBufHistory;
             }
 
         private:
             ActionHistory<WriteBufAction*>* _writeBufHistory;
             double _threshold;
+            string _heuristicName = "Shannon Enthropy";
 
             void RefreshTH()
             {
-
             }
 
             double CalculateEntropy(uint8* input, int length)
@@ -324,6 +373,8 @@ namespace Heuristics
                 _tempWriter = tempWriter;
                 _logger = logger;
 
+                _logger->WriteLog("[" + _heuristicName + "][Init]");
+
                 _rmdirHistory = new ActionHistory<RmdirAction*>();
                 _forgetHistory = new ActionHistory<ForgetAction*>();
             }
@@ -332,20 +383,30 @@ namespace Heuristics
             {
                 if (action.ActionName == "ForgetAction")
                 {
+                    _logger->WriteLog("[" + _heuristicName + "][Forget action detected]");
+
                     ForgetAction* forgetAction = dynamic_cast<ForgetAction*>(&action);
+                    _logger->WriteLog("[" + _heuristicName + "][File path: " + forgetAction->FilePath + "]");
+
                     _forgetHistory->AddNewAction(forgetAction);
                 }
                 else if (action.ActionName == "RmdirAction")
                 {
+                    _logger->WriteLog("[" + _heuristicName + "][Rmdir action detected]");
+
                     RmdirAction* rmdirAction = dynamic_cast<RmdirAction*>(&action);
+                    _logger->WriteLog("[" + _heuristicName + "][File path: " + rmdirAction->DirectoryPath + "]");
+
                     _rmdirHistory->AddNewAction(rmdirAction);
                 }
 
                 RefreshTH();
+                _logger->WriteLog("[" + _heuristicName + "][New threshold: " + GetThAsString() + "]");
             }
 
             ~FilesDeletionHeuristic()
             {
+                _logger->WriteLog("[" + _heuristicName + "][Exit]");
                 delete _rmdirHistory;
                 delete _forgetHistory;
             }
@@ -353,10 +414,10 @@ namespace Heuristics
         private:
             ActionHistory<RmdirAction*>* _rmdirHistory;
             ActionHistory<ForgetAction*>* _forgetHistory;
+            string _heuristicName = "Files Deletion";
 
             void RefreshTH()
             {
-
             }
     };
 
@@ -367,6 +428,9 @@ namespace Heuristics
             {
                 _tempWriter = tempWriter;
                 _logger = logger;
+
+                _logger->WriteLog("[" + _heuristicName + "][Init]");
+
                 _suspiciousKeywords = suspiciousKeywords;
                 _writeHistory = new ActionHistory<WriteBufAction*>();
             }
@@ -375,26 +439,42 @@ namespace Heuristics
             {
                 if (action.ActionName == "WriteBufAction")
                 {
+                    _logger->WriteLog("[" + _heuristicName + "][Write action detected]");
+
                     WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
+
                     string filePath = GetFilePathFromWriteAction(writeAction);
+                    _logger->WriteLog("[" + _heuristicName + "][File path: " + filePath + "]");
+
                     string newContent = GetNewContent(filePath, writeAction);
+
+                    for (std::vector<string>::iterator it = _suspiciousKeywords.begin(); it != _suspiciousKeywords.end(); ++it)
+                    {
+                        if (newContent.find(*it) != string::npos) 
+                        {
+                            _logger->WriteLog("[" + _heuristicName + "][Suspicious keyword detected: " + *it + "]");
+                            _writeHistory->AddNewAction(writeAction);
+                        }
+                    }
                 }
 
                 RefreshTH();
+                _logger->WriteLog("[" + _heuristicName + "][New threshold: " + GetThAsString() + "]");
             }
 
             ~SuspiciousKeywordsHeuristicThreshold()
             {
+                _logger->WriteLog("[" + _heuristicName + "][Exit]");
                 delete _writeHistory;
             }
 
         private:
             ActionHistory<WriteBufAction*>* _writeHistory;
             vector<string> _suspiciousKeywords;
+            string _heuristicName = "Suspicious Keywords";
 
             void RefreshTH()
             {
-
             }
     };
 }

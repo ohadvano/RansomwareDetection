@@ -44,13 +44,11 @@ namespace FileSystemActions
     class RmdirAction : public FsAction
     {
         public:
-            uint64_t Parent;
-            const char* Name;
+            string DirectoryPath;
 
-            RmdirAction(uint64_t parent, const char* name, int callingProccessId) 
-                : FsAction("RmdirAction", callingProccessId), 
-                    Parent(parent), 
-                    Name(name)
+            RmdirAction(string directoryPath, int callingProccessId) 
+                : FsAction("RmdirAction", callingProccessId),
+                    DirectoryPath(directoryPath)
             {
             }
     };
@@ -58,13 +56,11 @@ namespace FileSystemActions
     class ForgetAction : public FsAction
     {
         public:
-            uint64_t Parent;
-            uint64_t Nlookup;
+            string FilePath;
 
-            ForgetAction(uint64_t parent, uint64_t nlookup, int callingProccessId) 
+            ForgetAction(string filePath, int callingProccessId) 
                 : FsAction("ForgetAction", callingProccessId), 
-                    Parent(parent), 
-                    Nlookup(nlookup)
+                    FilePath(filePath)
             {
             }
     };

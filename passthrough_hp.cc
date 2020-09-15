@@ -263,8 +263,6 @@ static int get_fs_fd(fuse_ino_t ino)
 
 static void sfs_init(void *userdata, fuse_conn_info *conn) 
 {
-    // // InternalDebug("sfs_init");
-
     (void)userdata;
     if (conn->capable & FUSE_CAP_EXPORT_SUPPORT)
         conn->want |= FUSE_CAP_EXPORT_SUPPORT;
@@ -287,21 +285,6 @@ static void sfs_init(void *userdata, fuse_conn_info *conn)
 
 static void sfs_getattr(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
-    // InternalDebug("sfs_getattr");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = GetAttrAction(
-    //     ino, 
-    //     FileInfoContract(),
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     (void)fi;
     Inode& inode = get_inode(ino);
     struct stat attr;
@@ -395,23 +378,6 @@ out_err:
 static void sfs_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
                         int valid, fuse_file_info *fi) 
 {
-    // InternalDebug("sfs_setattr");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = SetAttrAction(
-    //     ino, 
-    //     *attr,
-    //     FileInfoContract(), 
-    //     valid,
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     (void) ino;
     do_setattr(req, ino, attr, valid, fi);
 }
@@ -491,18 +457,6 @@ static int do_lookup(fuse_ino_t parent, const char *name,
 
 static void sfs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name) 
 {
-    // InternalDebug("sfs_lookup");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = LookupAction(parent, name, callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     fuse_entry_param e {};
     auto err = do_lookup(parent, name, &e);
     if (err == ENOENT) {
@@ -556,18 +510,6 @@ out:
 static void sfs_mknod(fuse_req_t req, fuse_ino_t parent, const char *name,
                       mode_t mode, dev_t rdev) 
 {
-    // InternalDebug("sfs_mknod");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = MakeNodeAction(parent, name, mode, rdev, callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     mknod_symlink(req, parent, name, mode, rdev, nullptr);
 }
 
@@ -575,18 +517,6 @@ static void sfs_mknod(fuse_req_t req, fuse_ino_t parent, const char *name,
 static void sfs_mkdir(fuse_req_t req, fuse_ino_t parent, const char *name,
                       mode_t mode) 
 {
-    // InternalDebug("sfs_mkdir");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = MakedirAction(parent, name, mode, callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     mknod_symlink(req, parent, name, S_IFDIR | mode, 0, nullptr);
 }
 
@@ -594,18 +524,6 @@ static void sfs_mkdir(fuse_req_t req, fuse_ino_t parent, const char *name,
 static void sfs_symlink(fuse_req_t req, const char *link, fuse_ino_t parent,
                         const char *name) 
 {
-    // InternalDebug("sfs_symlink");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = SymLinkAction(link, parent, name, callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     mknod_symlink(req, parent, name, S_IFLNK, 0, link);
 }
 
@@ -613,18 +531,6 @@ static void sfs_symlink(fuse_req_t req, const char *link, fuse_ino_t parent,
 static void sfs_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
                      const char *name) 
 {
-    // InternalDebug("sfs_link");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = LinkAction(ino, parent, name, callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     Inode& inode = get_inode(ino);
     Inode& inode_p = get_inode(parent);
     fuse_entry_param e {};
@@ -658,11 +564,10 @@ static void sfs_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
 
 static void sfs_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name) 
 {
-    // InternalDebug("sfs_rmdir");
-
     // Ransomware monitor
     pid_t callingPid = getpid();
-    FsAction action = RmdirAction(parent, name, callingPid);
+    string directoryPath(name);
+    FsAction action = RmdirAction(directoryPath, callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
@@ -681,18 +586,6 @@ static void sfs_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
                        fuse_ino_t newparent, const char *newname,
                        unsigned int flags) 
 {
-    // InternalDebug("sfs_rename");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = RenameAction(parent, name, newparent, newname, flags, callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     Inode& inode_p = get_inode(parent);
     Inode& inode_np = get_inode(newparent);
     if (flags) {
@@ -707,18 +600,6 @@ static void sfs_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
 
 static void sfs_unlink(fuse_req_t req, fuse_ino_t parent, const char *name) 
 {
-    // InternalDebug("sfs_unlink");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = UnLinkAction(parent, name, callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     Inode& inode_p = get_inode(parent);
     auto res = unlinkat(inode_p.fd, name, 0);
     fuse_reply_err(req, res == -1 ? errno : 0);
@@ -751,11 +632,9 @@ static void forget_one(fuse_ino_t ino, uint64_t n)
 
 static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup) 
 {
-    // InternalDebug("sfs_forget");
-
     // Ransomware monitor
     pid_t callingPid = getpid();
-    FsAction action = ForgetAction(ino, nlookup, callingPid);
+    FsAction action = ForgetAction("temp", callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
@@ -771,8 +650,6 @@ static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup)
 static void sfs_forget_multi(fuse_req_t req, size_t count,
                              fuse_forget_data *forgets) 
 {
-    // InternalDebug("sfs_forget_multi");
-
     for (int i = 0; i < (int)count; i++)
         forget_one(forgets[i].ino, forgets[i].nlookup);
     fuse_reply_none(req);
@@ -781,18 +658,6 @@ static void sfs_forget_multi(fuse_req_t req, size_t count,
 
 static void sfs_readlink(fuse_req_t req, fuse_ino_t ino) 
 {
-    // InternalDebug("sfs_readlink");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = ReadLinkAction(ino, callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     Inode& inode = get_inode(ino);
     char buf[PATH_MAX + 1];
     auto res = readlinkat(inode.fd, "", buf, sizeof(buf));
@@ -831,21 +696,6 @@ static DirHandle *get_dir_handle(fuse_file_info *fi)
 
 static void sfs_opendir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
-    // InternalDebug("sfs_opendir");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = OpenDirAction(
-    //     ino, 
-    //     FileInfoContract(), 
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     Inode& inode = get_inode(ino);
     auto d = new (nothrow) DirHandle;
     if (d == nullptr) {
@@ -998,23 +848,6 @@ error:
 static void sfs_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
                         off_t offset, fuse_file_info *fi) 
 {
-    // InternalDebug("sfs_readdir");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = ReadDirAction(
-    //     ino, 
-    //     size,
-    //     offset,
-    //     FileInfoContract(), 
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     // operation logging is done in readdir to reduce code duplication
     do_readdir(req, ino, size, offset, fi, 0);
 }
@@ -1023,23 +856,6 @@ static void sfs_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
 static void sfs_readdirplus(fuse_req_t req, fuse_ino_t ino, size_t size,
                             off_t offset, fuse_file_info *fi) 
 {
-    // InternalDebug("sfs_readdirplus");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = ReadDirPlusAction(
-    //     ino,
-    //     size,
-    //     offset,
-    //     FileInfoContract(), 
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     // operation logging is done in readdir to reduce code duplication
     do_readdir(req, ino, size, offset, fi, 1);
 }
@@ -1047,21 +863,6 @@ static void sfs_readdirplus(fuse_req_t req, fuse_ino_t ino, size_t size,
 
 static void sfs_releasedir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 {
-    // InternalDebug("sfs_releasedir");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = ReleaseDirAction(
-    //     ino, 
-    //     FileInfoContract(), 
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     (void) ino;
     auto d = get_dir_handle(fi);
     delete d;
@@ -1072,23 +873,6 @@ static void sfs_releasedir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
                        mode_t mode, fuse_file_info *fi) 
 {
-    // InternalDebug("sfs_create");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = CreateAction(
-    //     parent,
-    //     name,
-    //     mode, 
-    //     FileInfoContract(), 
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-    
     Inode& inode_p = get_inode(parent);
 
     auto fd = openat(inode_p.fd, name,
@@ -1116,22 +900,6 @@ static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
 static void sfs_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
                          fuse_file_info *fi) 
 {
-    // InternalDebug("sfs_fsyncdir");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = FsyncDirAction(
-    //     ino, 
-    //     datasync,
-    //     FileInfoContract(), 
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     (void) ino;
     int res;
     int fd = dirfd(get_dir_handle(fi)->dp);
@@ -1145,21 +913,6 @@ static void sfs_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
 
 static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
-    // InternalDebug("sfs_open");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = OpenAction(
-    //     ino,
-    //     FileInfoContract(), 
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     Inode& inode = get_inode(ino);
 
     /* With writeback cache, kernel may send read requests even
@@ -1199,21 +952,6 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 
 static void sfs_release(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
-    // InternalDebug("sfs_release");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = ReleaseAction(
-    //     ino,
-    //     FileInfoContract(), 
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     (void) ino;
     close(fi->fh);
     fuse_reply_err(req, 0);
@@ -1222,21 +960,6 @@ static void sfs_release(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 
 static void sfs_flush(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 {
-    // InternalDebug("sfs_flush");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = FlushAction(
-    //     ino,
-    //     FileInfoContract(), 
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     (void) ino;
     auto res = close(dup(fi->fh));
     fuse_reply_err(req, res == -1 ? errno : 0);
@@ -1246,22 +969,6 @@ static void sfs_flush(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 static void sfs_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
                       fuse_file_info *fi)
 {
-    // InternalDebug("sfs_fsync");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = FsyncDirAction(
-    //     ino,
-    //     datasync,
-    //     FileInfoContract(), 
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     (void) ino;
     int res;
     if (datasync)
@@ -1286,23 +993,6 @@ static void do_read(fuse_req_t req, size_t size, off_t off, fuse_file_info *fi)
 static void sfs_read(fuse_req_t req, fuse_ino_t ino, size_t size, off_t off,
                      fuse_file_info *fi) 
 {
-    // InternalDebug("sfs_read");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = ReadAction(
-    //     ino,
-    //     size,
-    //     off,
-    //     FileInfoContract(), 
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     (void) ino;
     do_read(req, size, off, fi);
 }
@@ -1326,8 +1016,6 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi)
 {
-    // InternalDebug("sfs_write_buf");
-
     uint64_t fd = fi->fh;
 
     int maxFilePath = 4096;
@@ -1362,20 +1050,6 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
 static void sfs_statfs(fuse_req_t req, fuse_ino_t ino) 
 {
-    // InternalDebug("sfs_statfs");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = StatFsAction(
-    //     ino,
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     struct statvfs stbuf;
 
     auto res = fstatvfs(get_fs_fd(ino), &stbuf);
@@ -1390,24 +1064,6 @@ static void sfs_statfs(fuse_req_t req, fuse_ino_t ino)
 static void sfs_fallocate(fuse_req_t req, fuse_ino_t ino, int mode,
                           off_t offset, off_t length, fuse_file_info *fi) 
 {
-    // InternalDebug("sfs_fallocate");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = FallocateAction(
-    //     ino,
-    //     mode,
-    //     offset,
-    //     length,
-    //     FileInfoContract(), 
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     (void) ino;
     if (mode) {
         fuse_reply_err(req, EOPNOTSUPP);
@@ -1422,22 +1078,6 @@ static void sfs_fallocate(fuse_req_t req, fuse_ino_t ino, int mode,
 static void sfs_flock(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi,
                       int op) 
 {
-    // InternalDebug("sfs_flock");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = FlockAction(
-    //     ino,
-    //     FileInfoContract(), 
-    //     op,
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     (void) ino;
     auto res = flock(fi->fh, op);
     fuse_reply_err(req, res == -1 ? errno : 0);
@@ -1448,22 +1088,6 @@ static void sfs_flock(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi,
 static void sfs_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
                          size_t size) 
 {
-    // InternalDebug("sfs_getxattr");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = GetxAttrAction(
-    //     ino,
-    //     name,
-    //     size,
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     char *value = nullptr;
     Inode& inode = get_inode(ino);
     ssize_t ret;
@@ -1508,21 +1132,6 @@ out:
 
 static void sfs_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size) 
 {
-    // InternalDebug("sfs_listxattr");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = ListxAttrAction(
-    //     ino,
-    //     size,
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     char *value = nullptr;
     Inode& inode = get_inode(ino);
     ssize_t ret;
@@ -1567,24 +1176,6 @@ out:
 static void sfs_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
                          const char *value, size_t size, int flags) 
 {
-    // InternalDebug("sfs_setxattr");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = ListxAttrAction(
-    //     ino,
-    //     name,
-    //     value,
-    //     size,
-    //     flags,
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     Inode& inode = get_inode(ino);
     ssize_t ret;
     int saverr;
@@ -1601,21 +1192,6 @@ static void sfs_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
 
 static void sfs_removexattr(fuse_req_t req, fuse_ino_t ino, const char *name) 
 {
-    // InternalDebug("sfs_removexattr");
-
-    // // Ransomware monitor
-    // pid_t callingPid = getpid();
-    // FsAction action = RemovexAttrAction(
-    //     ino,
-    //     name,
-    //     callingPid);
-
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     return;
-    // }
-
     char procname[64];
     Inode& inode = get_inode(ino);
     ssize_t ret;
