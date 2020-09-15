@@ -1332,7 +1332,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     int maxFilePath = 4096;
     char buf[64];
-    sprintf(buf, "/proc/self/fd/%i", fi->fh);
+    sprintf(buf, "/proc/self/fd/%i", (int)fd);
     char path[maxFilePath];
     readlink(buf, path, maxFilePath);
     string filePath(path);
