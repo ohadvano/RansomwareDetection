@@ -48,6 +48,16 @@ namespace Heuristics
             TempWriter* _tempWriter;
             Logger* _logger;
 
+            string GetFilePathFromWriteAction(WriteBufAction* writeAction)
+            {
+                return "x";
+            }
+
+            string GetNewContent(string filePath, WriteBufAction* writeAction)
+            {
+                return "x";
+            }
+            
 			uint8* ReadFile(string filePath)
 			{
 				string res;
