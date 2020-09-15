@@ -48,15 +48,25 @@ namespace Heuristics
             TempWriter* _tempWriter;
             Logger* _logger;
 
-            uint8* ReadFile(string filePath)
-            {
-                return 0;
-            }
+			uint8* ReadFile(string filePath)
+			{
+				string res;
+				string full_res;
+				ifstream file(filePath);
+				while (getline(file, res))
+				{
+					full_res = full_res + res;
+				}
+				file.close();
+				uint8 *full_res_conv = new unsigned char[full_res.length() + 1];
+				strcpy((char *)full_res_conv, full_res.c_str());
+				return full_res_conv;
+			}
 
-            int GetLength(uint8* byteStream)
-            {
-                return 0;
-            }
+			int GetLength(uint8* byteStream)
+			{
+				return strlen((char*)byteStream);
+			}
 
             double Abs(double input)
             {
@@ -123,7 +133,7 @@ namespace Heuristics
                     {
                         full_res=full_res+res;
                     }
-
+					remove(_tmpFile);
                     return full_res;	
                 }
             }
@@ -242,13 +252,14 @@ namespace Heuristics
                     uint8* inputBefore = ReadFile(filePath);
                     int lengthBefore = GetLength(inputBefore);
                     double enthropyBefore = CalculateEntropy(inputBefore, lengthBefore);
+					delete[] inputBefore;
 
                     // After
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
                     uint8* inputAfter = ReadFile(_tempWriter->TempFilePath);
                     int lengthAfter = GetLength(inputAfter);
                     double enthropyAfter = CalculateEntropy(inputAfter, lengthAfter);
-
+					delete[] inputAfter;
                     if (Abs(enthropyBefore - enthropyAfter) < _threshold)
                     {
                         _writeBufHistory->AddNewAction(writeAction);
