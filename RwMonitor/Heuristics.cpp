@@ -183,7 +183,7 @@ namespace Heuristics
                     WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
 
                     string filePath = writeAction->FilePath;
-                    _logger->WriteLog("[" + _heuristicName + "][File path: " + forgetAction->FilePath + "]");
+                    _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
 
                     string beforeType = RunFileUtility(filePath);
                     _logger->WriteLog("[" + _heuristicName + "][Type before: " + beforeType + "]");
@@ -242,7 +242,7 @@ namespace Heuristics
                     WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
 
                     string filePath = writeAction->FilePath;
-                    _logger->WriteLog("[" + _heuristicName + "][File path: " + forgetAction->FilePath + "]");
+                    _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
 
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
 
@@ -443,7 +443,7 @@ namespace Heuristics
 
                     WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
 
-                    string filePath = GetFilePathFromWriteAction(writeAction);
+                    string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + filePath + "]");
 
                     string newContent = GetNewContent(filePath, writeAction);
