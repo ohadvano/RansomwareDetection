@@ -42,6 +42,8 @@ namespace RwMonitor
                     fprintf(stderr, "error: _actionLock mutex init has failed");
                     exit(1);
                 }
+
+                _logger->WriteLog("Ransomware monitor started");
             }
 
             RiskStatus CanPerform(FsAction action)
@@ -55,14 +57,15 @@ namespace RwMonitor
                 pthread_mutex_lock(&_actionLock);
                 _isInternal = true;
 
+                string actionName = action.ActionName;
+                _logger->WriteLog("New action detected in monitor: " + actionName);
+
                 // Calculate the new threshold after the action came to the system
                 for (std::list<HeuristicBase*>::iterator it = _heuristics->begin(); it != _heuristics->end(); ++it)
                 {
                     (*it)->CalculateTH(action);
                 }
-
-                // Now new thresholds are updated
-                
+               
                 // Decide if the system is in risk state
                 bool isRisky = IsSystemAtRiskWithNewThresholds();
 
@@ -99,6 +102,8 @@ namespace RwMonitor
 
             ~RwThreatDetector()
             {
+                _logger->WriteLog("Ransomware monitor exiting");
+
                 pthread_mutex_unlock(&_actionLock);
                 pthread_mutex_destroy(&_actionLock);
 
@@ -133,24 +138,53 @@ namespace RwMonitor
                     idx++;
                 }
 
-                return CheckCondition1(thresholds) ||
-                       CheckCondition2(thresholds) ||
-                       CheckCondition3(thresholds);
+                bool isThreat = CheckCondition1(thresholds) ||
+                                CheckCondition2(thresholds) ||
+                                CheckCondition3(thresholds);
+
+                string resultAsString = isThreat ? "Risk" : "Safe";
+                _logger->WriteLog("Action resolution: " + resultAsString);
+
+                return isThreat;
             }
 
             bool CheckCondition1(double thresholds[])
             {
-                return false;
+                string conditionDescription = "Condition1";
+                _logger->WriteLog("Checking action with: " + conditionDescription);
+
+                bool result = false;
+
+                string resultAsString = result ? "Risk" : "Safe";
+                _logger->WriteLog("Condition result: " + resultAsString);
+
+                return result;
             }
 
             bool CheckCondition2(double thresholds[])
             {
-                return false;
+                string conditionDescription = "Condition2";
+                _logger->WriteLog("Checking action with: " + conditionDescription);
+
+                bool result = false;
+
+                string resultAsString = result ? "Risk" : "Safe";
+                _logger->WriteLog("Condition result: " + resultAsString);
+                
+                return result;
             }
 
             bool CheckCondition3(double thresholds[])
             {
-                return false;
+                string conditionDescription = "Condition3";
+                _logger->WriteLog("Checking action with: " + conditionDescription);
+
+                bool result = false;
+
+                string resultAsString = result ? "Risk" : "Safe";
+                _logger->WriteLog("Condition result: " + resultAsString);
+                
+                return result;
             }
     };
     

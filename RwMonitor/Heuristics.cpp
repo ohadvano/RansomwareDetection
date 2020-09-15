@@ -111,17 +111,23 @@ namespace Heuristics
 
             string GetThAsString()
             {
-
+                return GetDoubleAsString(heuristicTH);
             }
 
             string GetIntAsString(int val)
             {
-                
+                ostringstream strs;
+                strs << val;
+                string str = strs.str();
+                return str;
             }
 
             string GetDoubleAsString(double val)
             {
-
+                ostringstream strs;
+                strs << val;
+                string str = strs.str();
+                return str;
             }
         private:
             char const* _tmpFile = "Run//temp_file_res.txt";
