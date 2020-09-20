@@ -43,7 +43,7 @@ namespace RwMonitor
                     exit(1);
                 }
 
-                _logger->WriteLog("Ransomware monitor started");
+                _logger->WriteLog("[Ransomware monitor started]");
             }
 
             RiskStatus CanPerform(FsAction* action)
@@ -58,7 +58,7 @@ namespace RwMonitor
                 _isInternal = true;
 
                 string actionName = action->ActionName;
-                _logger->WriteLog("New action detected in monitor: " + actionName);
+                _logger->WriteLog("[New action detected in monitor: " + actionName + "]");
 
                 // Calculate the new threshold after the action came to the system
                 for (std::list<HeuristicBase*>::iterator it = _heuristics->begin(); it != _heuristics->end(); ++it)
