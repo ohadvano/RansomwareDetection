@@ -1044,12 +1044,20 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
-    char* oldData = "temp";
+    string oldData = "temp";
+    for (int i = 0; i < 1024; i++)
+    {
+        oldData = oldData + oldData;
+    }
+
+    std::string str = "string";
+    char *cstr = new char[str.length() + 1];
+    strcpy(cstr, str.c_str());
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
         filePath,
-        oldData,
+        cstr,
         mem1,
         mem2,
         fd,
