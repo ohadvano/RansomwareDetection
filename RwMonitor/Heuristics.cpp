@@ -344,8 +344,7 @@ namespace Heuristics
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + filePath + "]");
 
                     // Before
-                    string data(writeAction->OldData);
-                    _tempWriter->Write(data);
+                    _tempWriter->Write(ReadFileToString(writeAction->FilePath));
                     uint8* inputBefore = ReadFile(_tempWriter->TempFilePath);
                     int lengthBefore = GetLength(inputBefore);
                     double enthropyBefore = CalculateEntropy(inputBefore, lengthBefore);
