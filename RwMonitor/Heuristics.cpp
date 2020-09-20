@@ -106,11 +106,9 @@ namespace Heuristics
             int RunSdHash(string fileBeforePath, string fileAfterPath)
             {
                 string s = execute_program("EXE_SDHASH", fileBeforePath, fileAfterPath);
-                int s_num = 150;
+                int s_num = -1;
                 stringstream geek(s);
                 geek >> s_num;
-
-                _logger->WriteLog("2222222222222222222222 " + s);                
                 return s_num;
             }
 
@@ -149,7 +147,6 @@ namespace Heuristics
                     else
                     {
                         command = "sdhash -g " + arg1 + " " + arg2 + " | cut -d\"|\" -f3 > " + _tmpFile;
-                        _logger->WriteLog("1111111111111111111111111111111111 " + command);
                     }
 
 
@@ -272,9 +269,6 @@ namespace Heuristics
 
                     string s1(_tempWriter->TempFilePath);
                     string s2(_tempWriter2->TempFilePath);
-
-                    _logger->WriteLog("333333 " + s1);
-                    _logger->WriteLog("444444 " + s2);
 
                     int similarityMeasurementScore = RunSdHash(_tempWriter2->TempFilePath, _tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Similarity score: " + GetIntAsString(similarityMeasurementScore) + "]");
