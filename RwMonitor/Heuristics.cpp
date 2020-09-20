@@ -106,7 +106,7 @@ namespace Heuristics
             int RunSdHash(string fileBeforePath, string fileAfterPath)
             {
                 string s = execute_program("EXE_SDHASH", fileBeforePath, fileAfterPath);
-                int s_num = 0;
+                int s_num = 150;
                 stringstream geek(s);
                 geek >> s_num;
                 return s_num;
