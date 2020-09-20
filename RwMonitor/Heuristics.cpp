@@ -188,6 +188,8 @@ namespace Heuristics
 
                     WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
 
+                    _logger->WriteLog("test");
+
                     string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
 
