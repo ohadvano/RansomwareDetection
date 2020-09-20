@@ -48,7 +48,7 @@ namespace TempFile
                 }
 
                 std::ofstream file;
-                file.open(TempFilePath, std::ios_base::app);
+                file.open(TempFilePath, std::ofstream::trunc);
                 file << fileContent << endl;
                 file.close();
             }
