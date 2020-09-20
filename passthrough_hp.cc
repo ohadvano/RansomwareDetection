@@ -1045,9 +1045,9 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
     string oldData = "temp";
-    for (int i = 0; i < 1024; i++)
+    for (int i = 0; i < 512; i++)
     {
-        oldData = oldData + oldData;
+        oldData = oldData + "temp";
     }
 
     std::string str = "string";
