@@ -5,92 +5,101 @@ echo "starting"
 
 #FileTypeChangesHeuristic - same type
 
-echo "#include <string>
-#include <ctime>
-#include <fstream>
-#include <iostream>
-#include <time.h>
-
-
-using namespace std;
-# define LOG_NAME asdinhasdunhasudnhais
-# define LOG_PATH asdoasdoiandoasdasdoasodasd
-#define DTTMFMT aspdmiasidmaosidaoisdo
-#define DTTMSZ 21
-
-
-// Helper function for textual date and time.
-// DTTMSZ must allow extra character for the null terminator.
-
-static char *getDtTm (char *buff) {
-    time_t t = time (0);
-    strftime (buff, DTTMSZ, DTTMFMT, localtime (&t));
-    return buff;
-}
-
-
-
-namespace Log
-{
-    class Logger
-    {
-        public:
-            char* LogPath;
-
-            Logger(char* logPath)
-            {
-				if (std::ifstream(LOG_NAME))
-				{
-					return;
-					
-				}
-				else
-				{
-					std::ofstream file{ LOG_NAME };
-					LogPath = logPath;
-				}
-            }
-
-            void WriteLog(string logInfo)
-            {
-				if (!std::ifstream(LOG_NAME))
-				{
-				return;			
-				}
-   				char buff[DTTMSZ];
-				std::ofstream file;
-				file.open(LOG_NAME, std::ios_base::app);
-    				file << getDtTm (buff) << logInfo << endl;
-				file.close();
-
-			}
-
-            void WriteError(string logError)
-            {
-				if (!std::ifstream(LOG_NAME))
-				{
-				return;
-				}
-   				char buff[DTTMSZ];
-				std::ofstream file;
-				file.open(LOG_NAME, std::ios_base::app);
-    				file << getDtTm (buff) << <<logError << endl;
-				file.close();
-			}
-    };
-}
-
-using namespace Log;
-int main()
-{
-
-	cout << asdasd<< endl;
-        Logger*  new_logger= new Logger(LOG_PATH);
-	new_logger->WriteLog(asdasdasdasdasdasdasdasdasdasdasd);
-	new_logger->WriteLog(asdasdasdasdasdasdasdavda;sdimapsvid);
-new_logger->WriteError(asdasjdnoasdnhiuashdniuashdiuashdi);
-	return 0;
-}
+echo "#ifndef _HLOGGER\n\
+#define _HLOGGER\n\
+\n\
+#include <string>\n\
+#include <ctime>\n\
+#include <fstream>\n\
+#include <iostream>\n\
+#include <time.h>\n\
+\n\
+using namespace std;\n\
+\n\
+#define DTTMFMTasdasdjuandiuansodiuasodiunad\n\
+#define DTTMSZ 21\n\
+\n\
+namespace Log\n\
+{\n\
+    class Logger\n\
+    {\n\
+        public:\n\
+            char* LogPath;\n\
+\n\
+            Logger(char* logPath)\n\
+            {\n\
+                string path = asdasdjuandiuansodiuasodiunad;\n\
+                path += logPath;\n\
+\n\
+                time_t rawtime;\n\
+                struct tm * timeinfo;\n\
+                char buffer[80];\n\
+\n\
+                time (&rawtime);\n\
+                timeinfo = localtime(&rawtime);\n\
+\n\
+                strftime(buffer,sizeof(buffer),asdasdjuandiuansodiuasodiunad,timeinfo);\n\
+                std::string date(buffer);\n\
+  \n\
+                path += date;\n\
+\n\
+                char* finalLogPath = (char*)malloc(path.length() + 1);\n\
+                strcpy(finalLogPath, path.c_str()); \n\
+\n\
+                LogPath = finalLogPath;\n\
+\n\
+                if (std::ifstream(LogPath))\n\
+                {\n\
+                    return;\n\
+                }\n\
+                else\n\
+                {\n\
+                    std::ofstream file { LogPath };\n\
+                }\n\
+\n\
+                WriteLog(asdasdjuandiuansodiuasodiunad);\n\
+            }\n\
+\n\
+            void WriteLog(string logInfo)\n\
+            {\n\
+                if (!std::ifstream(LogPath))\n\
+                {\n\
+                    return;			\n\
+                }\n\
+\n\
+                char buff[DTTMSZ];\n\
+                std::ofstream file;\n\
+                file.open(LogPath, std::ios_base::app);\n\
+                file << asdasdjuandiuansodiuasodiunad << logInfo << endl;\n\
+                file.close();            \n\
+            }\n\
+\n\
+            void WriteError(string logError)\n\
+            {\n\
+                if (!std::ifstream(LogPath))\n\
+                {\n\
+                    return;\n\
+                }\n\
+\n\
+                char buff[DTTMSZ];\n\
+                std::ofstream file;\n\
+                file.open(LogPath, std::ios_base::app);\n\
+                file << asdasdjuandiuansodiuasodiunad << logError << endl;\n\
+                file.close();\n\
+            }\n\
+\n\
+        private:\n\
+            char* getDtTm (char *buff) \n\
+            {\n\
+                time_t t = time (0);\n\
+                strftime(buff, DTTMSZ, DTTMFMT, localtime(&t));\n\
+                buff[strlen(buff) - 1] = 0;\n\
+                return buff;\n\
+            }\n\
+    };\n\
+}\n\
+\n\
+#endif\n\
 " > oz1.txt    # TH=4
 
 echo "done"
