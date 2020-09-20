@@ -1034,14 +1034,14 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
     pid_t callingPid = getpid();
-    FsAction action = WriteBufAction(
+    FsAction* action = new WriteBufAction(
         filePath,
         mem1,
         mem2,
         fd,
         callingPid);
 
-    bool shouldIgnoreRequest = PerformRansomwareValidations(&action) == false;
+    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
     {
         return;
