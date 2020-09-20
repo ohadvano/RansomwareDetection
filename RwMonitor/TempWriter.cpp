@@ -47,7 +47,6 @@ namespace TempFile
                     return;
                 }
 
-                char buff[DTTMSZ];
                 std::ofstream file;
                 file.open(TempFilePath, std::ios_base::app);
                 file << fileContent << endl;
