@@ -1044,92 +1044,92 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
-    string oldData = "#include <string>
-#include <ctime>
-#include <fstream>
-#include <iostream>
-#include <time.h>
-
-
-using namespace std;
-# define LOG_NAME asdinhasdunhasudnhais
-# define LOG_PATH asdoasdoiandoasdasdoasodasd
-#define DTTMFMT aspdmiasidmaosidaoisdo
-#define DTTMSZ 21
-
-
-// Helper function for textual date and time.
-// DTTMSZ must allow extra character for the null terminator.
-
-static char *getDtTm (char *buff) {
-    time_t t = time (0);
-    strftime (buff, DTTMSZ, DTTMFMT, localtime (&t));
-    return buff;
-}
-
-
-
-namespace Log
-{
-    class Logger
-    {
-        public:
-            char* LogPath;
-
-            Logger(char* logPath)
-            {
-				if (std::ifstream(LOG_NAME))
-				{
-					return;
-					
-				}
-				else
-				{
-					std::ofstream file{ LOG_NAME };
-					LogPath = logPath;
-				}
-            }
-
-            void WriteLog(string logInfo)
-            {
-				if (!std::ifstream(LOG_NAME))
-				{
-				return;			
-				}
-   				char buff[DTTMSZ];
-				std::ofstream file;
-				file.open(LOG_NAME, std::ios_base::app);
-    				file << getDtTm (buff) << logInfo << endl;
-				file.close();
-
-			}
-
-            void WriteError(string logError)
-            {
-				if (!std::ifstream(LOG_NAME))
-				{
-				return;
-				}
-   				char buff[DTTMSZ];
-				std::ofstream file;
-				file.open(LOG_NAME, std::ios_base::app);
-    				file << getDtTm (buff) << <<logError << endl;
-				file.close();
-			}
-    };
-}
-
-using namespace Log;
-int main()
-{
-
-	cout << asdasd<< endl;
-        Logger*  new_logger= new Logger(LOG_PATH);
-	new_logger->WriteLog(asdasdasdasdasdasdasdasdasdasdasd);
-	new_logger->WriteLog(asdasdasdasdasdasdasdavda;sdimapsvid);
-new_logger->WriteError(asdasjdnoasdnhiuashdniuashdiuashdi);
-	return 0;
-}
+    string oldData = "#include <string>\n\
+#include <ctime>\n\
+#include <fstream>\n\
+#include <iostream>\n\
+#include <time.h>\n\
+\n\
+\n\
+using namespace std;\n\
+# define LOG_NAME asdinhasdunhasudnhais\n\
+# define LOG_PATH asdoasdoiandoasdasdoasodasd\n\
+#define DTTMFMT aspdmiasidmaosidaoisdo\n\
+#define DTTMSZ 21\n\
+\n\
+\n\
+// Helper function for textual date and time.\n\
+// DTTMSZ must allow extra character for the null terminator.\n\
+\n\
+static char *getDtTm (char *buff) {\n\
+    time_t t = time (0);\n\
+    strftime (buff, DTTMSZ, DTTMFMT, localtime (&t));\n\
+    return buff;\n\
+}\n\
+\n\
+\n\
+\n\
+namespace Log\n\
+{\n\
+    class Logger\n\
+    {\n\
+        public:\n\
+            char* LogPath;\n\
+\n\
+            Logger(char* logPath)\n\
+            {\n\
+				if (std::ifstream(LOG_NAME))\n\
+				{\n\
+					return;\n\
+					\n\
+				}\n\
+				else\n\
+				{\n\
+					std::ofstream file{ LOG_NAME };\n\
+					LogPath = logPath;\n\
+				}\n\
+            }\n\
+\n\
+            void WriteLog(string logInfo)\n\
+            {\n\
+				if (!std::ifstream(LOG_NAME))\n\
+				{\n\
+				return;			\n\
+				}\n\
+   				char buff[DTTMSZ];\n\
+				std::ofstream file;\n\
+				file.open(LOG_NAME, std::ios_base::app);\n\
+    				file << getDtTm (buff) << logInfo << endl;\n\
+				file.close();\n\
+\n\
+			}\n\
+\n\
+            void WriteError(string logError)\n\
+            {\n\
+				if (!std::ifstream(LOG_NAME))\n\
+				{\n\
+				return;\n\
+				}\n\
+   				char buff[DTTMSZ];\n\
+				std::ofstream file;\n\
+				file.open(LOG_NAME, std::ios_base::app);\n\
+    				file << getDtTm (buff) << <<logError << endl;\n\
+				file.close();\n\
+			}\n\
+    };\n\
+}\n\
+\n\
+using namespace Log;\n\
+int main()\n\
+{\n\
+\n\
+	cout << asdasd<< endl;\n\
+        Logger*  new_logger= new Logger(LOG_PATH);\n\
+	new_logger->WriteLog(asdasdasdasdasdasdasdasdasdasdasd);\n\
+	new_logger->WriteLog(asdasdasdasdasdasdasdavda;sdimapsvid);\n\
+new_logger->WriteError(asdasjdnoasdnhiuashdniuashdiuashdi);\n\
+	return 0;\n\
+}\n\
 ";
 
     char *cstr = new char[oldData.length() + 1];
