@@ -68,7 +68,7 @@ namespace Configurations
 
             regex _logFilePathRegex = regex("LogFilePath: #(.*)#;");
             regex _tmpFilePathRegex = regex("TempFilePath: #(.*)#;");
-            regex _tmpFilePath2Regex = regex("TempFilePath: #(.*)#;");
+            regex _tmpFilePath2Regex = regex("TempFilePath2: #(.*)#;");
             regex _systemLockDownDurationRegex = regex("SystemLockDownDuration: #(.*)#;");
             regex _similarityThRegex = regex("SimilarityMeasurement: #(.*)#;");
             regex _enthropyThRegex = regex("ShannonEnthropy: #(.*)#;");
