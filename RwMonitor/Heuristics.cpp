@@ -273,8 +273,8 @@ namespace Heuristics
                     string s1(_tempWriter->TempFilePath);
                     string s2(_tempWriter2->TempFilePath);
 
-                    _logger("333333 " + s1);
-                    _logger("444444 " + s2);
+                    _logger->WriteLog("333333 " + s1);
+                    _logger->WriteLog("444444 " + s2);
 
                     int similarityMeasurementScore = RunSdHash(_tempWriter2->TempFilePath, _tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Similarity score: " + GetIntAsString(similarityMeasurementScore) + "]");
