@@ -267,13 +267,14 @@ namespace Heuristics
                     string data(writeAction->OldData);
                     _tempWriter2->Write(data);
 
-                    string s1(_tempWriter->TempFilePath);
-                    string s2(_tempWriter2->TempFilePath);
-
                     int similarityMeasurementScore = RunSdHash(_tempWriter2->TempFilePath, _tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Similarity score: " + GetIntAsString(similarityMeasurementScore) + "]");
 
-                    if (similarityMeasurementScore < _threshold)
+                    if (similarityMeasurementScore == -1)
+                    {
+                        // TODO
+                    }
+                    else if (similarityMeasurementScore < _threshold)
                     {
                         _logger->WriteLog("[" + _heuristicName + "][Similarity measurement anormaliy detected]");
                         _writeBufHistory->AddNewAction(writeAction);
