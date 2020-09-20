@@ -73,6 +73,22 @@ namespace Heuristics
 				return full_res_conv;
 			}
 
+            string ReadFileToString(string filePath)
+			{
+				string res;
+				string full_res;
+				ifstream file(filePath);
+
+				while (getline(file, res))
+				{
+					full_res = full_res + res;
+				}
+
+				file.close();
+
+                return full_res;
+			}
+
 			int GetLength(uint8* byteStream)
 			{
 				return strlen((char*)byteStream);
@@ -263,9 +279,7 @@ namespace Heuristics
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
 
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
-
-                    string data(writeAction->OldData);
-                    _tempWriter2->Write(data);
+                    _tempWriter2->Write(ReadFileToString(writeAction->FilePath));
 
                     int similarityMeasurementScore = RunSdHash(_tempWriter2->TempFilePath, _tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Similarity score: " + GetIntAsString(similarityMeasurementScore) + "]");
