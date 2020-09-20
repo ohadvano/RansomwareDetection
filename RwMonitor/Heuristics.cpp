@@ -47,6 +47,8 @@ namespace Heuristics
             double heuristicTH = 0;
 
             TempWriter* _tempWriter;
+            TempWriter* _tempWriter2;
+
             Logger* _logger;
 
             string GetNewContent(string filePath, WriteBufAction* writeAction)
@@ -234,10 +236,12 @@ namespace Heuristics
     class SimilarityMeasurementHeuristic : public HeuristicBase
     {
         public:
-            SimilarityMeasurementHeuristic(Logger* logger, TempWriter* tempWriter, int threshold)
+            SimilarityMeasurementHeuristic(Logger* logger, TempWriter* tempWriter, TempWriter* tempWriter2, int threshold)
             {
                 
                 _tempWriter = tempWriter;
+                _tempWriter2 = tempWriter2;
+
                 _logger = logger;
                 _threshold = threshold;
 
@@ -259,7 +263,10 @@ namespace Heuristics
 
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
 
-                    int similarityMeasurementScore = RunSdHash(filePath, _tempWriter->TempFilePath);
+                    string data(writeAction->OldData);
+                    _tempWriter2->Write(data);
+
+                    int similarityMeasurementScore = RunSdHash(_tempWriter2->TempFilePath, _tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Similarity score: " + GetIntAsString(similarityMeasurementScore) + "]");
 
                     if (similarityMeasurementScore < _threshold)
@@ -319,8 +326,10 @@ namespace Heuristics
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + filePath + "]");
 
                     // Before
-                    uint8* inputBefore = ReadFile(filePath);
-                    int lengthBefore = GetLength(inputBefore);
+                    string data(writeAction->OldData);
+                    _tempWriter->Write(data);
+                    uint8* inputBefore = ReadFile(_tempWriter->TempFilePath);
+                    int lengthBefore = GetLength(inputAfter);
                     double enthropyBefore = CalculateEntropy(inputBefore, lengthBefore);
 					delete[] inputBefore;
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy before: " + GetDoubleAsString(enthropyBefore) + "]");

@@ -33,6 +33,9 @@ namespace RwMonitor
                 char* tempFilePath = _configurationProvider->GetTempFilePath();
                 _tempWriter = new TempWriter(tempFilePath);
 
+                char* tempFilePath2 = _configurationProvider->GetTempFilePath2();
+                _tempWriter2 = new TempWriter(tempFilePath2);
+
                 _heuristics = new list<HeuristicBase*>();
 
                 _isInternal = false;
@@ -95,6 +98,11 @@ namespace RwMonitor
                 return _tempWriter;
             }
 
+            TempWriter* GetTempWriter2()
+            {
+                return _tempWriter2;
+            }
+
             Logger* GetLogger()
             {
                 return _logger;
@@ -114,6 +122,7 @@ namespace RwMonitor
 
                 delete _heuristics;
                 delete _tempWriter;
+                delete _tempWriter2;
                 delete _logger;
             }
 
@@ -125,6 +134,7 @@ namespace RwMonitor
 
             Log::Logger* _logger;
             TempFile::TempWriter* _tempWriter;
+            TempFile::TempWriter* _tempWriter2;
             std::list<HeuristicBase*>* _heuristics;
 
             bool IsSystemAtRiskWithNewThresholds()
@@ -197,13 +207,14 @@ namespace RwMonitor
 
                 Log::Logger* logger = monitorToLoad->GetLogger();
                 TempFile::TempWriter* tempWriter = monitorToLoad->GetTempWriter();
+                TempFile::TempWriter* tempWriter2 = monitorToLoad->GetTempWriter2();
 
                 int similarityMeasurementHeuristicThreshold = cp->GetSimilarityThreshold();
                 int shannonEnthropyHeuristicThreshold = cp->GetEnthropyThreshold();
                 vector<string> suspiciousKeywords = cp->GetSuspiciousKeywords();
 
                 monitorToLoad->AddHeuristic(new FileTypeChangesHeuristic(logger, tempWriter));
-                monitorToLoad->AddHeuristic(new SimilarityMeasurementHeuristic(logger, tempWriter, similarityMeasurementHeuristicThreshold));
+                monitorToLoad->AddHeuristic(new SimilarityMeasurementHeuristic(logger, tempWriter, tempWriter2, similarityMeasurementHeuristicThreshold));
                 monitorToLoad->AddHeuristic(new ShannonEnthropyHeuristic(logger, tempWriter, shannonEnthropyHeuristicThreshold));
                 monitorToLoad->AddHeuristic(new FilesDeletionHeuristic(logger, tempWriter));
                 monitorToLoad->AddHeuristic(new SuspiciousKeywordsHeuristicThreshold(logger, tempWriter, suspiciousKeywords));

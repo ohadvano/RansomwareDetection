@@ -47,6 +47,11 @@ namespace Configurations
                 return _tmpFilePath;
             }
 
+            char* GetTempFilePath2()
+            {
+                return _tmpFilePath2;
+            }
+
             int GetSystemLockDownDuration()
             {
                 return _systemLockDownDuration;
@@ -59,9 +64,11 @@ namespace Configurations
             vector<string> _suspiciousKeywords;
             char* _logFilePath;
             char* _tmpFilePath;
+            char* _tmpFilePath2;
 
             regex _logFilePathRegex = regex("LogFilePath: #(.*)#;");
             regex _tmpFilePathRegex = regex("TempFilePath: #(.*)#;");
+            regex _tmpFilePath2Regex = regex("TempFilePath: #(.*)#;");
             regex _systemLockDownDurationRegex = regex("SystemLockDownDuration: #(.*)#;");
             regex _similarityThRegex = regex("SimilarityMeasurement: #(.*)#;");
             regex _enthropyThRegex = regex("ShannonEnthropy: #(.*)#;");
@@ -82,6 +89,7 @@ namespace Configurations
                 char* suspiciousKeywordsString = Parse(str, _suspiciousKeywordsRegex);
                 char* logFilePathString = Parse(str, _logFilePathRegex);
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
+                char* tmpFilePath2String = Parse(str, _tmpFilePath2Regex);
 
                 _similarityTh = ConvertToInt(similarityString);
                 _enthropyTh = ConvertToInt(enthropyString);
@@ -89,6 +97,7 @@ namespace Configurations
                 _suspiciousKeywords = SplitToWords(suspiciousKeywordsString, ',');
                 _logFilePath = logFilePathString;
                 _tmpFilePath = tmpFilePathString;
+                _tmpFilePath2 = tmpFilePath2String;
             }
 
             char* Parse(string str, regex reg)
