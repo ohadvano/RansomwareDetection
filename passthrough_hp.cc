@@ -1039,7 +1039,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     string test(tmpBuf);
     ostringstream strs;
-    strs << fd;
+    strs << (int)fd;
     string str = strs.str();
     _logger->WriteLog("111111: " + test + " xxx: " + str);
     
