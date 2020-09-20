@@ -1027,8 +1027,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char buf[64];
     sprintf(buf, "/proc/self/fd/%i", (int)fd);
     char path[maxFilePath];
-    int size = (int)readlink(buf, path, maxFilePath);
-    path[size] = 0;
+    int pathSize = (int)readlink(buf, path, maxFilePath);
+    path[pathSize] = 0;
     string filePath(path);
 
     char* mem1 = (char*)((in_buf->buf[0]).mem);
