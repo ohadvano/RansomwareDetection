@@ -224,6 +224,8 @@ namespace Heuristics
             {
                 int results = _writeBufHistory->LookBack(_lookBackTime);
                 _logger->WriteLog("[" + _heuristicName + "][Results found in history search: " + GetIntAsString(results) + "]");
+                
+                heuristicTH = results;
             }
     };
 
@@ -284,6 +286,8 @@ namespace Heuristics
             {
                 int results = _writeBufHistory->LookBack(_lookBackTime);
                 _logger->WriteLog("[" + _heuristicName + "][Results found in history search: " + GetIntAsString(results) + "]");
+
+                heuristicTH = results;
             }
     };
 
@@ -353,6 +357,8 @@ namespace Heuristics
             {
                 int results = _writeBufHistory->LookBack(_lookBackTime);
                 _logger->WriteLog("[" + _heuristicName + "][Results found in history search: " + GetIntAsString(results) + "]");
+
+                heuristicTH = results;
             }
 
             double CalculateEntropy(uint8* input, int length)
@@ -436,6 +442,8 @@ namespace Heuristics
 
                 int forgetResults = _forgetHistory->LookBack(_lookBackTime);
                 _logger->WriteLog("[" + _heuristicName + "][Forget results found in history search: " + GetIntAsString(forgetResults) + "]");
+
+                heuristicTH = results;
             }
     };
 
@@ -495,6 +503,7 @@ namespace Heuristics
             {
                 int results = _writeHistory->LookBack(_lookBackTime);
                 _logger->WriteLog("[" + _heuristicName + "][Results found in history search: " + GetIntAsString(results) + "]");
+                heuristicTH = results;
             }
     };
 }
