@@ -86,5 +86,3 @@ new_logger->WriteError(asdasjdnoasdnhiuashdniuashdiuashdi);\n\
 }\n\
 ";
 
-    char *cstr = new char[oldData.length() + 1];
-    strcpy(cstr, oldData.c_str());
