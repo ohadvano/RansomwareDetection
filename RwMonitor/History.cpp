@@ -55,7 +55,7 @@ namespace ActionsHistory
                 int count = 0;
                 time_t time_now = time(0);
 
-                for (std::list<ActionRecord<T>>::iterator it = _actionRecords->begin(); it != _actionRecords->end(); ++it)
+                for (auto it = _actionRecords->begin(); it != _actionRecords->end(); ++it)
                 {
                     ActionRecord<T> record = *it;
                     time_t recordTime = record.GetTime();
