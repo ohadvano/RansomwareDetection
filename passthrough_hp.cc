@@ -1045,14 +1045,13 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
     string oldData = "temp";
-    for (int i = 0; i < 512; i++)
+    for (int i = 0; i < 514; i++)
     {
         oldData = oldData + "temp";
     }
 
-    std::string str = "string";
-    char *cstr = new char[str.length() + 1];
-    strcpy(cstr, str.c_str());
+    char *cstr = new char[oldData.length() + 1];
+    strcpy(cstr, oldData.c_str());
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
