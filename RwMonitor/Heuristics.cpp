@@ -109,6 +109,8 @@ namespace Heuristics
                 int s_num = 150;
                 stringstream geek(s);
                 geek >> s_num;
+
+                _logger->WriteLog("2222222222222222222222 " + s);                
                 return s_num;
             }
 
