@@ -493,7 +493,7 @@ namespace Heuristics
 
             void RefreshTH()
             {
-                int results = _writeBufHistory->LookBack(_lookBackTime);
+                int results = _writeHistory->LookBack(_lookBackTime);
                 _logger->WriteLog("[" + _heuristicName + "][Results found in history search: " + GetIntAsString(results) + "]");
             }
     };

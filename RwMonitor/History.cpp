@@ -26,6 +26,11 @@ namespace ActionsHistory
                 _actionTime = time(0);
             }
 
+            time_t GetTime()
+            {
+                return _actionTime;
+            }
+
         private:
             R _action;
             time_t _actionTime;
@@ -53,7 +58,7 @@ namespace ActionsHistory
                 for (std::list<ActionRecord<T>>::iterator it = _actionRecords->begin(); it != _actionRecords->end(); ++it)
                 {
                     ActionRecord<T> record = *it;
-                    time_t recordTime = record._actionTime;
+                    time_t recordTime = record.GetTime();
                     if (time_now - lookBackTime < recordTime)
                     {
                         count += 1;
