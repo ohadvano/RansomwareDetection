@@ -270,6 +270,9 @@ namespace Heuristics
                     string data(writeAction->OldData);
                     _tempWriter2->Write(data);
 
+                    _logger("333333 " + _tempWriter->TempFilePath);
+                    _logger("444444 " + _tempWriter2->TempFilePath);
+
                     int similarityMeasurementScore = RunSdHash(_tempWriter2->TempFilePath, _tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Similarity score: " + GetIntAsString(similarityMeasurementScore) + "]");
 
