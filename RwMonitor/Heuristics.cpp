@@ -148,8 +148,8 @@ namespace Heuristics
                     }
                     else
                     {
-                        _logger->WriteLog("1111111111111111111111111111111111 " + command);
                         command = "sdhash -g " + arg1 + " " + arg2 + " | cut -d\"|\" -f3 > " + _tmpFile;
+                        _logger->WriteLog("1111111111111111111111111111111111 " + command);
                     }
 
 
