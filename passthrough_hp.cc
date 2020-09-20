@@ -635,9 +635,19 @@ static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup)
 {
     _logger->WriteLog("Forget action captured by gateway");
 
+    Inode& inode = get_inode(ino);
+    int fd = inode.fd;
+    int maxFilePath = 4096;
+    char buf[64];
+    sprintf(buf, "/proc/self/fd/%i", fd);
+    char path[maxFilePath];
+    int pathSize = (int)readlink(buf, path, maxFilePath);
+    path[pathSize] = 0;
+    string filePath(path);
+    
     // Ransomware monitor
     pid_t callingPid = getpid();
-    FsAction* action = new ForgetAction("temp", callingPid);
+    FsAction* action = new ForgetAction(filePath, callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
