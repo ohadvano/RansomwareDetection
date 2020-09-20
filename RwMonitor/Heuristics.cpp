@@ -149,6 +149,8 @@ namespace Heuristics
                         command = "sdhash -g " + arg1 + " " + arg2 + " | cut -d\"|\" -f3 > " + _tmpFile;
                     }
 
+                    _logger->WriteLog("1111111111111111111111111111111111 " + command);
+
                     const char* c_command = command.c_str();
                     system(c_command);
                     exit(0);
