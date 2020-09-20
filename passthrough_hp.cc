@@ -1034,11 +1034,14 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     uint64_t fd = fi->fh;
 
     char tmpBuf[101];
-    pread((int)fd, tmpBuf, 100, 0);
+    int res = pread((int)fd, tmpBuf, 100, 0);
     tmpBuf[100] = 0;
 
     string test(tmpBuf);
-    _logger->WriteLog("111111: " + test);
+    ostringstream strs;
+    strs << val;
+    string str = strs.str();
+    _logger->WriteLog("111111: " + test + " xxx: " + str);
     
     int maxFilePath = 4096;
     char buf[64];
