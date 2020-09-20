@@ -329,7 +329,7 @@ namespace Heuristics
                     string data(writeAction->OldData);
                     _tempWriter->Write(data);
                     uint8* inputBefore = ReadFile(_tempWriter->TempFilePath);
-                    int lengthBefore = GetLength(inputAfter);
+                    int lengthBefore = GetLength(inputBefore);
                     double enthropyBefore = CalculateEntropy(inputBefore, lengthBefore);
 					delete[] inputBefore;
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy before: " + GetDoubleAsString(enthropyBefore) + "]");
