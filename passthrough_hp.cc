@@ -568,9 +568,9 @@ static void sfs_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
     // Ransomware monitor
     pid_t callingPid = getpid();
     string directoryPath(name);
-    FsAction action = RmdirAction(directoryPath, callingPid);
+    FsAction* action = new RmdirAction(directoryPath, callingPid);
 
-    bool shouldIgnoreRequest = PerformRansomwareValidations(&action) == false;
+    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
     {
         return;
@@ -637,9 +637,9 @@ static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup)
 
     // Ransomware monitor
     pid_t callingPid = getpid();
-    FsAction action = ForgetAction("temp", callingPid);
+    FsAction* action = new ForgetAction("temp", callingPid);
 
-    bool shouldIgnoreRequest = PerformRansomwareValidations(&action) == false;
+    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
     {
         return;
