@@ -86,6 +86,7 @@ namespace Log
             {
                 time_t t = time (0);
                 strftime(buff, DTTMSZ, DTTMFMT, localtime(&t));
+                buff[strlen(buff) - 1] = 0;
                 return buff;
             }
     };

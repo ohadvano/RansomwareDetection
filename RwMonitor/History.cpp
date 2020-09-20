@@ -45,6 +45,24 @@ namespace ActionsHistory
                 _actionRecords->push_front(ActionRecord<T>(newAction));
             }
 
+            int LookBack(int lookBackTime)
+            {
+                int count = 0;
+                time_t time_now = time(0);
+
+                for (std::list<ActionRecord<T>>::iterator it = _actionRecords->begin(); it != _actionRecords->end(); ++it)
+                {
+                    ActionRecord<T> record = *it;
+                    time_t recordTime = record._actionTime;
+                    if (time_now - lookBackTime < recordTime)
+                    {
+                        count += 1;
+                    }
+                }
+
+                return count;
+            }
+            
             ~ActionHistory()
             {
                 delete _actionRecords;

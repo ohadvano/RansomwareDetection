@@ -43,6 +43,7 @@ namespace Heuristics
             {
             }
 
+            int _lookBackTime = 30;
             double heuristicTH = 0;
 
             TempWriter* _tempWriter;
@@ -221,6 +222,8 @@ namespace Heuristics
 
             void RefreshTH()
             {
+                int results = _writeBufHistory->LookBack(_lookBackTime);
+                _logger->WriteLog("[" + _heuristicName + "][Results found in history search: " + GetIntAsString(results) + "]");
             }
     };
 
@@ -279,6 +282,8 @@ namespace Heuristics
 
             void RefreshTH()
             {
+                int results = _writeBufHistory->LookBack(_lookBackTime);
+                _logger->WriteLog("[" + _heuristicName + "][Results found in history search: " + GetIntAsString(results) + "]");
             }
     };
 
@@ -346,6 +351,8 @@ namespace Heuristics
 
             void RefreshTH()
             {
+                int results = _writeBufHistory->LookBack(_lookBackTime);
+                _logger->WriteLog("[" + _heuristicName + "][Results found in history search: " + GetIntAsString(results) + "]");
             }
 
             double CalculateEntropy(uint8* input, int length)
@@ -424,6 +431,11 @@ namespace Heuristics
 
             void RefreshTH()
             {
+                int rmdirResults = _rmdirHistory->LookBack(_lookBackTime);
+                _logger->WriteLog("[" + _heuristicName + "][Rmdir results found in history search: " + GetIntAsString(rmdirResults) + "]");
+
+                int forgetResults = _forgetHistory->LookBack(_lookBackTime);
+                _logger->WriteLog("[" + _heuristicName + "][Forget results found in history search: " + GetIntAsString(forgetResults) + "]");
             }
     };
 
@@ -481,6 +493,8 @@ namespace Heuristics
 
             void RefreshTH()
             {
+                int results = _writeBufHistory->LookBack(_lookBackTime);
+                _logger->WriteLog("[" + _heuristicName + "][Results found in history search: " + GetIntAsString(results) + "]");
             }
     };
 }
