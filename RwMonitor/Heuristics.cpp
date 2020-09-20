@@ -406,7 +406,7 @@ namespace Heuristics
                 {
                     _logger->WriteLog("[" + _heuristicName + "][Rmdir action detected]");
 
-                    RmdirAction* rmdirAction = dynamic_cast<RmdirAction*>(&action);
+                    RmdirAction* rmdirAction = dynamic_cast<RmdirAction*>(action);
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + rmdirAction->DirectoryPath + "]");
 
                     _rmdirHistory->AddNewAction(rmdirAction);
