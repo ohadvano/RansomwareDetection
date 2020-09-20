@@ -57,7 +57,7 @@ namespace RwMonitor
                 pthread_mutex_lock(&_actionLock);
                 _isInternal = true;
 
-                string actionName = action.ActionName;
+                string actionName = action->ActionName;
                 _logger->WriteLog("New action detected in monitor: " + actionName);
 
                 // Calculate the new threshold after the action came to the system

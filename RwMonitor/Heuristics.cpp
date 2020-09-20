@@ -402,7 +402,7 @@ namespace Heuristics
 
                     _forgetHistory->AddNewAction(forgetAction);
                 }
-                else if (action.ActionName == "RmdirAction")
+                else if (action->ActionName == "RmdirAction")
                 {
                     _logger->WriteLog("[" + _heuristicName + "][Rmdir action detected]");
 
