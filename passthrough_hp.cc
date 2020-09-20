@@ -133,7 +133,7 @@ void StartLockDown()
 
 /* Returns true if the action is legal
    Returns false if the action is illegal for any reason (also if in lock down) */
-bool PerformRansomwareValidations(FsAction action)
+bool PerformRansomwareValidations(FsAction* action)
 {
     if (IsInLockDown())
     {
@@ -570,7 +570,7 @@ static void sfs_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
     string directoryPath(name);
     FsAction action = RmdirAction(directoryPath, callingPid);
 
-    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
+    bool shouldIgnoreRequest = PerformRansomwareValidations(&action) == false;
     if (shouldIgnoreRequest)
     {
         return;
@@ -639,7 +639,7 @@ static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup)
     pid_t callingPid = getpid();
     FsAction action = ForgetAction("temp", callingPid);
 
-    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
+    bool shouldIgnoreRequest = PerformRansomwareValidations(&action) == false;
     if (shouldIgnoreRequest)
     {
         return;
@@ -1041,7 +1041,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
         fd,
         callingPid);
 
-    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
+    bool shouldIgnoreRequest = PerformRansomwareValidations(&action) == false;
     if (shouldIgnoreRequest)
     {
         return;

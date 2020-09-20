@@ -37,7 +37,7 @@ namespace Heuristics
     class HeuristicBase
     {
         public:
-            virtual void CalculateTH(FsAction action) = 0;
+            virtual void CalculateTH(FsAction* action) = 0;
 
             virtual ~HeuristicBase()
             {
@@ -180,13 +180,13 @@ namespace Heuristics
                 _writeBufHistory = new ActionHistory<WriteBufAction*>();
             }
 
-            void CalculateTH(FsAction action) override
+            void CalculateTH(FsAction* action) override
             {
-                if (action.ActionName == "WriteBufAction")
+                if (action->ActionName == "WriteBufAction")
                 {
                     _logger->WriteLog("[" + _heuristicName + "][Write action detected]");
 
-                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
+                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(action);
                     
                     if (writeAction == nullptr)
                     {
@@ -245,13 +245,13 @@ namespace Heuristics
                 _writeBufHistory = new ActionHistory<WriteBufAction*>();
             }
 
-            void CalculateTH(FsAction action) override
+            void CalculateTH(FsAction* action) override
             {
-                if (action.ActionName == "WriteBufAction")
+                if (action->ActionName == "WriteBufAction")
                 {
                     _logger->WriteLog("[" + _heuristicName + "][Write action detected]");
 
-                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
+                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(action);
 
                     string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
@@ -302,13 +302,13 @@ namespace Heuristics
                 _writeBufHistory = new ActionHistory<WriteBufAction*>();
             }
 
-            void CalculateTH(FsAction action) override
+            void CalculateTH(FsAction* action) override
             {
-                if (action.ActionName == "WriteBufAction")
+                if (action->ActionName == "WriteBufAction")
                 {
                     _logger->WriteLog("[" + _heuristicName + "][Write action detected]");
 
-                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
+                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(action);
 
                     string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + filePath + "]");
@@ -391,13 +391,13 @@ namespace Heuristics
                 _forgetHistory = new ActionHistory<ForgetAction*>();
             }
 
-            void CalculateTH(FsAction action) override
+            void CalculateTH(FsAction* action) override
             {
-                if (action.ActionName == "ForgetAction")
+                if (action->ActionName == "ForgetAction")
                 {
                     _logger->WriteLog("[" + _heuristicName + "][Forget action detected]");
 
-                    ForgetAction* forgetAction = dynamic_cast<ForgetAction*>(&action);
+                    ForgetAction* forgetAction = dynamic_cast<ForgetAction*>(action);
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + forgetAction->FilePath + "]");
 
                     _forgetHistory->AddNewAction(forgetAction);
@@ -447,13 +447,13 @@ namespace Heuristics
                 _writeHistory = new ActionHistory<WriteBufAction*>();
             }
 
-            void CalculateTH(FsAction action) override
+            void CalculateTH(FsAction* action) override
             {
-                if (action.ActionName == "WriteBufAction")
+                if (action->ActionName == "WriteBufAction")
                 {
                     _logger->WriteLog("[" + _heuristicName + "][Write action detected]");
 
-                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(&action);
+                    WriteBufAction* writeAction = dynamic_cast<WriteBufAction*>(action);
 
                     string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + filePath + "]");

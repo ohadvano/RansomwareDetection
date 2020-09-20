@@ -46,7 +46,7 @@ namespace RwMonitor
                 _logger->WriteLog("Ransomware monitor started");
             }
 
-            RiskStatus CanPerform(FsAction action)
+            RiskStatus CanPerform(FsAction* action)
             {
                 if (_isInternal)
                 {
