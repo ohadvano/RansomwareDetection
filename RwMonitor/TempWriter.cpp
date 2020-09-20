@@ -50,7 +50,7 @@ namespace TempFile
                 char buff[DTTMSZ];
                 std::ofstream file;
                 file.open(TempFilePath, std::ios_base::app);
-                file << getDtTm(buff) << fileContent << endl;
+                file << fileContent << endl;
                 file.close();
             }
 
