@@ -1033,15 +1033,15 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     uint64_t fd = fi->fh;
 
-    char tmpBuf[101];
-    int res = pread((int)fd, tmpBuf, 100, 0);
-    tmpBuf[100] = 0;
+    // char tmpBuf[101];
+    // int res = pread((int)fd, tmpBuf, 100, 0);
+    // tmpBuf[100] = 0;
 
-    string test(tmpBuf);
-    ostringstream strs;
-    strs << (int)fd;
-    string str = strs.str();
-    _logger->WriteLog("111111: " + test + " xxx: " + str);
+    // string test(tmpBuf);
+    // ostringstream strs;
+    // strs << fd;
+    // string str = strs.str();
+    // _logger->WriteLog("111111: " + test + " xxx: " + str);
     
     int maxFilePath = 4096;
     char buf[64];
@@ -1050,6 +1050,17 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     int pathSize = (int)readlink(buf, path, maxFilePath);
     path[pathSize] = 0;
     string filePath(path);
+
+    string res;
+    string full_res;
+    ifstream file(filePath);
+    while (getline(file, res))
+    {
+        full_res = full_res + res;
+    }
+    file.close();
+
+    _logger->WriteLog("111111: " + full_res);
 
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
