@@ -66,6 +66,7 @@ namespace Heuristics
 
 				while (getline(file, res))
 				{
+                    _logger->WriteLog(res);
 					full_res = full_res + res;
 				}
 
