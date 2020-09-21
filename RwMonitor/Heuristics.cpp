@@ -62,11 +62,11 @@ namespace Heuristics
             {
 				string res;
 				string full_res;
-				ifstream file("tempContent");
+				ifstream file("/home/Desktop/RansomwareDetection/RwMonitor/tempContent");
 
 				while (getline(file, res))
 				{
-                    _logger->WriteLog(res);
+                    _logger->WriteLog("2222" + res);
 					full_res = full_res + res;
 				}
 
