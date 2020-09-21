@@ -1029,11 +1029,21 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi)
 {
-    sleep(15);
     _logger->WriteLog("[Write action captured by gateway]");
 
+    string res;
+    string full_res;
+    ifstream file("/tmp/project/home/ohadoz/Desktop/RansomwareDetection/TestResults/testFile.txt");
+
+    while(getline(file,res))
+    {
+        full_res = full_res + res;
+    }
+
+    _logger->WriteLog(full_res);
+
     uint64_t fd = fi->fh;
-    
+
     int maxFilePath = 4096;
     char buf[64];
     sprintf(buf, "/proc/self/fd/%i", (int)fd);
