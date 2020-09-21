@@ -60,10 +60,18 @@ namespace Heuristics
 
             string GetOldContent(WriteBufAction* writeAction)
             {
-                sleep(20);
 				string res;
 				string full_res;
 				ifstream file("/home/Desktop/RansomwareDetection/RwMonitor/tempContent");
+
+                if (file.good())
+                {
+                    _logger->WriteLog("33333");
+                }
+                else
+                {
+                    _logger->WriteLog("44444");
+                }
 
 				while (getline(file, res))
 				{
