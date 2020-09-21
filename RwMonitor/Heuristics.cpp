@@ -62,7 +62,7 @@ namespace Heuristics
             {
 				string res;
 				string full_res;
-				ifstream file("/home/Desktop/RansomwareDetection/RwMonitor/tempContent");
+				ifstream file("/home/ohadoz/Desktop/RansomwareDetection/RwMonitor/tempContent");
 
                 if (file.good())
                 {
