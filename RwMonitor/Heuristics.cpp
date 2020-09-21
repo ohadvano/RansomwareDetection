@@ -63,7 +63,7 @@ namespace Heuristics
 				string res;
 				string full_res;
 				ifstream file("tempContent");
-                
+
 				while (getline(file, res))
 				{
 					full_res = full_res + res;
@@ -226,7 +226,9 @@ namespace Heuristics
                     string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
 
-                    _tempWriter->Write(GetOldContent(writeAction));
+                    string res = GetOldContent(writeAction);
+                    _logger->WriteLog("111111111111111: " + res);
+                    _tempWriter->Write(res);
                     string beforeType = RunFileUtility(_tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Type before: " + beforeType + "]");
 
