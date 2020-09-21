@@ -1029,6 +1029,7 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi)
 {
+    sleep(15);
     _logger->WriteLog("[Write action captured by gateway]");
 
     uint64_t fd = fi->fh;
