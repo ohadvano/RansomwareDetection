@@ -10,9 +10,6 @@
 
 using namespace std;
 
-#define DTTMFMT "%Y-%m-%d %H:%M:%S "
-#define DTTMSZ 21
-
 namespace TempFile
 {
     class TempWriter
