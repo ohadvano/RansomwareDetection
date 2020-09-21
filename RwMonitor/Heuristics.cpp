@@ -211,6 +211,7 @@ namespace Heuristics
                     string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
 
+                    sleep(20);
                     string res = ReadFileToString(writeAction->FilePath);
                     _logger->WriteLog(res);
                     _tempWriter->Write(res);
