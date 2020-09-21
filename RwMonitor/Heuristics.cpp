@@ -58,6 +58,21 @@ namespace Heuristics
                 return str;
             }
 
+            string GetOldContent(WriteBufAction* writeAction)
+            {
+				string res;
+				string full_res;
+				ifstream file("tempContent");
+                
+				while (getline(file, res))
+				{
+					full_res = full_res + res;
+				}
+
+				file.close();
+                return full_res;
+            }
+
 			uint8* ReadFile(string filePath)
 			{
 				string res;
@@ -211,7 +226,7 @@ namespace Heuristics
                     string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
 
-                    _tempWriter->Write(ReadFileToString(writeAction->FilePath));
+                    _tempWriter->Write(GetOldContent(writeAction));
                     string beforeType = RunFileUtility(_tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Type before: " + beforeType + "]");
 
@@ -278,7 +293,7 @@ namespace Heuristics
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
 
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
-                    _tempWriter2->Write(ReadFileToString(writeAction->FilePath));
+                    _tempWriter2->Write(GetOldContent(writeAction));
 
                     int similarityMeasurementScore = RunSdHash(_tempWriter2->TempFilePath, _tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Similarity score: " + GetIntAsString(similarityMeasurementScore) + "]");
@@ -344,7 +359,7 @@ namespace Heuristics
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + filePath + "]");
 
                     // Before
-                    _tempWriter->Write(ReadFileToString(writeAction->FilePath));
+                    _tempWriter->Write(GetOldContent(writeAction));
                     uint8* inputBefore = ReadFile(_tempWriter->TempFilePath);
                     int lengthBefore = GetLength(inputBefore);
                     double enthropyBefore = CalculateEntropy(inputBefore, lengthBefore);

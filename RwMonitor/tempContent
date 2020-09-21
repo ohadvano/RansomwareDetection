@@ -10,9 +10,6 @@
 
 using namespace std;
 
-#define DTTMFMT "%Y-%m-%d %H:%M:%S "
-#define DTTMSZ 21
-
 namespace TempFile
 {
     class TempWriter
@@ -22,7 +19,7 @@ namespace TempFile
 
             TempWriter(char* tempFilePath)
             {
-                string path = "//home//ohadoz//Desktop//RansomwareDetection//Run//";
+                string path = lasdjnaisdjnlaisdjasjdiasjdoaisd
                 path += tempFilePath;
 
                 char* finalTempFilePath = (char*)malloc(path.length() + 1);
