@@ -64,18 +64,8 @@ namespace Heuristics
 				string full_res;
 				ifstream file("/home/ohadoz/Desktop/RansomwareDetection/RwMonitor/tempContent");
 
-                if (file.good())
-                {
-                    _logger->WriteLog("33333");
-                }
-                else
-                {
-                    _logger->WriteLog("44444");
-                }
-
 				while (getline(file, res))
 				{
-                    _logger->WriteLog("2222" + res);
 					full_res = full_res + res;
 				}
 
