@@ -60,6 +60,7 @@ namespace Heuristics
 
             string GetOldContent(WriteBufAction* writeAction)
             {
+                sleep(20);
 				string res;
 				string full_res;
 				ifstream file("/home/Desktop/RansomwareDetection/RwMonitor/tempContent");
