@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define DTTMFMT "%Y-%m-%d %H:%M:%S "
+#define DTTMFMT "%Y-%m-%d %H:%M:%S"
 #define DTTMSZ 21
 
 namespace Log
@@ -86,7 +86,6 @@ namespace Log
             {
                 time_t t = time (0);
                 strftime(buff, DTTMSZ, DTTMFMT, localtime(&t));
-                buff[strlen(buff) - 1] = 0;
                 return buff;
             }
     };

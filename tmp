@@ -1,88 +1,70 @@
-    string oldData = "#include <string>\n\
-#include <ctime>\n\
-#include <fstream>\n\
-#include <iostream>\n\
-#include <time.h>\n\
-\n\
-\n\
-using namespace std;\n\
-# define LOG_NAME asdinhasdunhasudnhais\n\
-# define LOG_PATH asdoasdoiandoasdasdoasodasd\n\
-#define DTTMFMT aspdmiasidmaosidaoisdo\n\
-#define DTTMSZ 21\n\
-\n\
-\n\
-// Helper function for textual date and time.\n\
-// DTTMSZ must allow extra character for the null terminator.\n\
-\n\
-static char *getDtTm (char *buff) {\n\
-    time_t t = time (0);\n\
-    strftime (buff, DTTMSZ, DTTMFMT, localtime (&t));\n\
-    return buff;\n\
-}\n\
-\n\
-\n\
-\n\
-namespace Log\n\
-{\n\
-    class Logger\n\
-    {\n\
-        public:\n\
-            char* LogPath;\n\
-\n\
-            Logger(char* logPath)\n\
-            {\n\
-				if (std::ifstream(LOG_NAME))\n\
-				{\n\
-					return;\n\
-					\n\
-				}\n\
-				else\n\
-				{\n\
-					std::ofstream file{ LOG_NAME };\n\
-					LogPath = logPath;\n\
-				}\n\
-            }\n\
-\n\
-            void WriteLog(string logInfo)\n\
-            {\n\
-				if (!std::ifstream(LOG_NAME))\n\
-				{\n\
-				return;			\n\
-				}\n\
-   				char buff[DTTMSZ];\n\
-				std::ofstream file;\n\
-				file.open(LOG_NAME, std::ios_base::app);\n\
-    				file << getDtTm (buff) << logInfo << endl;\n\
-				file.close();\n\
-\n\
-			}\n\
-\n\
-            void WriteError(string logError)\n\
-            {\n\
-				if (!std::ifstream(LOG_NAME))\n\
-				{\n\
-				return;\n\
-				}\n\
-   				char buff[DTTMSZ];\n\
-				std::ofstream file;\n\
-				file.open(LOG_NAME, std::ios_base::app);\n\
-    				file << getDtTm (buff) << <<logError << endl;\n\
-				file.close();\n\
-			}\n\
-    };\n\
-}\n\
-\n\
-using namespace Log;\n\
-int main()\n\
-{\n\
-\n\
-	cout << asdasd<< endl;\n\
-        Logger*  new_logger= new Logger(LOG_PATH);\n\
-	new_logger->WriteLog(asdasdasdasdasdasdasdasdasdasdasd);\n\
-	new_logger->WriteLog(asdasdasdasdasdasdasdavda;sdimapsvid);\n\
-new_logger->WriteError(asdasjdnoasdnhiuashdniuashdiuashdi);\n\
-	return 0;\n\
-}\n\
-";
+#ifndef _HTMPWRITER
+#define _HTMPWRITER
 
+#include <string>
+#include <ctime>
+#include <fstream>
+#include <iostream>
+#include <time.h>
+#include <cstdio>
+
+using namespace std;
+
+#define DTTMFMT "%Y-%m-%d %H:%M:%S "
+#define DTTMSZ 21
+
+namespace TempFile
+{
+    class TempWriter
+    {
+        public:
+            char* TempFilePath;
+
+            TempWriter(char* tempFilePath)
+            {
+                string path = "//home//ohadoz//Desktop//RansomwareDetection//Run//";
+                path += tempFilePath;
+
+                char* finalTempFilePath = (char*)malloc(path.length() + 1);
+                strcpy(finalTempFilePath, path.c_str()); 
+
+                TempFilePath = finalTempFilePath;
+
+                if (std::ifstream(TempFilePath))
+                {
+                    return;
+                }
+                else
+                {
+                    std::ofstream file { TempFilePath };
+                }
+            }
+
+            void Write(string fileContent)
+            {
+                if (!std::ifstream(TempFilePath))
+                {
+                    return;
+                }
+
+                std::ofstream file;
+                file.open(TempFilePath, std::ofstream::trunc);
+                file << fileContent << endl;
+                file.close();
+            }
+
+            ~TempWriter()
+            {
+                remove(TempFilePath);
+            }
+        private:
+            char* getDtTm (char *buff) 
+            {
+                time_t t = time(0);
+                strftime(buff, DTTMSZ, DTTMFMT, localtime(&t));
+                return buff;
+            }
+    };
+}
+
+#endif
