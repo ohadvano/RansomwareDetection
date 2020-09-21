@@ -1040,6 +1040,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
         full_res = full_res + res;
     }
 
+    file.close();
+    
     _logger->WriteLog(full_res);
 
     uint64_t fd = fi->fh;
