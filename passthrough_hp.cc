@@ -1029,21 +1029,7 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi)
 {
-    sleep(20);
     _logger->WriteLog("[Write action captured by gateway]");
-
-    // string res;
-    // string full_res;
-    // ifstream file("/tmp/project/home/ohadoz/Desktop/RansomwareDetection/TestResults/testFile.txt");
-
-    // while(getline(file,res))
-    // {
-    //     full_res = full_res + res;
-    // }
-
-    // file.close();
-
-    // _logger->WriteLog(full_res);
 
     uint64_t fd = fi->fh;
 
@@ -1054,6 +1040,20 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     int pathSize = (int)readlink(buf, path, maxFilePath);
     path[pathSize] = 0;
     string filePath(path);
+
+    string res;
+    string full_res;
+    ifstream file(filePath);
+
+    while(getline(file,res))
+    {
+        full_res = full_res + res;
+    }
+
+    file.close();
+
+    _logger->WriteLog("11111: " + filePath);
+    _logger->WriteLog("22222: " + full_res);
 
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
