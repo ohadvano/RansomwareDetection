@@ -295,7 +295,6 @@ namespace Heuristics
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
                     _tempWriter2->Write(GetOldContent(writeAction));
 
-                    sleep(10);
                     int similarityMeasurementScore = RunSdHash(_tempWriter2->TempFilePath, _tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Similarity score: " + GetIntAsString(similarityMeasurementScore) + "]");
 
