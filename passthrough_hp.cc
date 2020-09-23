@@ -947,8 +947,6 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
     path[pathSize] = 0;
     string filePath(path);
 
-    _logger->WriteLog("1: " + filePath);
-
     string res;
     string fileContent;
     ifstream file(filePath);
@@ -959,8 +957,6 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
     }
 
     file.close();
-
-_logger->WriteLog("50: " + fileContent);
 
     (*_fileMap)[filePath] = fileContent;
 
@@ -1081,9 +1077,6 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     if ((*_fileMap).count(filePath) == 0)
     {
-        for(std::map<string,string>::iterator it = (*_fileMap).begin(); it != (*_fileMap).end(); ++it)
-            _logger->WriteLog("222: " + it->first);
-
         fuse_reply_err(req, 1);
     }
 
