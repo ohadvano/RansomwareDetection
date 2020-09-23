@@ -960,6 +960,8 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 
     file.close();
 
+_logger->WriteLog("50: " + fileContent);
+
     (*_fileMap)[filePath] = fileContent;
 
     /* With writeback cache, kernel may send read requests even
