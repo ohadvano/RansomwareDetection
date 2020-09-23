@@ -99,7 +99,7 @@ double _fileSystemLockDownDurationInSeconds;
 static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
 static string _rwLockDownStartMessage = "Set lock down start message for user";
 static string _rwInLockDownMessage = "Set in lock down message for user";
-static map<string, string> _fileMap = new map<string, string>;
+static map<string, string>* _fileMap = new map<string, string>;
 
 /* Returns true if the system is in lock down because of previous malicious action
    Should also prompt the user when in lockdown */
@@ -950,7 +950,7 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 
     file.close();
 
-    _fileMap[filePath] = fileContent;
+    (*_fileMap)[filePath] = fileContent;
 
     /* With writeback cache, kernel may send read requests even
        when userspace opened write-only */
@@ -1065,13 +1065,13 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     path[pathSize] = 0;
     string filePath(path);
 
-    if (_fileMap.count(filePath) == 0)
+    if ((*_fileMap).count(filePath) == 0)
     {
         return;
     }
 
-    string oldFileContent = _fileMap[filePath];
-    _fileMap.erase(filePath);
+    string oldFileContent = (*_fileMap)[filePath];
+    (*_fileMap).erase(filePath);
 
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
