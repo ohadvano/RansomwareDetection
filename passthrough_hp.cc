@@ -937,11 +937,11 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 
     Inode& inode = get_inode(ino);
 
-    uint64_t fileDesc = fi->fh;
+    int fileDesc = inode.fd;
 
     int maxFilePath = 4096;
     char pathBuf[64];
-    sprintf(pathBuf, "/proc/self/fd/%i", (int)fileDesc);
+    sprintf(pathBuf, "/proc/self/fd/%i", fileDesc);
     char path[maxFilePath];
     int pathSize = (int)readlink(pathBuf, path, maxFilePath);
     path[pathSize] = 0;
@@ -1078,7 +1078,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     if ((*_fileMap).count(filePath) == 0)
     {
         for(std::map<string,string>::iterator it = (*_fileMap).begin(); it != (*_fileMap).end(); ++it)
-            _logger->WriteLog(it->first);
+            _logger->WriteLog("222: " + it->first);
 
         fuse_reply_err(req, 1);
     }
