@@ -29,11 +29,13 @@ namespace FileSystemActions
     {
         public:
             string FilePath;
+            string OldContent;
             char* InputData1;
             char* InputData2;
 
-            WriteBufAction(string filePath, char* inputData1, char* inputData2, uint64_t fd, int callingProccessId) 
+            WriteBufAction(string filePath, string oldContent, char* inputData1, char* inputData2, uint64_t fd, int callingProccessId) 
                 : FsAction("WriteBufAction", callingProccessId), 
+                    OldContent(oldContent),
                     FilePath(filePath),
                     InputData1(inputData1),
                     InputData2(inputData2)

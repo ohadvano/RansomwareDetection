@@ -99,6 +99,7 @@ double _fileSystemLockDownDurationInSeconds;
 static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
 static string _rwLockDownStartMessage = "Set lock down start message for user";
 static string _rwInLockDownMessage = "Set in lock down message for user";
+static map<string, string> _fileMap = new map<string, string>;
 
 /* Returns true if the system is in lock down because of previous malicious action
    Should also prompt the user when in lockdown */
@@ -928,6 +929,29 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 {
     Inode& inode = get_inode(ino);
 
+    uint64_t fd = fi->fh;
+
+    int maxFilePath = 4096;
+    char buf[64];
+    sprintf(buf, "/proc/self/fd/%i", (int)fd);
+    char path[maxFilePath];
+    int pathSize = (int)readlink(buf, path, maxFilePath);
+    path[pathSize] = 0;
+    string filePath(path);
+
+    string res;
+    string fileContent;
+    ifstream file(filePath);
+
+    while (getline(file, res))
+    {
+        fileContent = fileContent + res;
+    }
+
+    file.close();
+
+    _fileMap[filePath] = fileContent;
+
     /* With writeback cache, kernel may send read requests even
        when userspace opened write-only */
     if (fs.timeout && (fi->flags & O_ACCMODE) == O_WRONLY) {
@@ -1041,19 +1065,13 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     path[pathSize] = 0;
     string filePath(path);
 
-    string res;
-    string full_res;
-    ifstream file(filePath);
-
-    while(getline(file,res))
+    if (_fileMap.count(filePath) == 0)
     {
-        full_res = full_res + res;
+        return;
     }
 
-    file.close();
-
-    _logger->WriteLog("11111: " + filePath);
-    _logger->WriteLog("22222: " + full_res);
+    string oldFileContent = _fileMap[filePath];
+    _fileMap.erase(filePath);
 
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
@@ -1061,6 +1079,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
         filePath,
+        oldFileContent,
         mem1,
         mem2,
         fd,

@@ -60,17 +60,7 @@ namespace Heuristics
 
             string GetOldContent(WriteBufAction* writeAction)
             {
-				string res;
-				string full_res;
-				ifstream file("/home/ohadoz/Desktop/RansomwareDetection/RwMonitor/tempContent");
-
-				while (getline(file, res))
-				{
-					full_res = full_res + res;
-				}
-
-				file.close();
-                return full_res;
+				return writeAction->OldContent;
             }
 
 			uint8* ReadFile(string filePath)
