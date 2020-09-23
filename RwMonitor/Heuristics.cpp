@@ -215,7 +215,7 @@ namespace Heuristics
 
                     string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
-                    
+
                     _tempWriter->Write(GetOldContent(writeAction));
                     string beforeType = RunFileUtility(_tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Type before: " + beforeType + "]");
@@ -505,13 +505,20 @@ namespace Heuristics
 
                     string newContent = GetNewContent(filePath, writeAction);
 
+                    bool foundAny = false;
                     for (std::vector<string>::iterator it = _suspiciousKeywords.begin(); it != _suspiciousKeywords.end(); ++it)
                     {
                         if (newContent.find(*it) != string::npos) 
                         {
+                            foundAny = true;
                             _logger->WriteLog("[" + _heuristicName + "][Suspicious keyword detected: " + *it + "]");
                             _writeHistory->AddNewAction(writeAction);
                         }
+                    }
+
+                    if (!foundAny)
+                    {
+                        _logger->WriteLog("[" + _heuristicName + "][No suspicious keywords detected]");
                     }
                 }
 
