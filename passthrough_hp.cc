@@ -935,8 +935,6 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 
     _internalAction = true;
 
-    _logger->WriteLog("1");
-
     Inode& inode = get_inode(ino);
 
     uint64_t fileDesc = fi->fh;
@@ -960,11 +958,9 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 
     file.close();
 
-_logger->WriteLog("2");
-
     (*_fileMap)[filePath] = fileContent;
 
-_logger->WriteLog("3");
+_logger->WriteLog("3: " + filePath);
 
     /* With writeback cache, kernel may send read requests even
        when userspace opened write-only */
@@ -1083,11 +1079,16 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     if ((*_fileMap).count(filePath) == 0)
     {
+        _logger->WriteLog("4: " + filePath);
         return;
     }
 
+    _logger->WriteLog("5");
+
     string oldFileContent = (*_fileMap)[filePath];
     (*_fileMap).erase(filePath);
+
+_logger->WriteLog("6");
 
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
