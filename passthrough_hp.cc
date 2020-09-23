@@ -1080,7 +1080,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     if ((*_fileMap).count(filePath) == 0)
     {
         _logger->WriteLog("4: " + filePath);
-        return;
+        fuse_reply_err(req, 1);
     }
 
     _logger->WriteLog("5");
