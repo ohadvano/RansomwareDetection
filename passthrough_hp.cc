@@ -1077,7 +1077,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     if ((*_fileMap).count(filePath) == 0)
     {
-        for(std::map<string,string>::iterator it = m.begin(); it != m.end(); ++it)
+        for(std::map<string,string>::iterator it = (*_fileMap).begin(); it != (*_fileMap).end(); ++it)
             _logger->WriteLog(it->first);
 
         fuse_reply_err(req, 1);
