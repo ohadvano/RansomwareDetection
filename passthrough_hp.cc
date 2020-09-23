@@ -929,13 +929,13 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 {
     Inode& inode = get_inode(ino);
 
-    uint64_t fd = fi->fh;
+    uint64_t fileDesc = fi->fh;
 
     int maxFilePath = 4096;
-    char buf[64];
-    sprintf(buf, "/proc/self/fd/%i", (int)fd);
+    char pathBuf[64];
+    sprintf(pathBuf, "/proc/self/fd/%i", (int)fileDesc);
     char path[maxFilePath];
-    int pathSize = (int)readlink(buf, path, maxFilePath);
+    int pathSize = (int)readlink(pathBuf, path, maxFilePath);
     path[pathSize] = 0;
     string filePath(path);
 
