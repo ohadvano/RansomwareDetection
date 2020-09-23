@@ -947,6 +947,8 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
     path[pathSize] = 0;
     string filePath(path);
 
+    _logger->WriteLog("1: " + filePath);
+
     string res;
     string fileContent;
     ifstream file(filePath);
