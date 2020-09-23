@@ -960,8 +960,6 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 
     (*_fileMap)[filePath] = fileContent;
 
-_logger->WriteLog("3: " + filePath);
-
     /* With writeback cache, kernel may send read requests even
        when userspace opened write-only */
     if (fs.timeout && (fi->flags & O_ACCMODE) == O_WRONLY) {
@@ -1079,16 +1077,14 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     if ((*_fileMap).count(filePath) == 0)
     {
-        _logger->WriteLog("4: " + filePath);
+        for(std::map<string,string>::iterator it = m.begin(); it != m.end(); ++it)
+            _logger->WriteLog(it->first);
+
         fuse_reply_err(req, 1);
     }
 
-    _logger->WriteLog("5");
-
     string oldFileContent = (*_fileMap)[filePath];
     (*_fileMap).erase(filePath);
-
-_logger->WriteLog("6");
 
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
