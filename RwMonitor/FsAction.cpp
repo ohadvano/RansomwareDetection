@@ -35,8 +35,8 @@ namespace FileSystemActions
 
             WriteBufAction(string filePath, string oldContent, char* inputData1, char* inputData2, uint64_t fd, int callingProccessId) 
                 : FsAction("WriteBufAction", callingProccessId), 
-                    OldContent(oldContent),
                     FilePath(filePath),
+                    OldContent(oldContent),
                     InputData1(inputData1),
                     InputData2(inputData2)
             {
