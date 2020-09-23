@@ -216,7 +216,9 @@ namespace Heuristics
                     string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
 
-                    _tempWriter->Write(GetOldContent(writeAction));
+                    string oldContent = GetOldContent(writeAction);
+                    _logger->WriteLog(oldContent);
+                    _tempWriter->Write(oldContent);
                     string beforeType = RunFileUtility(_tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Type before: " + beforeType + "]");
 
