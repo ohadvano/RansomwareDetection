@@ -100,6 +100,7 @@ static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
 static string _rwLockDownStartMessage = "Set lock down start message for user";
 static string _rwInLockDownMessage = "Set in lock down message for user";
 static map<string, string>* _fileMap = new map<string, string>;
+static bool _internalAction = false;
 
 /* Returns true if the system is in lock down because of previous malicious action
    Should also prompt the user when in lockdown */
@@ -927,6 +928,15 @@ static void sfs_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
 
 static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
+    if (_internalAction)
+    {
+        return;
+    }
+
+    _internalAction = true;
+
+    _logger->WriteLog("1");
+
     Inode& inode = get_inode(ino);
 
     uint64_t fileDesc = fi->fh;
@@ -950,7 +960,11 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
 
     file.close();
 
+_logger->WriteLog("2");
+
     (*_fileMap)[filePath] = fileContent;
+
+_logger->WriteLog("3");
 
     /* With writeback cache, kernel may send read requests even
        when userspace opened write-only */
@@ -984,6 +998,8 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
     fi->keep_cache = (fs.timeout != 0);
     fi->fh = fd;
     fuse_reply_open(req, fi);
+
+    _internalAction = false;
 }
 
 
