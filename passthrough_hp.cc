@@ -565,7 +565,7 @@ static void sfs_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
 
 static void sfs_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name) 
 {
-    _logger->WriteLog("[Rmdir action captured by gateway]");
+    _logger->WriteLog("[######### Rmdir action captured by gateway]");
 
     // Ransomware monitor
     pid_t callingPid = getpid();
@@ -635,7 +635,7 @@ static void forget_one(fuse_ino_t ino, uint64_t n)
 
 static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup) 
 {
-    _logger->WriteLog("[Forget action captured by gateway]");
+    _logger->WriteLog("[######### Forget action captured by gateway]");
 
     Inode& inode = get_inode(ino);
     int fd = inode.fd;
@@ -1063,7 +1063,7 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi)
 {
-    _logger->WriteLog("[Write action captured by gateway]");
+    _logger->WriteLog("[######### Write action captured by gateway]");
 
     uint64_t fd = fi->fh;
 
