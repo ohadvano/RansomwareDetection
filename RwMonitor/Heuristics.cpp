@@ -362,7 +362,7 @@ namespace Heuristics
                     int lengthAfter = GetLength(inputAfter);
                     double enthropyAfter = CalculateEntropy(inputAfter, lengthAfter);
 					delete[] inputAfter;
-                    _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyBefore) + "]");
+                    _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyAfter) + "]");
 
                     if (Abs(enthropyBefore - enthropyAfter) < _threshold)
                     {
