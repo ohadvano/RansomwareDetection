@@ -51,6 +51,8 @@ namespace RwMonitor
 
             RiskStatus CanPerform(FsAction* action)
             {
+                _logger->WriteLog("####################################################");
+
                 if (_isInternal)
                 {
                     return Safe;
@@ -74,6 +76,8 @@ namespace RwMonitor
 
                 _isInternal = false;
                 pthread_mutex_unlock(&_actionLock);
+
+                _logger->WriteLog("####################################################");
 
                 if (isRisky)
                 {
