@@ -67,7 +67,7 @@ echo "Running ransomwares"
 cd ..
 while IFS= read -r ransomwarePath
 do
-    ransomwareName=${foo##*/}
+    ransomwareName=${ransomwarePath##*/}
     echo $ransomwareName
     echo "$ransomwarePath"
 done < "$ransomwaresListFile"
