@@ -24,6 +24,7 @@ tar -C $testOutput -zxf $testTar
 sleep 2
 
 # Start Ransomware Detection
+mkdir $sandbox
 sudo umount $sandBox
 cd RansomwareDetection
 ./RansomwareGateway $testOutput $sandBox &
