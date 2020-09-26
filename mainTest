@@ -5,35 +5,35 @@ testOutputDirectory="/home/ohadoz/Desktop/RansomwareDetection/TestData/output"
 buildOutput="/home/ohadoz/Desktop/RansomwareDetection/src"
 sandBox="/tmp/sandbox"
 
-# Update
+echo "Updating repository"
 git pull
 sleep 5
 
-# Build
+echo "Building project"
 cd src
 make
 sleep 2
 
-# Test data cleanup
+echo "Test data cleanup"
 rm -rf $testOutputDirectory
 sleep 2
 
-# Create test data
+echo "Create test data"
 cd ..
 mkdir $testOutput
 tar -C $testOutput -zxf $testTar
 sleep 2
 
-# Start Ransomware Detection
+echo "Start Ransomware Detection"
 mkdir $sandbox
 sudo umount $sandBox
 cd $buildOutput
 ./RansomwareGateway $testOutput $sandBox &
 sleep 2
 
-# Run ransomwares
+echo "Running ransomwares"
 cd ..
 
 
-# Stop Ransomware Detection
+echo "Disabling Ransomware Detection"
 sudo umount $sandBox
