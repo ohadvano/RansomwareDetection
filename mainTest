@@ -42,7 +42,7 @@ sleep 2
 echo " "
 
 echo "Start Ransomware Detection"
-mkdir -p $sandbox
+mkdir -p $sandBox
 cd $buildOutput
 ./RansomwareGateway $testOutput $sandBox &
 sleep 2
