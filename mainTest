@@ -3,8 +3,11 @@ testTar="/home/ohadoz/Desktop/RansomwareDetection/TestData/tar/TestData.tar.gz"
 testOutput="/home/ohadoz/Desktop/RansomwareDetection/TestData/output/"
 sandBox="/tmp/sandbox"
 
-# Build
+# Update
 git pull
+
+# Build
+cd src
 make
 sleep 2
 
