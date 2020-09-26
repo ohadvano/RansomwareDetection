@@ -33,7 +33,7 @@ echo "Test data cleanup"
 rm -rf $testOutputDirectory
 runOutput='/home/ohadoz/Desktop/RansomwareDetection/src/Run/*'
 runOutput=${runOutput// /\\ }
-eval rm ${runOutput}
+eval rm -f ${runOutput}
 sleep 2
 echo " "
 
@@ -71,7 +71,9 @@ sudo umount $sandBox
 echo " "
 
 echo "Checking results"
-cp "$buildOutput/Run/Log*" "$testSummaryFolder/log.txt"
+logOutput='/home/ohadoz/Desktop/RansomwareDetection/src/Run/Log*'
+logOutput=${logOutput// /\\ }
+eval cp $logOutput "$testSummaryFolder/log.txt"
 sleep 2
 echo " "
 
