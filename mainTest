@@ -13,6 +13,10 @@ cd src
 make
 sleep 2
 
+# Test data cleanup
+rm -rf $testOutputDirectory
+sleep 2
+
 # Create test data
 cd ..
 mkdir $testOutput
@@ -20,9 +24,14 @@ tar -C $testOutput -zxvf $testTar
 sleep 2
 
 # Start Ransomware Detection
-# sudo umount $sandBox
-# ./RansomwareGateway $testOutput $sandBox &
-# sleep 2
-
-rm -rf $testOutputDirectory
+sudo umount $sandBox
+cd RansomwareDetection
+./RansomwareGateway $testOutput $sandBox &
 sleep 2
+
+# Run ransomwares
+cd ..
+
+
+# Stop Ransomware Detection
+sudo umount $sandBox
