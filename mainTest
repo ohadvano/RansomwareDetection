@@ -68,8 +68,11 @@ cd ..
 while IFS= read -r ransomwarePath
 do
     ransomwareName=${ransomwarePath##*/}
-    echo "Running $ransomwareName"
-    echo "$ransomwarePath"
+    printf "\033[0;31mRunning ransomware: %s\033[0m\n" $ransomwareName
+    # wineCommand="wine $ransomwarePath"
+    # chroot $sandBox $wineCommand
+    printf "\033[1;33mDone, collecting mid-test results\033[0m\n"
+    printf "\033[1;32mOk\033[0m\n"
 done < "$ransomwaresListFile"
 printf "\033[1;32mOk\033[0m\n"
 
