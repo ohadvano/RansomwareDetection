@@ -30,6 +30,7 @@ echo " "
 
 echo "Test data cleanup:"
 rm -rf $testOutputDirectory
+rm "$buildOutput/Run/*"
 sleep 2
 echo " "
 
@@ -40,7 +41,7 @@ tar -C $testOutput -zxf $testTar
 sleep 2
 echo " "
 
-echo "Collecting pre run data"
+echo "Collecting pre run data:"
 mkdir -p $testSummaryRootDirectory
 mkdir -p $testSummaryFolder
 echo " "
