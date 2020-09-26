@@ -2,6 +2,7 @@
 testTar="/home/ohadoz/Desktop/RansomwareDetection/TestData/tar/TestData.tar.gz"
 testOutput="/home/ohadoz/Desktop/RansomwareDetection/TestData/output/"
 testOutputDirectory="/home/ohadoz/Desktop/RansomwareDetection/TestData/output"
+buildOutput="/home/ohadoz/Desktop/RansomwareDetection/src"
 sandBox="/tmp/sandbox"
 
 # Update
@@ -26,7 +27,7 @@ sleep 2
 # Start Ransomware Detection
 mkdir $sandbox
 sudo umount $sandBox
-cd RansomwareDetection
+cd $buildOutput
 ./RansomwareGateway $testOutput $sandBox &
 sleep 2
 
