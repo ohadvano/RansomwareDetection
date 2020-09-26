@@ -31,7 +31,9 @@ echo " "
 
 echo "Test data cleanup"
 rm -rf $testOutputDirectory
-eval rm /home/ohadoz/Desktop/RansomwareDetection/src/Run/*
+runOutput='/home/ohadoz/Desktop/RansomwareDetection/src/Run/*'
+runOutput=${runOutput// /\\ }
+eval rm ${runOutput}
 sleep 2
 echo " "
 
