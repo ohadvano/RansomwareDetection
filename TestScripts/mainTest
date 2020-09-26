@@ -1,0 +1,16 @@
+cd ..
+
+# Build
+git pull
+make
+sleep 2
+
+# Create test data
+tar -C TestData/output/ TestData/tar/TestData.tar.gz
+sleep 2
+
+# Start Ransomware Detection
+sudo umount /tmp/sandbox
+./RansomwareGateway TestData/output/ /tmp/project &
+sleep 2
+
