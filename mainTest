@@ -12,11 +12,12 @@ make
 sleep 2
 
 # Create test data
+cd ..
 tar -C $testOutput $testTar
 sleep 2
 
 # Start Ransomware Detection
-sudo umount $sandBox
-./RansomwareGateway $testOutput $sandBox &
-sleep 2
+# sudo umount $sandBox
+# ./RansomwareGateway $testOutput $sandBox &
+# sleep 2
 
