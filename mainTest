@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Parameters
 testTar="/home/ohadoz/Desktop/RansomwareDetection/TestData/tar/TestData.tar.gz"
 testOutput="/home/ohadoz/Desktop/RansomwareDetection/TestData/output/"
@@ -30,8 +31,7 @@ echo " "
 
 echo "Test data cleanup"
 rm -rf $testOutputDirectory
-diretorio=$(echo "/home/ohadoz/Desktop/RansomwareDetection/src/Run/"*)
-rm $diretorio
+eval rm /home/ohadoz/Desktop/RansomwareDetection/src/Run/*
 sleep 2
 echo " "
 
