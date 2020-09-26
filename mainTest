@@ -17,57 +17,58 @@ echo "Sandbox: $sandBox"
 sleep 5
 echo " "
 
-echo "Updating repository:"
+echo "Updating repository"
 git pull
 sleep 5
 echo " "
 
-echo "Building project:"
+echo "Building project"
 cd src
 make
 sleep 2
 echo " "
 
-echo "Test data cleanup:"
+echo "Test data cleanup"
 rm -rf $testOutputDirectory
-rm "$buildOutput/Run/*"
+diretorio=$(echo "/home/ohadoz/Desktop/RansomwareDetection/src/Run/"*)
+rm $diretorio
 sleep 2
 echo " "
 
-echo "Create test data:"
+echo "Create test data"
 cd ..
 mkdir $testOutput
 tar -C $testOutput -zxf $testTar
 sleep 2
 echo " "
 
-echo "Collecting pre run data:"
+echo "Collecting pre run data"
 mkdir -p $testSummaryRootDirectory
 mkdir -p $testSummaryFolder
 echo " "
 sleep 2
 
-echo "Stop previous run:"
+echo "Stop previous run"
 sudo umount $sandBox
 sleep 2
 echo " "
 
-echo "Start Ransomware Detection:"
+echo "Start Ransomware Detection"
 mkdir -p $sandBox
 cd $buildOutput
 ./RansomwareGateway $testOutput $sandBox &
 sleep 2
 echo " "
 
-echo "Running ransomwares:"
+echo "Running ransomwares"
 cd ..
 echo " "
 
-echo "Stopping Ransomware Detection:"
+echo "Stopping Ransomware Detection"
 sudo umount $sandBox
 echo " "
 
-echo "Checking results:"
+echo "Checking results"
 cp "$buildOutput/Run/Log*" "$testSummaryFolder/log.txt"
 sleep 2
 echo " "
