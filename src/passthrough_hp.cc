@@ -78,7 +78,7 @@
 #include <fstream>
 #include <thread>
 #include <iomanip>
-#include "Utilities/cxxopts.hpp"
+#include "cxxopts.hpp"
 
 using namespace std;
 
