@@ -1,7 +1,7 @@
 # Parameters
-testTar = "/home/ohadoz/Desktop/RansomwareDetection/TestData/tar/TestData.tar.gz"
-testOutput = "/home/ohadoz/Desktop/RansomwareDetection/TestData/output/"
-sandBox = "/tmp/sandbox"
+testTar="/home/ohadoz/Desktop/RansomwareDetection/TestData/tar/TestData.tar.gz"
+testOutput="/home/ohadoz/Desktop/RansomwareDetection/TestData/output/"
+sandBox="/tmp/sandbox"
 
 # Build
 git pull
