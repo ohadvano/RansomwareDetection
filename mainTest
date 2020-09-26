@@ -17,18 +17,18 @@ echo "Test tar: $testTar"
 echo "Test output: $testOutput"
 echo "Sandbox: $sandBox"
 sleep 5
-echo " "
+printf "\033[0;32mOk\n"
 
 echo "Updating repository"
 git pull
 sleep 5
-echo " "
+printf "\033[0;32mOk\n"
 
 echo "Building project"
 cd src
 make
 sleep 2
-echo " "
+printf "\033[0;32mOk\n"
 
 echo "Test data cleanup"
 rm -rf $testOutputDirectory
@@ -36,52 +36,52 @@ runOutput='/home/ohadoz/Desktop/RansomwareDetection/src/Run/*'
 runOutput=${runOutput// /\\ }
 eval rm -f ${runOutput}
 sleep 2
-echo " "
+printf "\033[0;32mOk\n"
 
 echo "Create test data"
 cd ..
 mkdir $testOutput
 tar -C $testOutput -zxf $testTar
 sleep 2
-echo " "
+printf "\033[0;32mOk\n"
 
 echo "Collecting pre run data"
 mkdir -p $testSummaryRootDirectory
 mkdir -p $testSummaryFolder
-echo " "
 sleep 2
+printf "\033[0;32mOk\n"
 
 echo "Stop previous run"
 sudo umount $sandBox
 sleep 2
-echo " "
+printf "\033[0;32mOk\n"
 
 echo "Start Ransomware Detection"
 mkdir -p $sandBox
 cd $buildOutput
 ./RansomwareGateway $testOutput $sandBox &
 sleep 2
-echo " "
+printf "\033[0;32mOk\n"
 
 echo "Running ransomwares"
 cd ..
 while IFS= read -r ransomwarePath
 do
     ransomwareName=${ransomwarePath##*/}
-    echo $ransomwareName
+    echo "Running $ransomwareName"
     echo "$ransomwarePath"
 done < "$ransomwaresListFile"
-echo " "
+printf "\033[0;32mOk\n"
 
 echo "Stopping Ransomware Detection"
 sudo umount $sandBox
-echo " "
+printf "\033[0;32mOk\n"
 
 echo "Checking results"
 logOutput='/home/ohadoz/Desktop/RansomwareDetection/src/Run/Log*'
 logOutput=${logOutput// /\\ }
 eval cp $logOutput "$testSummaryFolder/log.txt"
 sleep 2
-echo " "
+printf "\033[0;32mOk\n"
 
 echo "Test results at: $testSummaryFolder"
