@@ -13,7 +13,7 @@ sleep 2
 
 # Create test data
 cd ..
-tar -C $testOutput $testTar
+tar -C $testOutput -zxvf $testTar
 sleep 2
 
 # Start Ransomware Detection
