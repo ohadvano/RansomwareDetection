@@ -9,29 +9,32 @@ echo "Config:"
 echo "Build output: $buildOutput"
 echo "Test tar: $testTar"
 echo "Test output: $testOutput"
-echo "Sandbox: $sandbox"
+echo "Sandbox: $sandBox"
 sleep 5
-
 echo " "
 
 echo "Updating repository"
 git pull
 sleep 5
+echo " "
 
 echo "Building project"
 cd src
 make
 sleep 2
+echo " "
 
 echo "Test data cleanup"
 rm -rf $testOutputDirectory
 sleep 2
+echo " "
 
 echo "Create test data"
 cd ..
 mkdir $testOutput
 tar -C $testOutput -zxf $testTar
 sleep 2
+echo " "
 
 echo "Start Ransomware Detection"
 mkdir $sandbox
@@ -39,10 +42,12 @@ sudo umount $sandBox
 cd $buildOutput
 ./RansomwareGateway $testOutput $sandBox &
 sleep 2
+echo " "
 
 echo "Running ransomwares"
 cd ..
-
+echo " "
 
 echo "Disabling Ransomware Detection"
 sudo umount $sandBox
+echo " "
