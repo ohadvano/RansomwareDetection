@@ -16,7 +16,7 @@ echo "Build output: $buildOutput"
 echo "Test tar: $testTar"
 echo "Test output: $testOutput"
 echo "Sandbox: $sandBox"
-sleep 5
+sleep 1
 printf "\033[1;32mOk\033[0m\n"
 
 printf "\033[1;34mUpdating repository\033[0m\n"
