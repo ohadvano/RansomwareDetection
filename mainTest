@@ -68,7 +68,7 @@ sudo umount $sandBox
 echo " "
 
 echo "Checking results:"
-cp "$buildOutput/Run/x" "$testSummaryFolder/log.txt"
+cp "$buildOutput/Run/Log*" "$testSummaryFolder/log.txt"
 sleep 2
 echo " "
 
