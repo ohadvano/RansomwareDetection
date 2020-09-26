@@ -1,4 +1,7 @@
-cd ..
+# Parameters
+testTar = "/home/ohadoz/Desktop/RansomwareDetection/TestData/tar/TestData.tar.gz"
+testOutput = "/home/ohadoz/Desktop/RansomwareDetection/TestData/output/"
+sandBox = "/tmp/sandbox"
 
 # Build
 git pull
@@ -6,11 +9,11 @@ make
 sleep 2
 
 # Create test data
-tar -C TestData/output/ TestData/tar/TestData.tar.gz
+tar -C $testOutput $testTar
 sleep 2
 
 # Start Ransomware Detection
-sudo umount /tmp/sandbox
-./RansomwareGateway TestData/output/ /tmp/project &
+sudo umount $sandBox
+./RansomwareGateway $testOutput $sandBox &
 sleep 2
 
