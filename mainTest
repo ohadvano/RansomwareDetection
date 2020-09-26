@@ -9,6 +9,7 @@ testSummaryRootDirectory="/home/ohadoz/Desktop/RansomwareDetection/TestResults"
 now="$(date +'%d-%m-%Y_%H-%M-%S')"
 currentDate="Run_$now"
 testSummaryFolder="$testSummaryRootDirectory/$currentDate"
+ransomwaresListFile="/home/ohadoz/Desktop/RansomwareDetection/ransomwares"
 
 echo "Config:"
 echo "Build output: $buildOutput"
@@ -64,6 +65,12 @@ echo " "
 
 echo "Running ransomwares"
 cd ..
+while IFS= read -r ransomwarePath
+do
+    ransomwareName=${foo##*/}
+    echo $ransomwareName
+    echo "$ransomwarePath"
+done < "$ransomwaresListFile"
 echo " "
 
 echo "Stopping Ransomware Detection"
