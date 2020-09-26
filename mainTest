@@ -1,6 +1,7 @@
 # Parameters
 testTar="/home/ohadoz/Desktop/RansomwareDetection/TestData/tar/TestData.tar.gz"
 testOutput="/home/ohadoz/Desktop/RansomwareDetection/TestData/output/"
+testOutputDirectory="/home/ohadoz/Desktop/RansomwareDetection/TestData/output"
 sandBox="/tmp/sandbox"
 
 # Update
@@ -23,3 +24,5 @@ sleep 2
 # ./RansomwareGateway $testOutput $sandBox &
 # sleep 2
 
+rm -rf $testOutputDirectory
+sleep 2
