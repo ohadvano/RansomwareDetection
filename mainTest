@@ -36,9 +36,13 @@ tar -C $testOutput -zxf $testTar
 sleep 2
 echo " "
 
-echo "Start Ransomware Detection"
-mkdir $sandbox
+echo "Stop previous run"
 sudo umount $sandBox
+sleep 2
+echo " "
+
+echo "Start Ransomware Detection"
+mkdir -p $sandbox
 cd $buildOutput
 ./RansomwareGateway $testOutput $sandBox &
 sleep 2
