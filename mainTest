@@ -5,7 +5,7 @@ sandBox="/tmp/sandbox"
 
 # Update
 git pull
-sleep 10
+sleep 5
 
 # Build
 cd src
