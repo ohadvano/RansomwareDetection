@@ -4,6 +4,10 @@ testOutput="/home/ohadoz/Desktop/RansomwareDetection/TestData/output/"
 testOutputDirectory="/home/ohadoz/Desktop/RansomwareDetection/TestData/output"
 buildOutput="/home/ohadoz/Desktop/RansomwareDetection/src"
 sandBox="/tmp/sandbox"
+testSummaryRootDirectory="/home/ohadoz/Desktop/RansomwareDetection/TestResults"
+now="$(date +'%d-%m-%Y_%H-%M-%S')"
+currentDate="Run_$now"
+testSummaryFolder="$testSummaryRootDirectory/$currentDate"
 
 echo "Config:"
 echo "Build output: $buildOutput"
@@ -13,45 +17,58 @@ echo "Sandbox: $sandBox"
 sleep 5
 echo " "
 
-echo "Updating repository"
+echo "Updating repository:"
 git pull
 sleep 5
 echo " "
 
-echo "Building project"
+echo "Building project:"
 cd src
 make
 sleep 2
 echo " "
 
-echo "Test data cleanup"
+echo "Test data cleanup:"
 rm -rf $testOutputDirectory
 sleep 2
 echo " "
 
-echo "Create test data"
+echo "Create test data:"
 cd ..
 mkdir $testOutput
 tar -C $testOutput -zxf $testTar
 sleep 2
 echo " "
 
-echo "Stop previous run"
+echo "Collecting pre run data"
+mkdir -p $testSummaryRootDirectory
+mkdir -p $testSummaryFolder
+echo " "
+sleep 2
+
+echo "Stop previous run:"
 sudo umount $sandBox
 sleep 2
 echo " "
 
-echo "Start Ransomware Detection"
+echo "Start Ransomware Detection:"
 mkdir -p $sandBox
 cd $buildOutput
 ./RansomwareGateway $testOutput $sandBox &
 sleep 2
 echo " "
 
-echo "Running ransomwares"
+echo "Running ransomwares:"
 cd ..
 echo " "
 
-echo "Disabling Ransomware Detection"
+echo "Stopping Ransomware Detection:"
 sudo umount $sandBox
 echo " "
+
+echo "Checking results:"
+cp "$buildOutput/Run/x" "$testSummaryFolder/log.txt"
+sleep 2
+echo " "
+
+echo "Test results at: $testSummaryFolder"
