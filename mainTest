@@ -6,11 +6,13 @@ buildOutput="/home/ohadoz/Desktop/RansomwareDetection/src"
 sandBox="/tmp/sandbox"
 
 echo "Config:"
-echo "Build output: "
-echo "Test tar: "
-echo "Test output: "
-echo "Sandbox: "
+echo "Build output: $buildOutput"
+echo "Test tar: $testTar"
+echo "Test output: $testOutput"
+echo "Sandbox: $sandbox"
 sleep 5
+
+echo " "
 
 echo "Updating repository"
 git pull
