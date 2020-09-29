@@ -168,7 +168,7 @@ namespace Configurations
             double* GetIndividualThresholds(char* str)
             {
                 int idx = 0;
-                double res[6];
+                double* res = (double*)malloc(sizeof(double)*6);
                 vector<string> splitted = SplitToWords(str, ',');
                 for (std::vector<string>::iterator it = splitted.begin(); it != splitted.end(); ++it)
                 {
