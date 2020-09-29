@@ -39,7 +39,7 @@ namespace RwMonitor
                 _minAccumulatedThreshold = _configurationProvider->GetMinAccumulatedThreshold();
                 _minGlobalThreshold = _configurationProvider->GetMinGlobalThreshold();
                 _individualThresholds = _configurationProvider->GetIndividualThresholds();
-                
+
                 _heuristics = new list<HeuristicBase*>();
 
                 _isInternal = false;
@@ -147,7 +147,7 @@ namespace RwMonitor
 
             double _minAccumulatedThreshold;
             double _minGlobalThreshold;
-            double _individualThresholds[6];
+            double* _individualThresholds;
 
             bool IsSystemAtRiskWithNewThresholds()
             {
@@ -162,7 +162,7 @@ namespace RwMonitor
 
                 bool isThreat = AccumulatedThreshold(thresholds, idx, _minAccumulatedThreshold) ||
                                 AnyOverThreshold(thresholds, idx, _minGlobalThreshold) ||
-                                IndividualThresholds(thresholds, idx, _individualThresholds);
+                                IndividualThresholds(thresholds, _individualThresholds, idx);
 
                 string resultAsString = isThreat ? "Risk" : "Safe";
                 _logger->WriteLog("Action resolution: " + resultAsString);
@@ -210,7 +210,7 @@ namespace RwMonitor
                 return result;
             }
 
-            bool IndividualThresholds(double thresholds[], double individualMinThresholds[], int length)
+            bool IndividualThresholds(double thresholds[], double* individualMinThresholds, int length)
             {
                 string conditionDescription = "Condition3";
                 _logger->WriteLog("Checking action with: " + conditionDescription);
