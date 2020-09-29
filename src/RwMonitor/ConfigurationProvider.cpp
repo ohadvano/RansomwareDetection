@@ -170,7 +170,7 @@ namespace Configurations
                 int idx = 0;
                 double res[6];
                 vector<string> splitted = SplitToWords(str, ',');
-                for (std::vector<string>::iterator it = splitted->begin(); it != splitted->end(); ++it)
+                for (std::vector<string>::iterator it = splitted.begin(); it != splitted.end(); ++it)
                 {
                     string individualRes = *it;
                     char* char_array = (char*)malloc(individualRes.length() + 1);
