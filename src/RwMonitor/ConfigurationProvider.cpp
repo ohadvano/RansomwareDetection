@@ -82,7 +82,7 @@ namespace Configurations
             char* _tmpFilePath2;
             double _minAccumulatedThreshold;
             double _minGlobalThreshold;
-            double _individualThresholds[6];
+            double* _individualThresholds;
 
             regex _logFilePathRegex = regex("LogFilePath: #(.*)#;");
             regex _tmpFilePathRegex = regex("TempFilePath: #(.*)#;");
