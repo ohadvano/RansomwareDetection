@@ -177,7 +177,7 @@ namespace Configurations
                     strcpy(char_array, individualRes.c_str()); 
                     res[idx] = ConvertToDouble(char_array);
                     delete[] char_array;
-                    idx++:
+                    idx++;
                 }
 
                 return res;
