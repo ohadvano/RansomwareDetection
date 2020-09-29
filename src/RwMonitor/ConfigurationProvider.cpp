@@ -165,7 +165,7 @@ namespace Configurations
                 return val;
             }
 
-            double[6] GetIndividualThresholds(char* str)
+            double* GetIndividualThresholds(char* str)
             {
                 int idx = 0;
                 double res[6];
