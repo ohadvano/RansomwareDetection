@@ -67,7 +67,7 @@ namespace Configurations
                 return _minGlobalThreshold;
             }
 
-            double[6] GetIndividualThresholds()
+            double* GetIndividualThresholds()
             {
                 return _individualThresholds;
             }
