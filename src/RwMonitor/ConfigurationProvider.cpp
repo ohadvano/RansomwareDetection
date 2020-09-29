@@ -57,6 +57,21 @@ namespace Configurations
                 return _systemLockDownDuration;
             }
             
+            double GetMinAccumulatedThreshold()
+            {
+                return _minAccumulatedThreshold;
+            }
+
+            double GetMinGlobalThreshold()
+            {
+                return _minGlobalThreshold;
+            }
+
+            double[6] GetIndividualThresholds()
+            {
+                return _individualThresholds;
+            }
+
         private:
             int _similarityTh;
             int _enthropyTh;
@@ -65,6 +80,9 @@ namespace Configurations
             char* _logFilePath;
             char* _tmpFilePath;
             char* _tmpFilePath2;
+            double _minAccumulatedThreshold;
+            double _minGlobalThreshold;
+            double _individualThresholds[6];
 
             regex _logFilePathRegex = regex("LogFilePath: #(.*)#;");
             regex _tmpFilePathRegex = regex("TempFilePath: #(.*)#;");
@@ -73,6 +91,9 @@ namespace Configurations
             regex _similarityThRegex = regex("SimilarityMeasurement: #(.*)#;");
             regex _enthropyThRegex = regex("ShannonEnthropy: #(.*)#;");
             regex _suspiciousKeywordsRegex = regex("SuspiciousKeywords: #(.*)#;");
+            regex _minAccumulatedThresholdRegex = regex("MinAccumulatedThreshold: #(.*)#;");
+            regex _minGlobalThresholdRegex = regex("MinGlobalThresholdRegex: #(.*)#;");
+            regex _individualThresholdRegex = regex("IndividualThresholdRegex: #(.*)#;");
             
             void Init(char const* configPath)
             {
@@ -90,6 +111,9 @@ namespace Configurations
                 char* logFilePathString = Parse(str, _logFilePathRegex);
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
                 char* tmpFilePath2String = Parse(str, _tmpFilePath2Regex);
+                char* minAccumulatedThreshold = Parse(str, _minAccumulatedThresholdRegex);
+                char* minGlobalThreshold = Parse(str, _minGlobalThresholdRegex);
+                char* individualThreshold = Parse(str, _individualThresholdRegex);
 
                 _similarityTh = ConvertToInt(similarityString);
                 _enthropyTh = ConvertToInt(enthropyString);
@@ -98,6 +122,9 @@ namespace Configurations
                 _logFilePath = logFilePathString;
                 _tmpFilePath = tmpFilePathString;
                 _tmpFilePath2 = tmpFilePath2String;
+                _minAccumulatedThreshold = ConvertToDouble(minAccumulatedThreshold);
+                _minGlobalThreshold = ConvertToDouble(minGlobalThreshold);
+                _individualThresholds = GetIndividualThresholds(individualThreshold);
             }
 
             char* Parse(string str, regex reg)
@@ -127,6 +154,33 @@ namespace Configurations
                 int val = 0;
                 stream1 >> val;
                 return val;
+            }
+
+            double ConvertToDouble(char* str)
+            {
+                string strAsString(str);
+                stringstream stream1(strAsString); 
+                double val = 0;
+                stream1 >> val;
+                return val;
+            }
+
+            double[6] GetIndividualThresholds(char* str)
+            {
+                int idx = 0;
+                double res[6];
+                vector<string> splitted = SplitToWords(str, ',');
+                for (std::vector<string>::iterator it = splitted->begin(); it != splitted->end(); ++it)
+                {
+                    string individualRes = *it;
+                    char* char_array = (char*)malloc(individualRes.length() + 1);
+                    strcpy(char_array, individualRes.c_str()); 
+                    res[idx] = ConvertToDouble(char_array);
+                    delete[] char_array;
+                    idx++:
+                }
+
+                return res;
             }
 
             vector<string> SplitToWords (char* str, char delim) 

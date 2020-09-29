@@ -36,6 +36,10 @@ namespace RwMonitor
                 char* tempFilePath2 = _configurationProvider->GetTempFilePath2();
                 _tempWriter2 = new TempWriter(tempFilePath2);
 
+                _minAccumulatedThreshold = _configurationProvider->GetMinAccumulatedThreshold();
+                _minGlobalThreshold = _configurationProvider->GetMinGlobalThreshold();
+                _individualThresholds = _configurationProvider->GetIndividualThresholds();
+                
                 _heuristics = new list<HeuristicBase*>();
 
                 _isInternal = false;
@@ -141,6 +145,10 @@ namespace RwMonitor
             TempFile::TempWriter* _tempWriter2;
             std::list<HeuristicBase*>* _heuristics;
 
+            double _minAccumulatedThreshold;
+            double _minGlobalThreshold;
+            double _individualThresholds[6];
+
             bool IsSystemAtRiskWithNewThresholds()
             {
                 double thresholds[6];
@@ -152,9 +160,9 @@ namespace RwMonitor
                     idx++;
                 }
 
-                bool isThreat = CheckCondition1(thresholds) ||
-                                CheckCondition2(thresholds) ||
-                                CheckCondition3(thresholds);
+                bool isThreat = AccumulatedThreshold(thresholds, idx, _minAccumulatedThreshold) ||
+                                AnyOverThreshold(thresholds, idx, _minGlobalThreshold) ||
+                                IndividualThresholds(thresholds, idx, _individualThresholds);
 
                 string resultAsString = isThreat ? "Risk" : "Safe";
                 _logger->WriteLog("Action resolution: " + resultAsString);
@@ -162,12 +170,18 @@ namespace RwMonitor
                 return isThreat;
             }
 
-            bool CheckCondition1(double thresholds[])
+            bool AccumulatedThreshold(double thresholds[], int length, double minThreshold)
             {
                 string conditionDescription = "Condition1";
                 _logger->WriteLog("Checking action with: " + conditionDescription);
 
-                bool result = false;
+                double sum = 0;
+                for (int idx = 0; idx < length; idx++)
+                {
+                    sum += thresholds[idx];
+                }
+
+                bool result = sum > minThreshold;
 
                 string resultAsString = result ? "Risk" : "Safe";
                 _logger->WriteLog("Condition result: " + resultAsString);
@@ -175,12 +189,20 @@ namespace RwMonitor
                 return result;
             }
 
-            bool CheckCondition2(double thresholds[])
+            bool AnyOverThreshold(double thresholds[], int length, double minThreshold)
             {
                 string conditionDescription = "Condition2";
                 _logger->WriteLog("Checking action with: " + conditionDescription);
 
                 bool result = false;
+                for (int idx = 0; idx < length; idx++)
+                {
+                    if (thresholds[idx] > minThreshold)
+                    {
+                        result = true;
+                        break;
+                    }
+                }
 
                 string resultAsString = result ? "Risk" : "Safe";
                 _logger->WriteLog("Condition result: " + resultAsString);
@@ -188,12 +210,20 @@ namespace RwMonitor
                 return result;
             }
 
-            bool CheckCondition3(double thresholds[])
+            bool IndividualThresholds(double thresholds[], double individualMinThresholds[], int length)
             {
                 string conditionDescription = "Condition3";
                 _logger->WriteLog("Checking action with: " + conditionDescription);
 
                 bool result = false;
+                for (int idx = 0; idx < length; idx++)
+                {
+                    if (thresholds[idx] > individualMinThresholds[idx])
+                    {
+                        result = true;
+                        break;
+                    }
+                }
 
                 string resultAsString = result ? "Risk" : "Safe";
                 _logger->WriteLog("Condition result: " + resultAsString);
