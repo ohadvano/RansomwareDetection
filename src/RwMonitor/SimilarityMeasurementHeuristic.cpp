@@ -63,12 +63,6 @@ namespace Heuristics
                     string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
 
-                    string s1 = GetNewContent(filePath, writeAction);
-                    string s2 = GetOldContent(writeAction);
-
-                    _logger->WriteLog("aaa: " + s1);
-                    _logger->WriteLog("bbb: " + s2);
-
                     _tempWriter->Write(GetNewContent(filePath, writeAction));
                     _tempWriter2->Write(GetOldContent(writeAction));
 
