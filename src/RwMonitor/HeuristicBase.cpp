@@ -155,7 +155,7 @@ namespace Heuristics
                 return str;
             }
         private:
-            char const* _tmpFile = "src//Run//temp_file_res.txt";
+            char const* _tmpFile = "//home//ohadoz//Desktop//RansomwareDetection//src//Run//temp_file_res.txt";
             string execute_program(string prog_name, string arg1, string arg2)
             {
                 int pid = fork();
