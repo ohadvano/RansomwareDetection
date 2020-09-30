@@ -246,7 +246,7 @@ namespace RwMonitor
             string Convert(double d)
             {
                 std::ostringstream strs;
-                strs << dbl;
+                strs << d;
                 std::string str = strs.str();
                 return strs;
             }
