@@ -248,7 +248,7 @@ namespace RwMonitor
                 std::ostringstream strs;
                 strs << d;
                 std::string str = strs.str();
-                return strs;
+                return str;
             }
     };
     
