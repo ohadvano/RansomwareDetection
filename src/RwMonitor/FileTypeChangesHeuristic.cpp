@@ -1,5 +1,5 @@
-#ifndef _HHEURISTIC
-#define _HHEURISTIC
+#ifndef _HHEURISTIC_FTC
+#define _HHEURISTIC_FTC
 
 #include <list>
 #include <vector>
@@ -23,6 +23,7 @@
 #include <errno.h>
 #include <sys/wait.h>
 #include <sstream>
+#include "HeuristicBase.cpp"
 
 using namespace FileSystemActions;
 using namespace Log;
