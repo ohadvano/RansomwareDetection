@@ -68,6 +68,8 @@ printf "\033[1;32mOk\033[0m\n"
 printf "\033[1;34mStart Ransomware Detection\033[0m\n"
 mkdir -p $sandBox
 cd $buildOutput
+echo "t $testOutput"
+echo "r $sandBox"
 ./RansomwareGateway $testOutput $sandBox &
 sleep 1
 printf "\033[1;32mOk\033[0m\n"
