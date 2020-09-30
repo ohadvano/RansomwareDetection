@@ -36,7 +36,8 @@ namespace RwMonitor
                 _logger = new Logger(logFilePath);
 
                 _isDebug = _configurationProvider->IsDebugMode();
-                _logger->WriteLog("Debug: " + (_isDebug ? "Yes" : "No"));
+                string debugString = _isDebug ? "Yes" : "No";
+                _logger->WriteLog("Debug: " + debugString);
 
                 char* tempFilePath = _configurationProvider->GetTempFilePath();
                 _tempWriter = new TempWriter(tempFilePath);
