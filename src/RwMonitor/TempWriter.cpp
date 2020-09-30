@@ -19,7 +19,7 @@ namespace TempFile
 
             TempWriter(char* tempFilePath)
             {
-                string path = "..//Run//";
+                string path = "//home//ohadoz//Desktop//RansomwareDetection//Run//";
                 path += tempFilePath;
 
                 char* finalTempFilePath = (char*)malloc(path.length() + 1);
