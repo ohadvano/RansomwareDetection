@@ -45,6 +45,13 @@ namespace RwMonitor
                 _minGlobalThreshold = _configurationProvider->GetMinGlobalThreshold();
                 _individualThresholds = _configurationProvider->GetIndividualThresholds();
 
+                _logger->WriteLog("11111: " + Convert(_minAccumulatedThreshold));
+                _logger->WriteLog("22222: " + Convert(_minAccumulatedThreshold));
+                for (int i=0;i<6;i++)
+                {
+                    _logger->WriteLog("33333: " + Convert(_individualThresholds[i]))
+                }
+
                 _heuristics = new list<HeuristicBase*>();
 
                 _isInternal = false;
@@ -234,6 +241,14 @@ namespace RwMonitor
                 _logger->WriteLog("Condition result: " + resultAsString);
                 
                 return result;
+            }
+
+            string Convert(double d)
+            {
+                std::ostringstream strs;
+                strs << dbl;
+                std::string str = strs.str();
+                return strs;
             }
     };
     
