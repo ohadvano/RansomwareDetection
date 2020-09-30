@@ -49,7 +49,7 @@ namespace RwMonitor
                 _logger->WriteLog("22222: " + Convert(_minAccumulatedThreshold));
                 for (int i=0;i<6;i++)
                 {
-                    _logger->WriteLog("33333: " + Convert(_individualThresholds[i]))
+                    _logger->WriteLog("33333: " + Convert(_individualThresholds[i]));
                 }
 
                 _heuristics = new list<HeuristicBase*>();
