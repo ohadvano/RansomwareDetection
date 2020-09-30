@@ -175,9 +175,10 @@ namespace RwMonitor
                     idx++;
                 }
 
-                bool isThreat = AccumulatedThreshold(thresholds, idx, _minAccumulatedThreshold) ||
-                                AnyOverThreshold(thresholds, idx, _minGlobalThreshold) ||
-                                IndividualThresholds(thresholds, _individualThresholds, idx);
+                bool accumulated = AccumulatedThreshold(thresholds, idx, _minAccumulatedThreshold);
+                bool anyOver = AnyOverThreshold(thresholds, idx, _minGlobalThreshold);
+                bool individual = IndividualThresholds(thresholds, _individualThresholds, idx);
+                bool isThreat = accumulated || anyOver || individual;
 
                 string resultAsString = isThreat ? "Risk" : "Safe";
                 _logger->WriteLog("Action resolution: " + resultAsString);
