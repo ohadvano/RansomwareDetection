@@ -63,17 +63,19 @@ namespace Heuristics
                     string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
 
-                    _tempWriter->Write(GetNewContent(filePath, writeAction));
-                    _tempWriter2->Write(GetOldContent(writeAction));
+                    string s1 = GetNewContent(filePath, writeAction);
+                    string s2 = GetOldContent(writeAction);
+
+                    _logger->WriteLog("111: " + s1);
+                    _logger->WriteLog("222: " + s2);
+
+                    _tempWriter->Write(s1);
+                    _tempWriter2->Write(s2);
 
                     int similarityMeasurementScore = RunSdHash(_tempWriter2->TempFilePath, _tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Similarity score: " + GetIntAsString(similarityMeasurementScore) + "]");
 
-                    if (similarityMeasurementScore == -1)
-                    {
-                        // TODO
-                    }
-                    else if (similarityMeasurementScore < _threshold)
+                    if (similarityMeasurementScore != -1 && similarityMeasurementScore < _threshold)
                     {
                         _logger->WriteLog("[" + _heuristicName + "][Similarity measurement anormaliy detected]");
                         _writeBufHistory->AddNewAction(writeAction);
