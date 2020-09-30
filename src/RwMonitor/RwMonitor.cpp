@@ -172,7 +172,7 @@ namespace RwMonitor
 
             bool AccumulatedThreshold(double thresholds[], int length, double minThreshold)
             {
-                string conditionDescription = "Condition1";
+                string conditionDescription = "AccumulatedThreshold";
                 _logger->WriteLog("Checking action with: " + conditionDescription);
 
                 double sum = 0;
@@ -191,7 +191,7 @@ namespace RwMonitor
 
             bool AnyOverThreshold(double thresholds[], int length, double minThreshold)
             {
-                string conditionDescription = "Condition2";
+                string conditionDescription = "AnyOverThreshold";
                 _logger->WriteLog("Checking action with: " + conditionDescription);
 
                 bool result = false;
@@ -212,7 +212,7 @@ namespace RwMonitor
 
             bool IndividualThresholds(double thresholds[], double* individualMinThresholds, int length)
             {
-                string conditionDescription = "Condition3";
+                string conditionDescription = "IndividualThresholds";
                 _logger->WriteLog("Checking action with: " + conditionDescription);
 
                 bool result = false;
