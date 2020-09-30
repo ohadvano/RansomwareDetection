@@ -21,7 +21,7 @@ namespace Log
 
             Logger(char* logPath)
             {
-                string path = "//home//ohadoz//Desktop//RansomwareDetection//src//Run//";
+                string path = "//src//Run//";
                 path += logPath;
 
                 time_t rawtime;
