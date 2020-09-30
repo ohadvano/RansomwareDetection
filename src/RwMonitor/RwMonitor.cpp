@@ -35,6 +35,9 @@ namespace RwMonitor
                 char* logFilePath = _configurationProvider->GetLogFilePath();
                 _logger = new Logger(logFilePath);
 
+                _isDebug = _configurationProvider->IsDebugMode();
+                _logger->WriteLog("Debug: " + (_isDebug ? "Yes" : "No"));
+
                 char* tempFilePath = _configurationProvider->GetTempFilePath();
                 _tempWriter = new TempWriter(tempFilePath);
 
@@ -87,6 +90,11 @@ namespace RwMonitor
                 pthread_mutex_unlock(&_actionLock);
 
                 _logger->WriteLog("####################################################");
+
+                if (_isDebug)
+                {
+                    return Safe;
+                }
 
                 if (isRisky)
                 {
@@ -144,6 +152,7 @@ namespace RwMonitor
         private:
             pthread_mutex_t _actionLock;
             bool _isInternal;
+            bool _isDebug;
 
             Log::Logger* _logger;
             TempFile::TempWriter* _tempWriter;

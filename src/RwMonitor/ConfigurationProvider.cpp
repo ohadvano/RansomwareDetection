@@ -37,6 +37,11 @@ namespace Configurations
                 return _suspiciousKeywords;
             }
 
+            bool IsDebugMode()
+            {
+                return _isDebugMode;
+            }
+
             char* GetLogFilePath()
             {
                 return _logFilePath;
@@ -73,6 +78,7 @@ namespace Configurations
             }
 
         private:
+            bool _isDebugMode;
             int _similarityTh;
             int _enthropyTh;
             int _systemLockDownDuration;
@@ -84,6 +90,7 @@ namespace Configurations
             double _minGlobalThreshold;
             double* _individualThresholds;
 
+            regex _runningModeRegex = regex("Debug: #(.*)#;");
             regex _logFilePathRegex = regex("LogFilePath: #(.*)#;");
             regex _tmpFilePathRegex = regex("TempFilePath: #(.*)#;");
             regex _tmpFilePath2Regex = regex("TempFilePath2: #(.*)#;");
@@ -104,6 +111,7 @@ namespace Configurations
                 strStream << inFile.rdbuf();
                 string str = strStream.str();
 
+                char* runningModeStr = Parse(str, _runningModeRegex);
                 char* similarityString = Parse(str, _similarityThRegex);
                 char* enthropyString = Parse(str, _enthropyThRegex);
                 char* systemLockDownDurationString = Parse(str, _systemLockDownDurationRegex);
@@ -115,6 +123,7 @@ namespace Configurations
                 char* minGlobalThreshold = Parse(str, _minGlobalThresholdRegex);
                 char* individualThreshold = Parse(str, _individualThresholdRegex);
 
+                _isDebugMode = IsDebugMode(runningModeStr);
                 _similarityTh = ConvertToInt(similarityString);
                 _enthropyTh = ConvertToInt(enthropyString);
                 _systemLockDownDuration = ConvertToInt(systemLockDownDurationString);
@@ -145,6 +154,17 @@ namespace Configurations
                 }
 
                 return nullptr;
+            }
+
+            bool IsDebugMode(char* str)
+            {
+                string strAsString(str);
+                if (strAsString == "true")
+                {
+                    return true;
+                }
+                
+                return false;
             }
 
             int ConvertToInt(char* str)
