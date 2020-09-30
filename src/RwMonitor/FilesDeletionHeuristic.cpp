@@ -1,5 +1,5 @@
-#ifndef _HHEURISTIC_SKW
-#define _HHEURISTIC_SKW
+#ifndef _HHEURISTIC_FD
+#define _HHEURISTIC_FD
 
 #include <list>
 #include <vector>
