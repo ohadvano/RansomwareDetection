@@ -56,7 +56,6 @@ namespace Heuristics
             {
                 string str(writeAction->InputData1);
                 string str2(writeAction->InputData2);
-                _logger->WriteLog("a");
                 return str;
             }
 
