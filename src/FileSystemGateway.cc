@@ -1101,7 +1101,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
-    ostringstream strs1, strs2, strs3, strs4, strs5, strs6, strs7, strs8, strs9, strs10;
+    ostringstream strs1, strs2, strs3, strs4, strs5, strs6, strs7, strs8, strs9;
     strs1 << in_buf->count;
     strs2 << in_buf->idx;
     strs3 << in_buf->off;
@@ -1112,12 +1112,22 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     strs8 << (in_buf->buf[0]).pos;
     strs9 << (in_buf->buf[1]).pos;
 
-    FILE* file = fdopen((in_buf->buf[1]).fd, "r");
+    _logger->WriteLog("count: " + strs1.str());
+    _logger->WriteLog("idx: " + strs2.str());
+    _logger->WriteLog("off: " + strs3.str());
+    _logger->WriteLog("fd0: " + strs4.str());
+    _logger->WriteLog("fd1: " + strs5.str());
+    _logger->WriteLog("size0: " + strs6.str());
+    _logger->WriteLog("size1: " + strs7.str());
+    _logger->WriteLog("pos0: " + strs8.str());
+    _logger->WriteLog("pos1: " + strs9.str());
+
+    FILE* file = fdopen((in_buf->buf[0]).fd, "r");
     if (file == nullptr)
     {
         _logger->WriteLog("x");
     }
-    
+
     fseek(file, 0, SEEK_END);
     long fsize = ftell(file);
     fseek(file, 0, SEEK_SET);  /* same as rewind(f); */
@@ -1128,17 +1138,6 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     newContentRes[fsize] = 0;
     string newContent(newContentRes);
-
-    _logger->WriteLog("count: " + strs1.str());
-    _logger->WriteLog("idx: " + strs2.str());
-    _logger->WriteLog("off: " + strs3.str());
-    _logger->WriteLog("fd0: " + strs4.str());
-    _logger->WriteLog("fd1: " + strs5.str());
-    _logger->WriteLog("size0: " + strs6.str());
-    _logger->WriteLog("size1: " + strs7.str());
-    _logger->WriteLog("pos0: " + strs8.str());
-    _logger->WriteLog("pos1: " + strs9.str());
-    _logger->WriteLog("xx: " + strs10.str());
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
