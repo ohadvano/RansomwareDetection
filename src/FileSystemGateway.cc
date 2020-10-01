@@ -1112,14 +1112,14 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     strs8 << (in_buf->buf[0]).pos;
     strs9 << (in_buf->buf[1]).pos;
 
-    FILE* file = fdopen((in_buf->buf[1]).fd, 'r');
+    FILE* file = fdopen((in_buf->buf[1]).fd, "r");
     fseek(file, 0, SEEK_END);
     long fsize = ftell(file);
     fseek(file, 0, SEEK_SET);  /* same as rewind(f); */
 
-    char* newContentRes = malloc(fsize + 1);
+    char* newContentRes = (char*)malloc(fsize + 1);
     fread(string, 1, fsize, file);
-    fclose(f);
+    fclose(file);
 
     string[fsize] = 0;
     string newContent(newContentRes);
