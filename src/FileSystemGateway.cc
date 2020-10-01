@@ -1101,10 +1101,16 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
-    ostringstream strs;
-    strs << (in_buf->buf[1]).fd;
+    ostringstream strs, strs2, strs3, strs4;
+    strs << (in_buf->buf[0]).fd;
+    strs2 << (in_buf->buf[1]).fd;
+    strs3 << (in_buf->buf[0]).size;
+    strs4 << (in_buf->buf[1]).size;
 
-    _logger->WriteLog("aaa: " + strs.str());
+    _logger->WriteLog("a: " + strs.str());
+    _logger->WriteLog("b: " + strs2.str());
+    _logger->WriteLog("c: " + strs3.str());
+    _logger->WriteLog("d: " + strs4.str());
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
