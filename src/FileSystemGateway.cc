@@ -1122,7 +1122,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     _logger->WriteLog("pos0: " + strs8.str());
     _logger->WriteLog("pos1: " + strs9.str());
 
-    FILE* file = fdopen((in_buf->buf[0]).fd, "r");
+    FILE* file = fdopen((in_buf->buf[1]).fd, "r");
     if (file == nullptr)
     {
         _logger->WriteLog("x");
