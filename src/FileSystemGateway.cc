@@ -1118,7 +1118,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     fseek(file, 0, SEEK_SET);  /* same as rewind(f); */
 
     char* newContentRes = (char*)malloc(fsize + 1);
-    fread(string, 1, fsize, file);
+    fread(newContentRes, 1, fsize, file);
     fclose(file);
 
     string[fsize] = 0;
