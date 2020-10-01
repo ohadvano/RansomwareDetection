@@ -1095,11 +1095,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     else
     {
         oldFileContent = (*_fileMap)[filePath];
+        (*_fileMap).erase(filePath);
     }
-
-    _logger->WriteLog("old:" + oldFileContent);
-
-    (*_fileMap).erase(filePath);
 
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
