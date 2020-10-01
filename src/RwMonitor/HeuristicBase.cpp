@@ -54,8 +54,8 @@ namespace Heuristics
 
             string GetNewContent(string filePath, WriteBufAction* writeAction)
             {
-                string str(writeAction->InputData1);
-                string str2(writeAction->InputData2);
+                char* mem1 = writeAction->InputData1;
+                string str(mem1);
                 return str;
             }
 
