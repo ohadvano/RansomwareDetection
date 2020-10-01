@@ -1101,7 +1101,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
-    ostringstream strs1, strs2, strs3, strs4, strs5, strs6, strs7, strs8, strs9;
+    ostringstream strs1, strs2, strs3, strs4, strs5, strs6, strs7, strs8, strs9, strs10, strs11;
     strs1 << in_buf->count;
     strs2 << in_buf->idx;
     strs3 << in_buf->off;
@@ -1111,6 +1111,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     strs7 << (in_buf->buf[1]).size;
     strs8 << (in_buf->buf[0]).pos;
     strs9 << (in_buf->buf[1]).pos;
+    strs10 << (int)((in_buf->buf[0]).mem);
+    strs11 << (int)((in_buf->buf[1]).mem);
 
     _logger->WriteLog("count: " + strs1.str());
     _logger->WriteLog("idx: " + strs2.str());
@@ -1121,6 +1123,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     _logger->WriteLog("size1: " + strs7.str());
     _logger->WriteLog("pos0: " + strs8.str());
     _logger->WriteLog("pos1: " + strs9.str());
+    _logger->WriteLog("mem0: " + strs10.str());
+    _logger->WriteLog("mem1: " + strs11.str());
 
     FILE* file = fdopen((in_buf->buf[0]).fd, "r");
     if (file == nullptr)
@@ -1140,9 +1144,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string newContent(newContentRes);
 
     string str20((char*)((in_buf->buf[0]).mem));
-
     _logger->WriteLog("xxx: " + str20);
-\
+
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
         filePath,
