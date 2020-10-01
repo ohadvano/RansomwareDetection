@@ -1116,7 +1116,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     int c = read((in_buf->buf[1]).fd, buf_x, 1024);
     buf_x[c] = 0;
 
-    string str10(buf_X);
+    string str10(buf_x);
 
     _logger->WriteLog("count: " + strs1.str());
     _logger->WriteLog("idx: " + strs2.str());
