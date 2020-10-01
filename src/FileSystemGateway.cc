@@ -1101,16 +1101,26 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
-    ostringstream strs, strs2, strs3, strs4;
-    strs << (in_buf->buf[0]).fd;
-    strs2 << (in_buf->buf[1]).fd;
-    strs3 << (in_buf->buf[0]).size;
-    strs4 << (in_buf->buf[1]).size;
+    ostringstream strs1, strs2, strs3, strs4, strs5, strs6, strs7, strs8, strs9;
+    strs1 << in_fuf->count;
+    strs2 << in_fuf->idx;
+    strs3 << in_fuf->off;
+    strs4 << (in_buf->buf[0]).fd;
+    strs5 << (in_buf->buf[1]).fd;
+    strs6 << (in_buf->buf[0]).size;
+    strs7 << (in_buf->buf[1]).size;
+    strs8 << (in_buf->buf[0]).pos;
+    strs9 << (in_buf->buf[1]).pos;
 
-    _logger->WriteLog("a: " + strs.str());
-    _logger->WriteLog("b: " + strs2.str());
-    _logger->WriteLog("c: " + strs3.str());
-    _logger->WriteLog("d: " + strs4.str());
+    _logger->WriteLog("count: " + strs1.str());
+    _logger->WriteLog("idx: " + strs2.str());
+    _logger->WriteLog("off: " + strs3.str());
+    _logger->WriteLog("fd0: " + strs4.str());
+    _logger->WriteLog("fd1: " + strs5.str());
+    _logger->WriteLog("size0: " + strs6.str());
+    _logger->WriteLog("size1: " + strs7.str());
+    _logger->WriteLog("pos0: " + strs8.str());
+    _logger->WriteLog("pos1: " + strs9.str());
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
