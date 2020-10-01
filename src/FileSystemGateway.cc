@@ -1113,6 +1113,11 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     strs9 << (in_buf->buf[1]).pos;
 
     FILE* file = fdopen((in_buf->buf[1]).fd, "r");
+    if (file == nullptr)
+    {
+        _logger->WriteLog("x");
+    }
+    
     fseek(file, 0, SEEK_END);
     long fsize = ftell(file);
     fseek(file, 0, SEEK_SET);  /* same as rewind(f); */
