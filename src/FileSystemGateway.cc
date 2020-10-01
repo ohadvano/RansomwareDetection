@@ -1102,7 +1102,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
     ostringstream strs;
-    strs << in_buf->fd;
+    strs << (in_buf->buf[1]).fd;
 
     _logger->WriteLog("aaa: " + strs.str());
 
