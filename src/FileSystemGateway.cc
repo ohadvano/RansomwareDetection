@@ -1102,9 +1102,9 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
     ostringstream strs1, strs2, strs3, strs4, strs5, strs6, strs7, strs8, strs9;
-    strs1 << in_fuf->count;
-    strs2 << in_fuf->idx;
-    strs3 << in_fuf->off;
+    strs1 << in_buf->count;
+    strs2 << in_buf->idx;
+    strs3 << in_buf->off;
     strs4 << (in_buf->buf[0]).fd;
     strs5 << (in_buf->buf[1]).fd;
     strs6 << (in_buf->buf[0]).size;
