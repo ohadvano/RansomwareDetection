@@ -1111,8 +1111,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     strs7 << (in_buf->buf[1]).size;
     strs8 << (in_buf->buf[0]).pos;
     strs9 << (in_buf->buf[1]).pos;
-    strs10 << (int)((in_buf->buf[0]).mem);
-    strs11 << (int)((in_buf->buf[1]).mem);
+    strs10 << (uintptr_t)((in_buf->buf[0]).mem);
+    strs11 << (uintptr_t)((in_buf->buf[1]).mem);
 
     _logger->WriteLog("count: " + strs1.str());
     _logger->WriteLog("idx: " + strs2.str());
