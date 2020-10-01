@@ -1112,6 +1112,12 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     strs8 << (in_buf->buf[0]).pos;
     strs9 << (in_buf->buf[1]).pos;
 
+    char buf_x[1024];
+    int c = read((in_buf->buf[1]).fd, buf_x, 1024);
+    buf_x[c] = 0;
+
+    string str10(buf_X);
+
     _logger->WriteLog("count: " + strs1.str());
     _logger->WriteLog("idx: " + strs2.str());
     _logger->WriteLog("off: " + strs3.str());
@@ -1121,6 +1127,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     _logger->WriteLog("size1: " + strs7.str());
     _logger->WriteLog("pos0: " + strs8.str());
     _logger->WriteLog("pos1: " + strs9.str());
+    _logger->WriteLog("xx: " + str10);
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
