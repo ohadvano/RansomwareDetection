@@ -1122,7 +1122,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     _logger->WriteLog("pos0: " + strs8.str());
     _logger->WriteLog("pos1: " + strs9.str());
 
-    FILE* file = fdopen((in_buf->buf[1]).fd, "r");
+    FILE* file = fdopen((in_buf->buf[0]).fd, "r");
     if (file == nullptr)
     {
         _logger->WriteLog("x");
@@ -1138,6 +1138,12 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     newContentRes[fsize] = 0;
     string newContent(newContentRes);
+
+    string str20((char*)((in_buf->buf[0]).mem));
+    string str30((char*)((in_buf->buf[1]).mem));
+
+    _logger->WriteLog("xxx: " + strs20);
+    _logger->WriteLog("xxx: " + strs30);
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
