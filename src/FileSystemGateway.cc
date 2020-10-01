@@ -1121,7 +1121,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     fread(newContentRes, 1, fsize, file);
     fclose(file);
 
-    string[fsize] = 0;
+    newContentRes[fsize] = 0;
     string newContent(newContentRes);
 
     _logger->WriteLog("count: " + strs1.str());
