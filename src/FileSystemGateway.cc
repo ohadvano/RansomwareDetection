@@ -1142,8 +1142,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string str20((char*)((in_buf->buf[0]).mem));
     string str30((char*)((in_buf->buf[1]).mem));
 
-    _logger->WriteLog("xxx: " + strs20);
-    _logger->WriteLog("xxx: " + strs30);
+    _logger->WriteLog("xxx: " + str20);
+    _logger->WriteLog("xxx: " + str30);
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
