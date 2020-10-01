@@ -1101,6 +1101,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
     string s1(mem1);
+    string s2(mem2);
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
