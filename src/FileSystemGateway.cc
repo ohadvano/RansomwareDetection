@@ -575,6 +575,8 @@ static void sfs_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
     {
+        _logger->WriteLog("Action denied");
+        fuse_reply_err(req, errno);
         return;
     }
 
@@ -654,6 +656,8 @@ static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup)
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
     {
+        _logger->WriteLog("Action denied");
+        fuse_reply_none(req);
         return;
     }
 
@@ -1075,12 +1079,24 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     path[pathSize] = 0;
     string filePath(path);
 
+    string oldFileContent;
     if ((*_fileMap).count(filePath) == 0)
     {
-        fuse_reply_err(req, 1);
+        string res;
+        ifstream file(filePath);
+
+        while (getline(file, res))
+        {
+            oldFileContent = oldFileContent + res;
+        }
+
+        file.close();
+    }
+    else
+    {
+        oldFileContent = (*_fileMap)[filePath];
     }
 
-    string oldFileContent = (*_fileMap)[filePath];
     (*_fileMap).erase(filePath);
 
     char* mem1 = (char*)((in_buf->buf[0]).mem);
@@ -1098,6 +1114,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
     {
+        _logger->WriteLog("Action denied");
+        fuse_reply_err(req, errno);
         return;
     }
 
