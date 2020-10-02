@@ -1146,10 +1146,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string str20((char*)((in_buf->buf[0]).mem));
     _logger->WriteLog("xxx: " + str20);
 
-    int tmpFd = 
-        open("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6", 
-        O_RDWR | O_APPEND | O_CREAT, 
-        0777);
+    int tmpFd = open("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6", O_RDWR | O_APPEND | O_CREAT, 0777);
 
     if (tmpFd < 0)
     {
@@ -1167,7 +1164,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     if (res < 0)
         fuse_reply_err(req, -res);
 
-    close(tmpfd);
+    close(tmpFd);
 
     FILE* file2 = fopen("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6", "r");
     if (file2 == nullptr)
