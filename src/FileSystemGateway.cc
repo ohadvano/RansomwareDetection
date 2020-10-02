@@ -1069,7 +1069,6 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 {
     /*
     _logger->WriteLog("[######### Write action captured by gateway]");
-
     uint64_t fd = fi->fh;
 
     int maxFilePath = 4096;
@@ -1135,7 +1134,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     fseek(file, 0, SEEK_END);
     long fsize = ftell(file);
-    fseek(file, 0, SEEK_SET);  /* same as rewind(f); */
+    fseek(file, 0, SEEK_SET);
 
     char* newContentRes = (char*)malloc(fsize + 1);
     fread(newContentRes, 1, fsize, file);
@@ -1200,6 +1199,22 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     auto size {fuse_buf_size(in_buf)};
     do_write_buf(req, size, off, in_buf, fi);
     */
+
+    auto size {fuse_buf_size(in_buf)};
+    fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size);
+    out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
+        FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
+    out_buf.buf[0].fd = fi->fh;
+    out_buf.buf[0].pos = off;
+
+    fuse_reply_err(req, -res);
+    
+    // auto res = fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
+    // if (res < 0)
+    //     fuse_reply_err(req, -res);
+    // else
+    //     fuse_reply_write(req, (size_t)res);
+
 }
 
 
