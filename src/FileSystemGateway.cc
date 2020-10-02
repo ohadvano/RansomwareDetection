@@ -115,7 +115,8 @@ bool IsInLockDown()
     double timePassed = difftime(now, _fileSystemLockDownStart);
     if (timePassed < _fileSystemLockDownDurationInSeconds)
     {
-        cout << _rwInLockDownMessage << endl;
+        double remainingTime = _fileSystemLockDownDurationInSeconds - timePassed;
+        cout << "\033[1;33mAction denied because file system is in lockdown. Time remaining: " << remainingTime << " seconds.\033[0m" << endl;
         return true;
     }
 
@@ -129,7 +130,7 @@ void StartLockDown()
     time_t now = time(0);
 
     _fileSystemLockDownStart = now;
-    cout << "\033[1;31mMalicous action detected. Starting file system lockdown for " << _fileSystemLockDownDurationInSeconds << " seconds.\033[0m\n" << endl;
+    cout << "\033[1;31mMalicous action detected. Starting file system lockdown for " << _fileSystemLockDownDurationInSeconds << " seconds.\033[0m" << endl;
 }
 
 /* Returns true if the action is legal
