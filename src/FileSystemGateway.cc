@@ -1147,7 +1147,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     _logger->WriteLog("xxx: " + str20);
 
     int tmpFd = open("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp5", O_RDWR);
-
+    
     auto size2 {fuse_buf_size(in_buf)};
     fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size2);
     out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
@@ -1159,11 +1159,11 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     if (res < 0)
         fuse_reply_err(req, -res);
 
-    FILE* file2 = fdopen(tmpFd, "r");
-    if (file2 == nullptr)
-    {
-        _logger->WriteLog("x2");
-    }
+    // FILE* file2 = fdopen(tmpFd, "r");
+    // if (file2 == nullptr)
+    // {
+    //     _logger->WriteLog("x2");
+    // }
 
     // fseek(file2, 0, SEEK_END);
     // long fsize2 = ftell(file2);
