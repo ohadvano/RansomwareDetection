@@ -1100,6 +1100,12 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
+    auto size3 {fuse_buf_size(in_buf)};
+    ostringstream st2;
+    st2 << size3;
+    _logger->WriteLog("size: " + st2.str());
+
+
     string newContent(mem1);
     if (newContent == "")
     {
@@ -1148,8 +1154,8 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     auto size {fuse_buf_size(in_buf)};
     ostringstream st1;
     st1 << size;
-
     _logger->WriteLog("size: " + st1.str());
+
     do_write_buf(req, size, off, in_buf, fi);
 }
 
