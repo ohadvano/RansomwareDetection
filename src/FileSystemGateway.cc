@@ -1163,11 +1163,11 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     if (res < 0)
         fuse_reply_err(req, -res);
 
-    // FILE* file2 = fdopen(tmpFd, "r");
-    // if (file2 == nullptr)
-    // {
-    //     _logger->WriteLog("x2");
-    // }
+    FILE* file2 = fdopen(tmpFd, "r");
+    if (file2 == nullptr)
+    {
+        _logger->WriteLog("x2");
+    }
 
     // fseek(file2, 0, SEEK_END);
     // long fsize2 = ftell(file2);
