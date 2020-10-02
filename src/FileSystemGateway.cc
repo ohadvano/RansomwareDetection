@@ -1166,28 +1166,22 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     close(tmpFd);
 
-    FILE* file2 = fopen("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6", "r");
-    if (file2 == nullptr)
+    string res3;
+    string newContent3;
+    ifstream file3("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6");
+
+    while (getline(file3, res3))
     {
-        _logger->WriteLog("x2");
+        newContent3 = newContent3 + res3;
     }
 
-    fseek(file2, 0, SEEK_END);
-    long fsize2 = ftell(file2);
-    fseek(file2, 0, SEEK_SET);  /* same as rewind(f); */
-
-    char* newContentRes2 = (char*)malloc(fsize2 + 1);
-    fread(newContentRes2, 1, fsize2, file2);
-    fclose(file2);
-
-    newContentRes[fsize2] = 0;
-    string newContent2(newContentRes2);
+    file3.close();
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
         filePath,
         oldFileContent,
-        newContent2,
+        newContent3,
         mem1,
         mem2,
         fd,
