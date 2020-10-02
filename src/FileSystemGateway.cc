@@ -1201,6 +1201,20 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     */
 
     auto size {fuse_buf_size(in_buf)};
+
+    int tmpFd = open("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6", O_RDWR | O_APPEND | O_CREAT, 0777);
+    fuse_bufvec out_buf2 = FUSE_BUFVEC_INIT(size);
+    out_buf2.buf[0].flags = static_cast<fuse_buf_flags>(
+        FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
+    out_buf2.buf[0].fd = tmpFd;
+    out_buf2.buf[0].pos = off;
+
+    auto res2 = fuse_buf_copy(&out_buf2, in_buf, FUSE_BUF_COPY_FLAGS);
+    if (res2 < 0)
+    {
+        _logger->WriteLog("xxx");
+    }
+    
     fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size);
     out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
         FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
