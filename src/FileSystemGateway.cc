@@ -1146,43 +1146,43 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string str20((char*)((in_buf->buf[0]).mem));
     _logger->WriteLog("xxx: " + str20);
 
-    int tmpFd = open("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp5", O_RDWR);
+    // int tmpFd = open("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp5", O_RDWR);
 
-    auto size2 {fuse_buf_size(in_buf)};
-    fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size2);
-    out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
-        FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
-    out_buf.buf[0].fd = tmpFd;
-    out_buf.buf[0].pos = off;
+    // auto size2 {fuse_buf_size(in_buf)};
+    // fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size2);
+    // out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
+    //     FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
+    // out_buf.buf[0].fd = tmpFd;
+    // out_buf.buf[0].pos = off;
 
-    auto res = fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
-    if (res < 0)
-        fuse_reply_err(req, -res);
-    else
-        fuse_reply_write(req, (size_t)res);
+    // auto res = fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
+    // if (res < 0)
+    //     fuse_reply_err(req, -res);
+    // else
+    //     fuse_reply_write(req, (size_t)res);
 
-    FILE* file2 = fdopen(tmpFd, "r");
-    if (file2 == nullptr)
-    {
-        _logger->WriteLog("x");
-    }
+    // FILE* file2 = fdopen(tmpFd, "r");
+    // if (file2 == nullptr)
+    // {
+    //     _logger->WriteLog("x");
+    // }
 
-    fseek(file2, 0, SEEK_END);
-    long fsize2 = ftell(file2);
-    fseek(file2, 0, SEEK_SET);  /* same as rewind(f); */
+    // fseek(file2, 0, SEEK_END);
+    // long fsize2 = ftell(file2);
+    // fseek(file2, 0, SEEK_SET);  /* same as rewind(f); */
 
-    char* newContentRes2 = (char*)malloc(fsize2 + 1);
-    fread(newContentRes2, 1, fsize2, file2);
-    fclose(file2);
+    // char* newContentRes2 = (char*)malloc(fsize2 + 1);
+    // fread(newContentRes2, 1, fsize2, file2);
+    // fclose(file2);
 
-    newContentRes[fsize2] = 0;
-    string newContent2(newContentRes2);
+    // newContentRes[fsize2] = 0;
+    // string newContent2(newContentRes2);
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
         filePath,
         oldFileContent,
-        newContent2,
+        newContent,
         mem1,
         mem2,
         fd,
