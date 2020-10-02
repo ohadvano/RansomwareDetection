@@ -76,6 +76,8 @@ do
     wineCommand="wine $ransomwarePath"
     echo $wineCommand
     cat testFile > "/tmp/sandbox/Videos/AVI/file_example_AVI_1920_2_3MG.avi"
+    sleep 2
+    cat testFile > "/tmp/sandbox/Videos/AVI/file_example_AVI_1920_2_3MG.avi"
     # chroot $sandBox $wineCommand
     printf "\033[1;33mDone, collecting mid-test results\033[0m\n"
 done < "$ransomwaresListFile"
