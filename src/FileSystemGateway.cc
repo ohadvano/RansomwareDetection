@@ -1146,7 +1146,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string str20((char*)((in_buf->buf[0]).mem));
     _logger->WriteLog("xxx: " + str20);
 
-    int tmpFd = 0; // TODO
+    int tmpFd = open("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp5", O_RDWR);
 
     auto size2 {fuse_buf_size(in_buf)};
     fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size2);
