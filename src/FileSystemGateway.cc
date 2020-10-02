@@ -1067,7 +1067,6 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi)
 {
-    /*
     _logger->WriteLog("[######### Write action captured by gateway]");
     uint64_t fd = fi->fh;
 
@@ -1101,87 +1100,33 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
-    ostringstream strs1, strs2, strs3, strs4, strs5, strs6, strs7, strs8, strs9, strs10, strs11;
-    strs1 << in_buf->count;
-    strs2 << in_buf->idx;
-    strs3 << in_buf->off;
-    strs4 << (in_buf->buf[0]).fd;
-    strs5 << (in_buf->buf[1]).fd;
-    strs6 << (in_buf->buf[0]).size;
-    strs7 << (in_buf->buf[1]).size;
-    strs8 << (in_buf->buf[0]).pos;
-    strs9 << (in_buf->buf[1]).pos;
-    strs10 << (uintptr_t)((in_buf->buf[0]).mem);
-    strs11 << (uintptr_t)((in_buf->buf[1]).mem);
+    char* tmpFilePath = "/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp";
 
-    _logger->WriteLog("count: " + strs1.str());
-    _logger->WriteLog("idx: " + strs2.str());
-    _logger->WriteLog("off: " + strs3.str());
-    _logger->WriteLog("fd0: " + strs4.str());
-    _logger->WriteLog("fd1: " + strs5.str());
-    _logger->WriteLog("size0: " + strs6.str());
-    _logger->WriteLog("size1: " + strs7.str());
-    _logger->WriteLog("pos0: " + strs8.str());
-    _logger->WriteLog("pos1: " + strs9.str());
-    _logger->WriteLog("mem0: " + strs10.str());
-    _logger->WriteLog("mem1: " + strs11.str());
-
-    FILE* file = fdopen((in_buf->buf[0]).fd, "r");
-    if (file == nullptr)
-    {
-        _logger->WriteLog("x1");
-    }
-
-    fseek(file, 0, SEEK_END);
-    long fsize = ftell(file);
-    fseek(file, 0, SEEK_SET);
-
-    char* newContentRes = (char*)malloc(fsize + 1);
-    fread(newContentRes, 1, fsize, file);
-    fclose(file);
-
-    newContentRes[fsize] = 0;
-    string newContent(newContentRes);
-
-    string str20((char*)((in_buf->buf[0]).mem));
-    _logger->WriteLog("xxx: " + str20);
-
-    int tmpFd = open("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6", O_RDWR | O_APPEND | O_CREAT, 0777);
-
-    if (tmpFd < 0)
-    {
-        _logger->WriteLog("x3");
-    }
-
+    int tmpFd = open(tmpFilePath, O_RDWR | O_CREAT, 0777);
     auto size2 {fuse_buf_size(in_buf)};
     fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size2);
     out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
         FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
     out_buf.buf[0].fd = tmpFd;
     out_buf.buf[0].pos = off;
-
-    auto res = fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
-    if (res < 0)
-        fuse_reply_err(req, -res);
-
+    fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
     close(tmpFd);
 
-    string res3;
-    string newContent3;
-    ifstream file3("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6");
-
-    while (getline(file3, res3))
+    string line;
+    string newContent;
+    ifstream tempFile(tmpFilePath);
+    while (getline(tempFile, line))
     {
-        newContent3 = newContent3 + res3;
+        newContent = newContent + line;
     }
 
-    file3.close();
+    tempFile.close();
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
         filePath,
         oldFileContent,
-        newContent3,
+        newContent,
         mem1,
         mem2,
         fd,
@@ -1198,34 +1143,6 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     (void) ino;
     auto size {fuse_buf_size(in_buf)};
     do_write_buf(req, size, off, in_buf, fi);
-    */
-
-    auto size {fuse_buf_size(in_buf)};
-
-    int tmpFd = open("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6", O_RDWR | O_CREAT, 0777);
-    fuse_bufvec out_buf2 = FUSE_BUFVEC_INIT(size);
-    out_buf2.buf[0].flags = static_cast<fuse_buf_flags>(
-        FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
-    out_buf2.buf[0].fd = tmpFd;
-    out_buf2.buf[0].pos = off;
-
-    auto res2 = fuse_buf_copy(&out_buf2, in_buf, FUSE_BUF_COPY_FLAGS);
-    if (res2 < 0)
-    {
-        _logger->WriteLog("xxx");
-    }
-    
-    fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size);
-    out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
-        FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
-    out_buf.buf[0].fd = fi->fh;
-    out_buf.buf[0].pos = off;
-
-    auto res = fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
-    if (res < 0)
-        fuse_reply_err(req, -res);
-    else
-        fuse_reply_write(req, (size_t)res);
 }
 
 
