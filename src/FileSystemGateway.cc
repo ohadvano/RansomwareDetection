@@ -1155,7 +1155,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     out_buf.buf[0].fd = tmpFd;
     out_buf.buf[0].pos = off;
 
-    // auto res = fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
+    auto res = fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
     // if (res < 0)
     //     fuse_reply_err(req, -res);
     // else
