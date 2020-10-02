@@ -1133,6 +1133,9 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
         tempFile.close();
         remove(tmpFilePath);
+
+        in_buf->idx = 0;
+        in_buf->off = 0;
     }
 
     pid_t callingPid = getpid();
