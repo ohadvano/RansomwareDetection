@@ -27,7 +27,6 @@ printf "\033[1;34mBuilding project\033[0m\n"
 cd src
 make
 sleep 1
-printf "\033[1;32mOk\033[0m\n"
 
 # Cleanup
 printf "\033[1;34mTest data cleanup\033[0m\n"
