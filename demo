@@ -9,6 +9,7 @@ testSummaryRootDirectory="/home/ohadoz/Desktop/RansomwareDetection/TestResults"
 now="$(date +'%d-%m-%Y_%H-%M-%S')"
 currentDate="Run_$now"
 testSummaryFolder="$testSummaryRootDirectory/$currentDate"
+testStatisticsFile="$testSummaryFolder/statistics.txt"
 ransomwaresListFile="/home/ohadoz/Desktop/RansomwareDetection/ransomwares"
 # Endparameters
 
@@ -49,6 +50,7 @@ printf "\033[1;32mOk\033[0m\n"
 printf "\033[1;34mCollecting pre run data\033[0m\n"
 mkdir -p $testSummaryRootDirectory
 mkdir -p $testSummaryFolder
+echo "Pre test statistics:" > $testStatisticsFile
 sleep 1
 printf "\033[1;32mOk\033[0m\n"
 
