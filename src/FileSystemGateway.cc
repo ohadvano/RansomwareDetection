@@ -1100,12 +1100,15 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
-    auto size3 {fuse_buf_size(in_buf)};
-    ostringstream st2;
-    st2 << size3;
-    _logger->WriteLog("size: " + st2.str());
+    ostringstream st1, st2, st3;
+    st1 << in_buf->count;
+    st2 << in_buf->idx;
+    st3 << in_buf->off;
 
-
+    _logger->WriteLog("count: " + st1.str());
+    _logger->WriteLog("idx: " + st2.str());
+    _logger->WriteLog("off: " + st3.str());
+    
     string newContent(mem1);
     if (newContent == "")
     {
@@ -1150,12 +1153,17 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
         return;
     }
 
+    ostringstream st4, st5, st6;
+    st4 << in_buf->count;
+    st5 << in_buf->idx;
+    st6 << in_buf->off;
+
+    _logger->WriteLog("count: " + st4.str());
+    _logger->WriteLog("idx: " + st5.str());
+    _logger->WriteLog("off: " + st6.str());
+
     (void) ino;
     auto size {fuse_buf_size(in_buf)};
-    ostringstream st1;
-    st1 << size;
-    _logger->WriteLog("size: " + st1.str());
-
     do_write_buf(req, size, off, in_buf, fi);
 }
 
