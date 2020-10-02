@@ -1097,9 +1097,6 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
         (*_fileMap).erase(filePath);
     }
 
-    char* mem1 = (char*)((in_buf->buf[0]).mem);
-    char* mem2 = (char*)((in_buf->buf[1]).mem);
-
     string newContent;
     const char* tmpFilePath = "/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp";
 
@@ -1131,9 +1128,6 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
         filePath,
         oldFileContent,
         newContent,
-        mem1,
-        mem2,
-        fd,
         callingPid);
 
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;

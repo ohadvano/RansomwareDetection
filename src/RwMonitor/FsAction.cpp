@@ -31,16 +31,12 @@ namespace FileSystemActions
             string FilePath;
             string OldContent;
             string NewContent;
-            char* InputData1;
-            char* InputData2;
 
-            WriteBufAction(string filePath, string oldContent, string newContent, char* inputData1, char* inputData2, uint64_t fd, int callingProccessId) 
+            WriteBufAction(string filePath, string oldContent, string newContent, int callingProccessId) 
                 : FsAction("WriteBufAction", callingProccessId), 
                     FilePath(filePath),
                     OldContent(oldContent),
-                    NewContent(newContent),
-                    InputData1(inputData1),
-                    InputData2(inputData2)
+                    NewContent(newContent)
             {
             }
     };
