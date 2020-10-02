@@ -1144,11 +1144,13 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
         return;
     }
 
-    fuse_reply_err(req, errno);
+    (void) ino;
+    auto size {fuse_buf_size(in_buf)};
+    ostringstream st1;
+    st1 << size;
 
-    // (void) ino;
-    // auto size {fuse_buf_size(in_buf)};
-    // do_write_buf(req, size, off, in_buf, fi);
+    _logger->WriteLog("size: " + st1.str());
+    do_write_buf(req, size, off, in_buf, fi);
 }
 
 
