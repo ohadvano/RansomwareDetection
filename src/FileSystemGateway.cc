@@ -1100,7 +1100,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
-    char* tmpFilePath = "/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp";
+    const char* tmpFilePath = "/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp";
 
     int tmpFd = open(tmpFilePath, O_RDWR | O_CREAT, 0777);
     auto size2 {fuse_buf_size(in_buf)};
@@ -1121,6 +1121,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     }
 
     tempFile.close();
+    remove(tmpFilePath);
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
