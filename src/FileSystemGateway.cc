@@ -1144,9 +1144,11 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
         return;
     }
 
-    (void) ino;
-    auto size {fuse_buf_size(in_buf)};
-    do_write_buf(req, size, off, in_buf, fi);
+    fuse_reply_err(req, errno);
+
+    // (void) ino;
+    // auto size {fuse_buf_size(in_buf)};
+    // do_write_buf(req, size, off, in_buf, fi);
 }
 
 
