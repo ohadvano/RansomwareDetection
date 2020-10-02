@@ -1,3 +1,4 @@
+printf "\033[1;34mUpdating repository\033[0m\n"
 git checkout demo
 git pull
 chmod 777 demo

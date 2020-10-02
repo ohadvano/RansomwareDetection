@@ -14,7 +14,7 @@ ransomwaresListFile="/home/ohadoz/Desktop/RansomwareDetection/ransomwares"
 # Endparameters
 
 # Print config
-printf "\033[1;34mConfig:\033[0m\n"
+printf "\033[1;34mConfigurations\033[0m\n"
 echo "Build output: $buildOutput"
 echo "Test tar: $testTar"
 echo "Test output: $testOutput"
