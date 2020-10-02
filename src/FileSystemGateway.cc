@@ -1100,43 +1100,31 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     char* mem1 = (char*)((in_buf->buf[0]).mem);
     char* mem2 = (char*)((in_buf->buf[1]).mem);
 
-    ostringstream st1, st2, st3;
-    st1 << in_buf->count;
-    st2 << in_buf->idx;
-    st3 << in_buf->off;
+    string newContent;
+    const char* tmpFilePath = "/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp";
 
-    _logger->WriteLog("count: " + st1.str());
-    _logger->WriteLog("idx: " + st2.str());
-    _logger->WriteLog("off: " + st3.str());
-    
-    string newContent(mem1);
-    if (newContent == "")
+    int tmpFd = open(tmpFilePath, O_RDWR | O_CREAT, 0777);
+    auto size2 {fuse_buf_size(in_buf)};
+    fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size2);
+    out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
+        FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
+    out_buf.buf[0].fd = tmpFd;
+    out_buf.buf[0].pos = off;
+    fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
+    close(tmpFd);
+
+    string line;
+    ifstream tempFile(tmpFilePath);
+    while (getline(tempFile, line))
     {
-        const char* tmpFilePath = "/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp";
-
-        int tmpFd = open(tmpFilePath, O_RDWR | O_CREAT, 0777);
-        auto size2 {fuse_buf_size(in_buf)};
-        fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size2);
-        out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
-            FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
-        out_buf.buf[0].fd = tmpFd;
-        out_buf.buf[0].pos = off;
-        fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
-        close(tmpFd);
-
-        string line;
-        ifstream tempFile(tmpFilePath);
-        while (getline(tempFile, line))
-        {
-            newContent = newContent + line;
-        }
-
-        tempFile.close();
-        remove(tmpFilePath);
-
-        in_buf->idx = 0;
-        in_buf->off = 0;
+        newContent = newContent + line;
     }
+
+    tempFile.close();
+    remove(tmpFilePath);
+
+    in_buf->idx = 0;
+    in_buf->off = 0;
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
@@ -1155,15 +1143,6 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
         fuse_reply_err(req, errno);
         return;
     }
-
-    ostringstream st4, st5, st6;
-    st4 << in_buf->count;
-    st5 << in_buf->idx;
-    st6 << in_buf->off;
-
-    _logger->WriteLog("count: " + st4.str());
-    _logger->WriteLog("idx: " + st5.str());
-    _logger->WriteLog("off: " + st6.str());
 
     (void) ino;
     auto size {fuse_buf_size(in_buf)};
