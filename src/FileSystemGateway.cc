@@ -97,7 +97,6 @@ RwDetector RansomwareMonitor;
 Logger* _logger;
 double _fileSystemLockDownDurationInSeconds;
 static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
-static string _rwLockDownStartMessage = "Set lock down start message for user";
 static string _rwInLockDownMessage = "Set in lock down message for user";
 static map<string, string>* _fileMap = new map<string, string>;
 static bool _internalAction = false;
@@ -130,7 +129,7 @@ void StartLockDown()
     time_t now = time(0);
 
     _fileSystemLockDownStart = now;
-    cout << _rwLockDownStartMessage << endl;
+    cout << "\033[1;31mMalicous action detected. Starting file system lockdown for " << _fileSystemLockDownDurationInSeconds << " seconds.\033[0m\n" << endl;
 }
 
 /* Returns true if the action is legal
