@@ -1067,137 +1067,139 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi)
 {
-    // _logger->WriteLog("[######### Write action captured by gateway]");
+    /*
+    _logger->WriteLog("[######### Write action captured by gateway]");
 
-    // uint64_t fd = fi->fh;
+    uint64_t fd = fi->fh;
 
-    // int maxFilePath = 4096;
-    // char buf[64];
-    // sprintf(buf, "/proc/self/fd/%i", (int)fd);
-    // char path[maxFilePath];
-    // int pathSize = (int)readlink(buf, path, maxFilePath);
-    // path[pathSize] = 0;
-    // string filePath(path);
+    int maxFilePath = 4096;
+    char buf[64];
+    sprintf(buf, "/proc/self/fd/%i", (int)fd);
+    char path[maxFilePath];
+    int pathSize = (int)readlink(buf, path, maxFilePath);
+    path[pathSize] = 0;
+    string filePath(path);
 
-    // string oldFileContent;
-    // if ((*_fileMap).count(filePath) == 0)
-    // {
-    //     string res;
-    //     ifstream file(filePath);
+    string oldFileContent;
+    if ((*_fileMap).count(filePath) == 0)
+    {
+        string res;
+        ifstream file(filePath);
 
-    //     while (getline(file, res))
-    //     {
-    //         oldFileContent = oldFileContent + res;
-    //     }
+        while (getline(file, res))
+        {
+            oldFileContent = oldFileContent + res;
+        }
 
-    //     file.close();
-    // }
-    // else
-    // {
-    //     oldFileContent = (*_fileMap)[filePath];
-    //     (*_fileMap).erase(filePath);
-    // }
+        file.close();
+    }
+    else
+    {
+        oldFileContent = (*_fileMap)[filePath];
+        (*_fileMap).erase(filePath);
+    }
 
-    // char* mem1 = (char*)((in_buf->buf[0]).mem);
-    // char* mem2 = (char*)((in_buf->buf[1]).mem);
+    char* mem1 = (char*)((in_buf->buf[0]).mem);
+    char* mem2 = (char*)((in_buf->buf[1]).mem);
 
-    // ostringstream strs1, strs2, strs3, strs4, strs5, strs6, strs7, strs8, strs9, strs10, strs11;
-    // strs1 << in_buf->count;
-    // strs2 << in_buf->idx;
-    // strs3 << in_buf->off;
-    // strs4 << (in_buf->buf[0]).fd;
-    // strs5 << (in_buf->buf[1]).fd;
-    // strs6 << (in_buf->buf[0]).size;
-    // strs7 << (in_buf->buf[1]).size;
-    // strs8 << (in_buf->buf[0]).pos;
-    // strs9 << (in_buf->buf[1]).pos;
-    // strs10 << (uintptr_t)((in_buf->buf[0]).mem);
-    // strs11 << (uintptr_t)((in_buf->buf[1]).mem);
+    ostringstream strs1, strs2, strs3, strs4, strs5, strs6, strs7, strs8, strs9, strs10, strs11;
+    strs1 << in_buf->count;
+    strs2 << in_buf->idx;
+    strs3 << in_buf->off;
+    strs4 << (in_buf->buf[0]).fd;
+    strs5 << (in_buf->buf[1]).fd;
+    strs6 << (in_buf->buf[0]).size;
+    strs7 << (in_buf->buf[1]).size;
+    strs8 << (in_buf->buf[0]).pos;
+    strs9 << (in_buf->buf[1]).pos;
+    strs10 << (uintptr_t)((in_buf->buf[0]).mem);
+    strs11 << (uintptr_t)((in_buf->buf[1]).mem);
 
-    // _logger->WriteLog("count: " + strs1.str());
-    // _logger->WriteLog("idx: " + strs2.str());
-    // _logger->WriteLog("off: " + strs3.str());
-    // _logger->WriteLog("fd0: " + strs4.str());
-    // _logger->WriteLog("fd1: " + strs5.str());
-    // _logger->WriteLog("size0: " + strs6.str());
-    // _logger->WriteLog("size1: " + strs7.str());
-    // _logger->WriteLog("pos0: " + strs8.str());
-    // _logger->WriteLog("pos1: " + strs9.str());
-    // _logger->WriteLog("mem0: " + strs10.str());
-    // _logger->WriteLog("mem1: " + strs11.str());
+    _logger->WriteLog("count: " + strs1.str());
+    _logger->WriteLog("idx: " + strs2.str());
+    _logger->WriteLog("off: " + strs3.str());
+    _logger->WriteLog("fd0: " + strs4.str());
+    _logger->WriteLog("fd1: " + strs5.str());
+    _logger->WriteLog("size0: " + strs6.str());
+    _logger->WriteLog("size1: " + strs7.str());
+    _logger->WriteLog("pos0: " + strs8.str());
+    _logger->WriteLog("pos1: " + strs9.str());
+    _logger->WriteLog("mem0: " + strs10.str());
+    _logger->WriteLog("mem1: " + strs11.str());
 
-    // FILE* file = fdopen((in_buf->buf[0]).fd, "r");
-    // if (file == nullptr)
-    // {
-    //     _logger->WriteLog("x1");
-    // }
+    FILE* file = fdopen((in_buf->buf[0]).fd, "r");
+    if (file == nullptr)
+    {
+        _logger->WriteLog("x1");
+    }
 
-    // fseek(file, 0, SEEK_END);
-    // long fsize = ftell(file);
-    // fseek(file, 0, SEEK_SET);  /* same as rewind(f); */
+    fseek(file, 0, SEEK_END);
+    long fsize = ftell(file);
+    fseek(file, 0, SEEK_SET);  /* same as rewind(f); */
 
-    // char* newContentRes = (char*)malloc(fsize + 1);
-    // fread(newContentRes, 1, fsize, file);
-    // fclose(file);
+    char* newContentRes = (char*)malloc(fsize + 1);
+    fread(newContentRes, 1, fsize, file);
+    fclose(file);
 
-    // newContentRes[fsize] = 0;
-    // string newContent(newContentRes);
+    newContentRes[fsize] = 0;
+    string newContent(newContentRes);
 
-    // string str20((char*)((in_buf->buf[0]).mem));
-    // _logger->WriteLog("xxx: " + str20);
+    string str20((char*)((in_buf->buf[0]).mem));
+    _logger->WriteLog("xxx: " + str20);
 
-    // int tmpFd = open("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6", O_RDWR | O_APPEND | O_CREAT, 0777);
+    int tmpFd = open("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6", O_RDWR | O_APPEND | O_CREAT, 0777);
 
-    // if (tmpFd < 0)
-    // {
-    //     _logger->WriteLog("x3");
-    // }
+    if (tmpFd < 0)
+    {
+        _logger->WriteLog("x3");
+    }
 
-    // auto size2 {fuse_buf_size(in_buf)};
-    // fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size2);
-    // out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
-    //     FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
-    // out_buf.buf[0].fd = tmpFd;
-    // out_buf.buf[0].pos = off;
+    auto size2 {fuse_buf_size(in_buf)};
+    fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size2);
+    out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
+        FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
+    out_buf.buf[0].fd = tmpFd;
+    out_buf.buf[0].pos = off;
 
-    // auto res = fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
-    // if (res < 0)
-    //     fuse_reply_err(req, -res);
+    auto res = fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
+    if (res < 0)
+        fuse_reply_err(req, -res);
 
-    // close(tmpFd);
+    close(tmpFd);
 
-    // string res3;
-    // string newContent3;
-    // ifstream file3("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6");
+    string res3;
+    string newContent3;
+    ifstream file3("/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp6");
 
-    // while (getline(file3, res3))
-    // {
-    //     newContent3 = newContent3 + res3;
-    // }
+    while (getline(file3, res3))
+    {
+        newContent3 = newContent3 + res3;
+    }
 
-    // file3.close();
+    file3.close();
 
-    // pid_t callingPid = getpid();
-    // FsAction* action = new WriteBufAction(
-    //     filePath,
-    //     oldFileContent,
-    //     newContent3,
-    //     mem1,
-    //     mem2,
-    //     fd,
-    //     callingPid);
+    pid_t callingPid = getpid();
+    FsAction* action = new WriteBufAction(
+        filePath,
+        oldFileContent,
+        newContent3,
+        mem1,
+        mem2,
+        fd,
+        callingPid);
 
-    // bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    // if (shouldIgnoreRequest)
-    // {
-    //     _logger->WriteLog("Action denied");
-    //     fuse_reply_err(req, errno);
-    //     return;
-    // }
+    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
+    if (shouldIgnoreRequest)
+    {
+        _logger->WriteLog("Action denied");
+        fuse_reply_err(req, errno);
+        return;
+    }
 
     (void) ino;
     auto size {fuse_buf_size(in_buf)};
     do_write_buf(req, size, off, in_buf, fi);
+    */
 }
 
 
