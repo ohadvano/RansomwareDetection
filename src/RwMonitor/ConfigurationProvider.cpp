@@ -90,17 +90,17 @@ namespace Configurations
             double _minGlobalThreshold;
             double* _individualThresholds;
 
-            regex _runningModeRegex = regex("Debug: #(.*)#;");
-            regex _logFilePathRegex = regex("LogFilePath: #(.*)#;");
-            regex _tmpFilePathRegex = regex("TempFilePath: #(.*)#;");
-            regex _tmpFilePath2Regex = regex("TempFilePath2: #(.*)#;");
-            regex _systemLockDownDurationRegex = regex("SystemLockDownDuration: #(.*)#;");
-            regex _similarityThRegex = regex("SimilarityMeasurement: #(.*)#;");
-            regex _enthropyThRegex = regex("ShannonEnthropy: #(.*)#;");
-            regex _suspiciousKeywordsRegex = regex("SuspiciousKeywords: #(.*)#;");
-            regex _minAccumulatedThresholdRegex = regex("MinAccumulatedThreshold: #(.*)#;");
-            regex _minGlobalThresholdRegex = regex("MinGlobalThresholdRegex: #(.*)#;");
-            regex _individualThresholdRegex = regex("IndividualThresholdRegex: #(.*)#;");
+            regex _runningModeRegex = regex("Debug: (.*);");
+            regex _logFilePathRegex = regex("LogFilePath: (.*);");
+            regex _tmpFilePathRegex = regex("TempFilePath: (.*);");
+            regex _tmpFilePath2Regex = regex("TempFilePath2: (.*);");
+            regex _systemLockDownDurationRegex = regex("SystemLockDownDuration: (.*);");
+            regex _similarityThRegex = regex("SimilarityMeasurement: (.*);");
+            regex _enthropyThRegex = regex("ShannonEnthropy: (.*);");
+            regex _suspiciousKeywordsRegex = regex("SuspiciousKeywords: (.*);");
+            regex _minAccumulatedThresholdRegex = regex("MinAccumulatedThreshold: (.*);");
+            regex _minGlobalThresholdRegex = regex("MinGlobalThresholdRegex: (.*);");
+            regex _individualThresholdRegex = regex("IndividualThresholdRegex: (.*);");
             
             void Init(char const* configPath)
             {
