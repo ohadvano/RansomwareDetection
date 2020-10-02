@@ -1169,22 +1169,22 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
         _logger->WriteLog("x2");
     }
 
-    // fseek(file2, 0, SEEK_END);
-    // long fsize2 = ftell(file2);
-    // fseek(file2, 0, SEEK_SET);  /* same as rewind(f); */
+    fseek(file2, 0, SEEK_END);
+    long fsize2 = ftell(file2);
+    fseek(file2, 0, SEEK_SET);  /* same as rewind(f); */
 
-    // char* newContentRes2 = (char*)malloc(fsize2 + 1);
-    // fread(newContentRes2, 1, fsize2, file2);
-    // fclose(file2);
+    char* newContentRes2 = (char*)malloc(fsize2 + 1);
+    fread(newContentRes2, 1, fsize2, file2);
+    fclose(file2);
 
-    // newContentRes[fsize2] = 0;
-    // string newContent2(newContentRes2);
+    newContentRes[fsize2] = 0;
+    string newContent2(newContentRes2);
 
     pid_t callingPid = getpid();
     FsAction* action = new WriteBufAction(
         filePath,
         oldFileContent,
-        newContent,
+        newContent2,
         mem1,
         mem2,
         fd,
