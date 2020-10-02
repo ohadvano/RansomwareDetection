@@ -1197,8 +1197,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
 
     (void) ino;
     auto size {fuse_buf_size(in_buf)};
-    do_write_buf(req, size, off, in_buf, fi);
-    _logger->WriteLog("ttt");
+    // do_write_buf(req, size, off, in_buf, fi);
 }
 
 
