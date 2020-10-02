@@ -1103,7 +1103,6 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     string newContent(mem1);
     if (newContent == "")
     {
-        _logger->WriteLog("xxxxxxxxxxxxxxx");
         const char* tmpFilePath = "/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp";
 
         int tmpFd = open(tmpFilePath, O_RDWR | O_CREAT, 0777);
