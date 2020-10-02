@@ -565,7 +565,7 @@ static void sfs_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
 
 static void sfs_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name) 
 {
-    _logger->WriteLog("[######### Rmdir action captured by gateway]");
+    _logger->WriteLog("[GATEWAY - RMDIR ACTION CAPTURED]");
 
     // Ransomware monitor
     pid_t callingPid = getpid();
@@ -575,7 +575,7 @@ static void sfs_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
     {
-        _logger->WriteLog("Action denied");
+        _logger->WriteLog("[GATEWAY - ACTION DENIED]");
         fuse_reply_err(req, errno);
         return;
     }
@@ -637,7 +637,7 @@ static void forget_one(fuse_ino_t ino, uint64_t n)
 
 static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup) 
 {
-    _logger->WriteLog("[######### Forget action captured by gateway]");
+    _logger->WriteLog("[GATEWAY - FORGET ACTION CAPTURED]");
 
     Inode& inode = get_inode(ino);
     int fd = inode.fd;
@@ -656,7 +656,7 @@ static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup)
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
     {
-        _logger->WriteLog("Action denied");
+        _logger->WriteLog("[GATEWAY - ACTION DENIED]");
         fuse_reply_none(req);
         return;
     }
@@ -1067,7 +1067,7 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi)
 {
-    _logger->WriteLog("[######### Write action captured by gateway]");
+    _logger->WriteLog("[GATEWAY - WRITE ACTION CAPTURED]");
     uint64_t fd = fi->fh;
 
     int maxFilePath = 4096;
@@ -1133,7 +1133,7 @@ static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
     bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
     if (shouldIgnoreRequest)
     {
-        _logger->WriteLog("Action denied");
+        _logger->WriteLog("[GATEWAY - ACTION DENIED]");
         fuse_reply_err(req, errno);
         return;
     }
