@@ -4,9 +4,7 @@ testOutputFolder="/home/ohadoz/Desktop/RansomwareDetection/TestData/output/"
 echo "Getting statistics for all files in $testOutputFolder" >> $statsFile
 
 for subDirectory in $(find $testOutputFolder -type d); do 
-    if [ ! "$(ls -A $subDirectory)" ]; then
-        continue
-    fi
+    if [[ $(find ${subDirectory} -type f  | wc -l) -gt 0 ]]; then continue; fi
     
     echo "Directory: $subDirectory" >> $statsFile
     for file in $(find $subDirectory -maxdepth 1 -type f); do 
