@@ -1,2 +1,5 @@
 statsFile=$1
-echo "a" >> $statsFile
+
+for f in $(find /home/ohadoz/Desktop/RansomwareDetection/TestData/output/ -name *); do 
+    cat $f;
+done
