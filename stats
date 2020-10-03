@@ -1,10 +1,10 @@
 statsFile=$1
 testOutputFolder="/home/ohadoz/Desktop/RansomwareDetection/TestData/output/"
 
-echo "Getting statistics for all files in $testOutputFolder" > $statsFile
+echo "Getting statistics for all files in $testOutputFolder" >> $statsFile
 
 for file in $(find $testOutputFolder -name '*'); do 
-    echo $file > $statsFile
+    echo $file >> $statsFile
 done
 
-echo "Finished" > $statsFile
+echo "Finished" >> $statsFile
