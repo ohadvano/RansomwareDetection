@@ -5,7 +5,9 @@ echo "Getting statistics for all files in $testOutputFolder" >> $statsFile
 
 for subDirectory in $(find $testOutputFolder -type d); do 
     if [ "$(ls -A $subDirectory)" ]; then
-        continue
+        echo "Take action $subDirectory is not Empty"
+    else
+        echo "$subDirectory is Empty"
     fi
     
     echo "Directory: $subDirectory" >> $statsFile
