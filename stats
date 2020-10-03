@@ -1,0 +1,2 @@
+statsFile=$1
+echo "a" >> $statsFile
