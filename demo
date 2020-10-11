@@ -60,12 +60,14 @@ function stop
 
 function runFalseRansomware
 {
+    echo "1"
     filePath=$1
     # chroot $sandBox $filePath
 }
 
 function runRansomware
 {
+    echo "2"
     filePath=$1
     wineCommand="wine $filePath"
     # chroot $sandBox $wineCommand
@@ -86,7 +88,12 @@ function run
     while IFS= read -r ransomwarePath
     do
         ransomwareName=${ransomwarePath##*/}
-        printf "\033[1;31mRunning ransomware: %s\033[0m\n" $ransomwareName
+        if [ $realRansomware -eq 1 ] 
+        then 
+            printf "\033[1;31mRunning ransomware: %s\033[0m\n" $ransomwareName
+        else
+            printf "\033[1;31mRunning false ransomware: %s\033[0m\n" $ransomwareName
+        fi
 
         cleanup
         deploy
@@ -103,7 +110,7 @@ function run
 
         printf "\033[1;34mChecking results\033[0m\n"    
         runSummaryPath="$testSummaryFolder/$ransomwareName"
-        mkdir runSummaryPath
+        mkdir $runSummaryPath
 
         logOutput='/home/ohadoz/Desktop/RansomwareDetection/src/Run/Log*'
         logOutput=${logOutput// /\\ }
