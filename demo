@@ -61,7 +61,7 @@ function stop
 function runFalseRansomware
 {
     programCommand=$1
-    # chroot $sandBox $filePath
+    eval "chroot $sandBox $programCommand"
 }
 
 function runRansomware
