@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Parameters
 testTar="/home/ohadoz/Desktop/RansomwareDetection/TestData/tar/TestData.tar.gz"
 testOutput="/home/ohadoz/Desktop/RansomwareDetection/TestData/output/"
