@@ -4,3 +4,9 @@ statsFile=$1
 logFile=$2
 
 #create stats file
+
+#loop lines and search for a file analyzed by parsing
+#if no file, keep looping
+#if there's file: for every next line parse all options
+#if there a matching parse then add relevant count
+#if found next file or EOF then print <current file, stats>

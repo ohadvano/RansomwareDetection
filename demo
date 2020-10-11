@@ -61,15 +61,13 @@ function stop
 function runFalseRansomware
 {
     programCommand=$1
-    echo $1
     # chroot $sandBox $filePath
 }
 
 function runRansomware
 {
-    echo "2"
-    filePath=$1
-    wineCommand="wine $filePath"
+    programCommand=$1
+    wineCommand="wine $programCommand"
     # chroot $sandBox $wineCommand
 }
 
@@ -141,7 +139,7 @@ function build
     # Build
     printf "\033[1;34mBuilding project\033[0m\n"
     make
-    sleep 1
+    sleep .5
     printf "\033[1;32mOk\033[0m\n"
 }
 
@@ -149,6 +147,7 @@ showConfig
 cd src
 build
 run 0
+sleep 1
 run 1
 
 # Get final statistics
