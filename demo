@@ -103,9 +103,9 @@ function run
 
         if [ $realRansomware -eq 1 ] 
         then 
-            runRansomware $ransomwarePath
+            runRansomware "$ransomwarePath"
         else
-            runFalseRansomware $ransomwarePath
+            runFalseRansomware "$ransomwarePath"
         fi
 
         printf "\033[1;34mChecking results\033[0m\n"    
