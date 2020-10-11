@@ -77,7 +77,8 @@ function run
 {
     realRansomware=$1
     ransomwaresFile=$falseRansomwaresListFile
-    if [ $realRansomware -eq 1 ] then 
+    if [ $realRansomware -eq 1 ] 
+    then 
         ransomwaresFile=$ransomwaresListFile
     fi
 
@@ -94,7 +95,8 @@ function run
         stop
         start
 
-        if [ $realRansomware -eq 1 ] then 
+        if [ $realRansomware -eq 1 ] 
+        then 
             runRansomware $ransomwarePath
         else
             runFalseRansomware $ransomwarePath
