@@ -77,8 +77,9 @@ function run
 {
     realRansomware=$1
     ransomwaresFile=$falseRansomwaresListFile
-    if $realRansomware==1
+    if [ $realRansomware -eq 1 ] then 
         ransomwaresFile=$ransomwaresListFile
+    fi
 
     # Run ransomwares
     printf "\033[1;34mRunning ransomwares\033[0m\n"
@@ -93,10 +94,11 @@ function run
         stop
         start
 
-        if $realRansomware==1
+        if [ $realRansomware -eq 1 ] then 
             runRansomware $ransomwarePath
         else
             runFalseRansomware $ransomwarePath
+        fi
 
         printf "\033[1;34mChecking results\033[0m\n"    
         runSummaryPath="$testSummaryFolder/$ransomwareName"
