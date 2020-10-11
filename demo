@@ -110,7 +110,7 @@ function run
 
         printf "\033[1;34mChecking results\033[0m\n"    
         runSummaryPath="$testSummaryFolder/$ransomwareName"
-        mkdir $runSummaryPath
+        mkdir -p $runSummaryPath
 
         logOutput='/home/ohadoz/Desktop/RansomwareDetection/src/Run/Log*'
         logOutput=${logOutput// /\\ }
