@@ -60,8 +60,8 @@ function stop
 
 function runFalseRansomware
 {
-    echo "1"
-    programPath=$1
+    programCommand=$1
+    echo $1
     # chroot $sandBox $filePath
 }
 
