@@ -116,7 +116,7 @@ function run
         logOutput=${logOutput// /\\ }
         eval cp $logOutput "$runSummaryPath/log.txt"
         cd ..
-        ./statsSingleRun "$statsFilePath/stats" $singleSummaryFile "$runSummaryPath/log.txt" 
+        ./statsSingleRun "$statsFilePath/$singleSummaryFile" "$runSummaryPath/log.txt" 
 
         printf "\033[1;33mDone.\033[0m\n"
     done < "$ransomwaresFile"
@@ -157,7 +157,6 @@ summaryFileName="summary"
 ./statsFinal $testSummaryFolder $summaryFileName $singleSummaryFile
 sleep .5
 printf "\033[1;32mOk\033[0m\n"
-
 
 # Finish
 printf "\033[1;34mDemo summary: (detailed summaries at: $testSummaryFolder\033[0m\n"

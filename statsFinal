@@ -1,3 +1,7 @@
-statsFile=$1
-logFile=$2
-testOutputFolder=$3
+#!/usr/bin/env bash
+
+statsDirectory=$1
+summaryName=$2
+singleSummaryName=$3
+
+#create stats file

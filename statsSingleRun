@@ -1,2 +1,6 @@
+#!/usr/bin/env bash
+
 statsFile=$1
 logFile=$2
+
+#create stats file
