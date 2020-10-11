@@ -162,4 +162,4 @@ printf "\033[1;32mOk\033[0m\n"
 # Finish
 printf "\033[1;34mDemo summary: (detailed summaries at: $testSummaryFolder\033[0m\n"
 summaryFilePath="$testSummaryFolder/$summaryFileName"
-cat summaryFilePath
+cat $summaryFilePath
