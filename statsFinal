@@ -1,0 +1,3 @@
+statsFile=$1
+logFile=$2
+testOutputFolder=$3

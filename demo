@@ -9,94 +9,146 @@ testSummaryRootDirectory="/home/ohadoz/Desktop/RansomwareDetection/TestResults"
 now="$(date +'%d-%m-%Y_%H-%M-%S')"
 currentDate="Run_$now"
 testSummaryFolder="$testSummaryRootDirectory/$currentDate"
-testStatisticsFile="$testSummaryFolder/statistics.txt"
 ransomwaresListFile="/home/ohadoz/Desktop/RansomwareDetection/ransomwares"
+falseRansomwaresListFile="/home/ohadoz/Desktop/RansomwareDetection/falseRansomwares"
+singleSummaryFile="run_summary"
 # Endparameters
 
-# Print config
-printf "\033[1;34mConfigurations\033[0m\n"
-echo "Build output: $buildOutput"
-echo "Test tar: $testTar"
-echo "Test output: $testOutput"
-echo "Sandbox: $sandBox"
-sleep 1
-printf "\033[1;32mOk\033[0m\n"
+function cleanup
+{
+    printf "\033[1;34mTest data cleanup\033[0m\n"
+    rm -rf $testOutputDirectory
+    runOutput='/home/ohadoz/Desktop/RansomwareDetection/src/Run/*'
+    runOutput=${runOutput// /\\ }
+    eval rm -f ${runOutput}
+    sleep 1
+    printf "\033[1;32mOk\033[0m\n"
+}
 
-# Build
-printf "\033[1;34mBuilding project\033[0m\n"
-cd src
-make
-sleep 1
-printf "\033[1;32mOk\033[0m\n"
+function deploy
+{
+    printf "\033[1;34mCreate test data\033[0m\n"
+    cd ..
+    mkdir $testOutput
+    tar -C $testOutput -zxf $testTar
+    sleep 1
+    printf "\033[1;32mOk\033[0m\n"
+}
 
-# Cleanup
-printf "\033[1;34mTest data cleanup\033[0m\n"
-rm -rf $testOutputDirectory
-runOutput='/home/ohadoz/Desktop/RansomwareDetection/src/Run/*'
-runOutput=${runOutput// /\\ }
-eval rm -f ${runOutput}
-sleep 1
-printf "\033[1;32mOk\033[0m\n"
+function stop
+{
+    printf "\033[1;34mStop previous run\033[0m\n"
+    sudo umount $sandBox
+    sleep 1
+    printf "\033[1;32mOk\033[0m\n"
+}
 
-# Deploy data
-printf "\033[1;34mCreate test data\033[0m\n"
-cd ..
-mkdir $testOutput
-tar -C $testOutput -zxf $testTar
-sleep 1
-printf "\033[1;32mOk\033[0m\n"
+function start 
+{
+    printf "\033[1;34mStart Ransomware Detection\033[0m\n"
+    mkdir -p $sandBox
+    cd $buildOutput
+    ./RansomwareDetection $testOutput $sandBox &
+    sleep 1
+    printf "\033[1;32mOk\033[0m\n"
+}
 
-# Get pre run statistics
-printf "\033[1;34mCollecting pre run data\033[0m\n"
-mkdir -p $testSummaryRootDirectory
-mkdir -p $testSummaryFolder
-./stats $testStatisticsFile
-sleep 1
-printf "\033[1;32mOk\033[0m\n"
+function stop
+{
+    printf "\033[1;34mStopping Ransomware Detection\033[0m\n"
+    sudo umount $sandBox
+    printf "\033[1;32mOk\033[0m\n"
+}
 
-# Stop if running
-printf "\033[1;34mStop previous run\033[0m\n"
-sudo umount $sandBox
-sleep 1
-printf "\033[1;32mOk\033[0m\n"
+function runFalseRansomware
+{
+    filePath=$1
+    # chroot $sandBox $filePath
+}
 
-# Start
-printf "\033[1;34mStart Ransomware Detection\033[0m\n"
-mkdir -p $sandBox
-cd $buildOutput
-./RansomwareDetection $testOutput $sandBox &
-sleep 1
-printf "\033[1;32mOk\033[0m\n"
-
-# Run ransomwares
-printf "\033[1;34mRunning ransomwares\033[0m\n"
-cd ..
-while IFS= read -r ransomwarePath
-do
-    ransomwareName=${ransomwarePath##*/}
-    printf "\033[1;31mRunning ransomware: %s\033[0m\n" $ransomwareName
-    wineCommand="wine $ransomwarePath"
-    echo $wineCommand
-    cat testFile > "/tmp/sandbox/Videos/AVI/file_example_AVI_1920_2_3MG.avi"
+function runRansomware
+{
+    filePath=$1
+    wineCommand="wine $filePath"
     # chroot $sandBox $wineCommand
-    printf "\033[1;33mDone, collecting mid-test results\033[0m\n"
-    ./stats $testStatisticsFile
-done < "$ransomwaresListFile"
+}
+
+function run
+{
+    realRansomware=$1
+    ransomwaresFile=$falseRansomwaresListFile
+    if $realRansomware==1
+        ransomwaresFile=$ransomwaresListFile
+
+    # Run ransomwares
+    printf "\033[1;34mRunning ransomwares\033[0m\n"
+    cd ..
+    while IFS= read -r ransomwarePath
+    do
+        ransomwareName=${ransomwarePath##*/}
+        printf "\033[1;31mRunning ransomware: %s\033[0m\n" $ransomwareName
+
+        cleanup
+        deploy
+        stop
+        start
+
+        if $realRansomware==1
+            runRansomware $ransomwarePath
+        else
+            runFalseRansomware $ransomwarePath
+
+        printf "\033[1;34mChecking results\033[0m\n"    
+        runSummaryPath="$testSummaryFolder/$ransomwareName"
+        mkdir runSummaryPath
+
+        logOutput='/home/ohadoz/Desktop/RansomwareDetection/src/Run/Log*'
+        logOutput=${logOutput// /\\ }
+        eval cp $logOutput "$runSummaryPath/log.txt"
+        ./statsSingleRun "$statsFilePath/stats" $singleSummaryFile "$runSummaryPath/log.txt" 
+
+        printf "\033[1;33mDone.\033[0m\n"
+    done < "$ransomwaresFile"
+    sleep 1
+    printf "\033[1;32mOk\033[0m\n"
+}
+
+function showConfig
+{
+    # Print config
+    printf "\033[1;34mConfigurations\033[0m\n"
+    echo "Build output: $buildOutput"
+    echo "Test tar: $testTar"
+    echo "Test output: $testOutput"
+    echo "Sandbox: $sandBox"
+    sleep 1
+    printf "\033[1;32mOk\033[0m\n"
+}
+
+function build
+{
+    # Build
+    printf "\033[1;34mBuilding project\033[0m\n"
+    cd src
+    make
+    sleep 1
+    printf "\033[1;32mOk\033[0m\n"
+}
+
+showConfig
+build
+run 0
+run 1
+
+# Get final statistics
+printf "\033[1;34mChecking overall results\033[0m\n"
+summaryFileName="summary"
+./statsFinal $testSummaryFolder $summaryFileName $singleSummaryFile
 sleep 1
 printf "\033[1;32mOk\033[0m\n"
 
-# Stop
-printf "\033[1;34mStopping Ransomware Detection\033[0m\n"
-sudo umount $sandBox
-printf "\033[1;32mOk\033[0m\n"
-
-# Get statistics
-printf "\033[1;34mChecking results\033[0m\n"
-logOutput='/home/ohadoz/Desktop/RansomwareDetection/src/Run/Log*'
-logOutput=${logOutput// /\\ }
-eval cp $logOutput "$testSummaryFolder/log.txt"
-sleep 1
-printf "\033[1;32mOk\033[0m\n"
 
 # Finish
-printf "\033[1;34mTest results at: $testSummaryFolder\033[0m\n"
+printf "\033[1;34mDemo summary: (detailed summaries at: $testSummaryFolder\033[0m\n"
+summaryFilePath="$testSummaryFolder/$summaryFileName"
+cat summaryFilePath
