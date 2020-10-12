@@ -30,6 +30,7 @@ function deploy
     printf "\033[1;34mCreate test data\033[0m\n"
     mkdir $testOutput
     tar -C $testOutput -zxf $testTar
+    # cp: bin, lib, lib64, falseRansomwares, ransomwares
     sleep .5
     printf "\033[1;32mOk\033[0m\n"
 }
