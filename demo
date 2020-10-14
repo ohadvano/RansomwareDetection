@@ -9,6 +9,8 @@ testSummaryRootDirectory="/home/ohadoz/Desktop/RansomwareDetection/TestResults"
 now="$(date +'%d-%m-%Y_%H-%M-%S')"
 currentDate="Run_$now"
 testSummaryFolder="$testSummaryRootDirectory/$currentDate"
+#ransomwaresPath="/home/ohadoz/Desktop/RealRansomwares"
+#falseRansomwaresPath="/home/ohadoz/Desktop/FalseRansomwares"
 ransomwaresListFile="/home/ohadoz/Desktop/RansomwareDetection/ransomwares"
 falseRansomwaresListFile="/home/ohadoz/Desktop/RansomwareDetection/falseRansomwares"
 singleSummaryFile="run_summary"
@@ -30,7 +32,23 @@ function deploy
     printf "\033[1;34mCreate test data\033[0m\n"
     mkdir $testOutput
     tar -C $testOutput -zxf $testTar
-    # cp: bin, lib, lib64, falseRansomwares, ransomwares
+
+    binPath="$testOutput/bin/"
+    mkdir $binPath
+    cp -r /bin/* $binPath
+
+    usrPath="$testOutput/usr/"
+    mkdir $usrPath
+    cp -r /usr/* $usrPath
+
+    libPath="$testOutput/lib/"
+    mkdir $libPath
+    cp -r /bin/* $libPath
+
+    lib64Path="$testOutput/lib64/"
+    mkdir $lib64Path
+    cp -r /bin/* $lib64Path
+
     sleep .5
     printf "\033[1;32mOk\033[0m\n"
 }
