@@ -35,19 +35,19 @@ function deploy
 
     binPath="$testOutput/bin/"
     mkdir $binPath
-    cp -r /bin/* $binPath
+    sudo cp -r /bin/* $binPath
 
     usrPath="$testOutput/usr/"
     mkdir $usrPath
-    cp -r /usr/* $usrPath
+    sudo cp -r /usr/* $usrPath
 
     libPath="$testOutput/lib/"
     mkdir $libPath
-    cp -r /bin/* $libPath
+    sudo cp -r /bin/* $libPath
 
     lib64Path="$testOutput/lib64/"
     mkdir $lib64Path
-    cp -r /bin/* $lib64Path
+    sudo cp -r /bin/* $lib64Path
 
     sleep .5
     printf "\033[1;32mOk\033[0m\n"
