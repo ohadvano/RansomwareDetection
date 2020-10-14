@@ -49,6 +49,8 @@ function deploy
     sudo cp -r /bin/* $binPath
 
     printf "copying usr/bin\n"
+    usrPath="$testOutputDirectory/usr"
+    mkdir $usrPath
     usrBinPath="$testOutputDirectory/usr/bin/"
     mkdir $usrBinPath
     sudo cp -r /usr/bin/* $usrBinPath
