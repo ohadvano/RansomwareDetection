@@ -33,21 +33,25 @@ function deploy
     mkdir $testOutput
     tar -C $testOutput -zxf $testTar
 
-    binPath="$testOutput/bin/"
-    mkdir $binPath
-    sudo cp -r /bin/* $binPath
-
-    usrPath="$testOutput/usr/"
-    mkdir $usrPath
-    sudo cp -r /usr/* $usrPath
-
+    printf "Copying lib"
     libPath="$testOutput/lib/"
     mkdir $libPath
     sudo cp -r /bin/* $libPath
 
+    printf "Copying lib64"
     lib64Path="$testOutput/lib64/"
     mkdir $lib64Path
     sudo cp -r /bin/* $lib64Path
+
+    printf "copying bin"
+    binPath="$testOutput/bin/"
+    mkdir $binPath
+    sudo cp -r /bin/* $binPath
+
+    printf "copying usr"
+    usrPath="$testOutput/usr/"
+    mkdir $usrPath
+    sudo cp -r /usr/* $usrPath
 
     sleep .5
     printf "\033[1;32mOk\033[0m\n"
@@ -162,6 +166,7 @@ function build
     printf "\033[1;32mOk\033[0m\n"
 }
 
+sudo echo ""
 showConfig
 cd src
 build
