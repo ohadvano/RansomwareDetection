@@ -48,10 +48,10 @@ function deploy
     mkdir $binPath
     sudo cp -r /bin/* $binPath
 
-    printf "copying usr"
-    usrPath="$testOutput/usr/"
-    mkdir $usrPath
-    sudo cp -r /usr/* $usrPath
+    printf "copying python"
+    usrBinPath="$testOutput/usr/bin/"
+    mkdir $usrBinPath
+    sudo cp -r /usr/bin/* $usrBinPath
 
     sleep .5
     printf "\033[1;32mOk\033[0m\n"
