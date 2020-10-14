@@ -131,6 +131,8 @@ function run
             runFalseRansomware "$ransomwarePath"
         fi
 
+        exit
+        
         printf "\033[1;34mChecking results\033[0m\n"    
         runSummaryPath="$testSummaryFolder/$ransomwareName"
         mkdir -p $runSummaryPath
