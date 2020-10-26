@@ -33,22 +33,22 @@ function deploy
     mkdir $testOutputDirectory
     tar -C $testOutputDirectory -zxf $testTar
 
-    printf "Copying lib\n"
+    # printf "Copying lib\n"
     libPath="$testOutputDirectory/lib/"
     mkdir $libPath
     sudo cp -r /lib/* $libPath
 
-    printf "Copying lib64\n"
+    # printf "Copying lib64\n"
     lib64Path="$testOutputDirectory/lib64/"
     mkdir $lib64Path
     sudo cp -r /lib64/* $lib64Path
 
-    printf "copying bin\n"
+    # printf "copying bin\n"
     binPath="$testOutputDirectory/bin/"
     mkdir $binPath
     sudo cp -r /bin/* $binPath
 
-    printf "copying usr/lib/python2.7\n"
+    # printf "copying usr/lib/python2.7\n"
     usrPath="$testOutputDirectory/usr/"
     mkdir $usrPath
     usrLibPath="$testOutputDirectory/usr/lib/"
@@ -57,23 +57,23 @@ function deploy
     mkdir $usrLibPythonPath
     sudo cp -r /usr/lib/python2.7/* $usrLibPythonPath
 
-    printf "copying usr/share/pyshared\n"
+    # printf "copying usr/share/pyshared\n"
     usrSharedPath="$testOutputDirectory/usr/share/"
     mkdir $usrSharedPath
     usrSharedPySharedPath="$testOutputDirectory/usr/share/pyshared"
     mkdir $usrSharedPySharedPath
     sudo cp -r /usr/share/pyshared/* $usrSharedPySharedPath
 
-    printf "copying usr/bin/python2.7\n"
+    # printf "copying usr/bin/python2.7\n"
     pythonPath="$testOutputDirectory/python"
     sudo cp -r /usr/bin/python2.7 $pythonPath
 
-    printf "copying false ransomwares\n"
+    # printf "copying false ransomwares\n"
     falseRansomwaresPath="$testOutputDirectory/FalseRansomwares/"
     mkdir $falseRansomwaresPath
     sudo cp -r /home/ohadoz/Desktop/FalseRansomwares/* $falseRansomwaresPath
 
-    printf "copying ransomwares\n"
+    # printf "copying ransomwares\n"
     ransomwaresPath="$testOutputDirectory/RealRansomwares/"
     mkdir $ransomwaresPath
     sudo cp -r /home/ohadoz/Desktop/RealRansomwares/* $ransomwaresPath
