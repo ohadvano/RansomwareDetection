@@ -69,11 +69,11 @@ function deploy
     sudo cp -r /usr/bin/python2.7 $pythonPath
 
     printf "copying false ransomwares\n"
-    falseRansomwaredPath="$testOutputDirectory/FalseRansomwares"
+    falseRansomwaredPath="$testOutputDirectory/FalseRansomwares/"
     sudo cp -r /home/ohadoz/Desktop/FalseRansomwares/* $falseRansomwaredPath
 
     printf "copying ransomwares\n"
-    ransomwaredPath="$testOutputDirectory/RealRansomwares"
+    ransomwaredPath="$testOutputDirectory/RealRansomwares/"
     sudo cp -r /home/ohadoz/Desktop/RealRansomwares/* $ransomwaredPath
 
     sleep .5
