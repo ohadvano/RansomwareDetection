@@ -70,11 +70,11 @@ function deploy
 
     printf "copying false ransomwares\n"
     falseRansomwaredPath="$testOutputDirectory/FalseRansomwares"
-    sudo cp -r "$falseRansomwaresOriginPath/*" $falseRansomwaredPath
+    sudo cp -r /home/ohadoz/Desktop/FalseRansomwares/* $falseRansomwaredPath
 
     printf "copying ransomwares\n"
     ransomwaredPath="$testOutputDirectory/RealRansomwares"
-    sudo cp -r "$ransomwaresOriginPath/*" $ransomwaredPath
+    sudo cp -r /home/ohadoz/Desktop/RealRansomwares/* $ransomwaredPath
 
     sleep .5
     printf "\033[1;32mOk\033[0m\n"
