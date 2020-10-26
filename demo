@@ -9,8 +9,8 @@ testSummaryRootDirectory="/home/ohadoz/Desktop/RansomwareDetection/TestResults"
 now="$(date +'%d-%m-%Y_%H-%M-%S')"
 currentDate="Run_$now"
 testSummaryFolder="$testSummaryRootDirectory/$currentDate"
-#ransomwaresPath="/home/ohadoz/Desktop/RealRansomwares"
-#falseRansomwaresPath="/home/ohadoz/Desktop/FalseRansomwares"
+ransomwaresOriginPath="/home/ohadoz/Desktop/RealRansomwares"
+falseRansomwaresOriginPath="/home/ohadoz/Desktop/FalseRansomwares"
 ransomwaresListFile="/home/ohadoz/Desktop/RansomwareDetection/ransomwares"
 falseRansomwaresListFile="/home/ohadoz/Desktop/RansomwareDetection/falseRansomwares"
 singleSummaryFile="run_summary"
@@ -36,24 +36,45 @@ function deploy
     printf "Copying lib\n"
     libPath="$testOutputDirectory/lib/"
     mkdir $libPath
-    sudo cp -r /bin/* $libPath
+    sudo cp -r /lib/* $libPath
 
     printf "Copying lib64\n"
     lib64Path="$testOutputDirectory/lib64/"
     mkdir $lib64Path
-    sudo cp -r /bin/* $lib64Path
+    sudo cp -r /lib64/* $lib64Path
 
     printf "copying bin\n"
     binPath="$testOutputDirectory/bin/"
     mkdir $binPath
     sudo cp -r /bin/* $binPath
 
-    printf "copying usr/bin/python\n"
-#    usrPath="$testOutputDirectory"
-#    mkdir $usrPath
-#    usrBinPath="$testOutputDirectory/usr/bin/"
-#    mkdir $usrBinPath
-    sudo cp -r /usr/bin/python $testOutputDirectory
+    printf "copying usr/lib/python2.7\n"
+    usrPath="$testOutputDirectory/usr/"
+    mkdir $usrPath
+    usrLibPath="$testOutputDirectory/usr/lib/"
+    mkdir $usrLibPath
+    usrLibPythonPath="$testOutputDirectory/usr/lib/python2.7/"
+    mkdir $usrLibPythonPath
+    sudo cp -r /usr/lib/python2.7/* $usrLibPythonPath
+
+    printf "copying usr/share/pyshared\n"
+    usrSharedPath="$testOutputDirectory/usr/share/"
+    mkdir $usrSharedPath
+    usrSharedPySharedPath="$testOutputDirectory/usr/share/pyshared"
+    mkdir $usrSharedPySharedPath
+    sudo cp -r /usr/share/pyshared/* $usrSharedPySharedPath
+
+    printf "copying usr/bin/python2.7\n"
+    pythonPath="$testOutputDirectory/python"
+    sudo cp -r /usr/bin/python2.7 $pythonPath
+
+    printf "copying false ransomwares\n"
+    falseRansomwaredPath="$testOutputDirectory/FalseRansomwares"
+    sudo cp -r "$falseRansomwaresOriginPath/*" $falseRansomwaredPath
+
+    printf "copying ransomwares\n"
+    ransomwaredPath="$testOutputDirectory/RealRansomwares"
+    sudo cp -r "$ransomwaresOriginPath/*" $ransomwaredPath
 
     sleep .5
     printf "\033[1;32mOk\033[0m\n"
@@ -130,8 +151,6 @@ function run
         else
             runFalseRansomware "$ransomwarePath"
         fi
-
-        exit
 
         printf "\033[1;34mChecking results\033[0m\n"    
         runSummaryPath="$testSummaryFolder/$ransomwareName"
