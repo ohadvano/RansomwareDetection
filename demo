@@ -78,14 +78,6 @@ function deploy
     mkdir $ransomwaresPath
     sudo cp -r /home/ohadoz/Desktop/RealRansomwares/* $ransomwaresPath
 
-    # printf "copying sudo\n"
-    sudoPath="$testOutputDirectory/sudo"
-    sudo cp -r /usr/bin/sudo $sudoPath
-
-    # printf "copying sudoutil\n"
-    usrLibSudoPath="$testOutputDirectory/libsudo_util.so.0"
-    sudo cp -r /usr/lib/sudo/libsudo_util.so.0 $usrLibSudoPath
-
     sleep .5
     printf "\033[1;32mOk\033[0m\n"
 }
