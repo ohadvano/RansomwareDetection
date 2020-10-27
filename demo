@@ -113,11 +113,11 @@ function stop
 function runFalseRansomware
 {
     programCommand=$1
-    touch "$sandBox/run1"
+    echo "a" > "$sandBox/run1"
     chmod 777 "$sandBox/run1"
-    touch "$sandBox/run2"
+    echo "a" > "$sandBox/run2"
     chmod 777 "$sandBox/run2"
-    touch "$sandBox/run3"
+    echo "a" > "$sandBox/run3"
     chmod 777 "$sandBox/run3"
     cmd="sudo chroot $sandBox $programCommand 1> /run1 2> /run2 3> /run3"
     echo $cmd
