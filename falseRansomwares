@@ -1,1 +1,1 @@
-/sudo /python /FalseRansomwares/fsrand.py -c 1000 /
+/bash /FalseRansomwares/populateFiles.sh /tmp/sandbox
