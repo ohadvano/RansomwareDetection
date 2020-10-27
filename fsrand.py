@@ -102,9 +102,9 @@ class FsRandomizer(object):
             self.__random_write(f)
     def randomize(self):
         for i in xrange(self.count):
-            op = self.random.choice("CRu")
-            if op == "C":
-                try:
+            try:
+                op = self.random.choice("CRu")
+                if op == "C":
                     path = self.__newsubpath(self.__getdir())
                     if self.verbose:
                         self.__stderr("CREATE %s" % path)
@@ -114,10 +114,7 @@ class FsRandomizer(object):
                     else:
                         os.mkdir(path)
                         os.chmod(path, self.__newmode(0700))
-                except:
-                    pass
-            elif op == "R":
-                try:
+                elif op == "R":
                     path = self.__getsubpath(self.__getdir())
                     if os.path.realpath(path) == self.path:
                         continue
@@ -130,10 +127,7 @@ class FsRandomizer(object):
                             os.rmdir(path)
                         except:
                             pass
-                except:
-                    pass
-            elif op == "u":
-                try:
+                elif op == "u":
                     path = self.__getsubpath(self.__getdir())
                     if os.path.realpath(path) == self.path:
                         continue
@@ -154,8 +148,8 @@ class FsRandomizer(object):
                             os.chmod(path, self.__newmode(0600))
                         else:
                             os.chmod(path, self.__newmode(0700))
-                except:
-                    pass
+            except:
+                pass
 
 if "__main__" == __name__:
     import argparse, sys, time
