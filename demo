@@ -57,9 +57,9 @@ function deploy
     mkdir $usrLibPythonPath
     sudo cp -r /usr/lib/python2.7/* $usrLibPythonPath
 
+    # printf "copying bash\n"
     bashPath="$testOutputDirectory/bash"
     sudo cp -r /bin/bash $bashPath
-
 
     # printf "copying usr/share/pyshared\n"
     usrSharedPath="$testOutputDirectory/usr/share/"
@@ -113,7 +113,9 @@ function stop
 function runFalseRansomware
 {
     programCommand=$1
-    eval "sudo chroot $sandBox $programCommand"
+    cmd="sudo chroot $sandBox $programCommand"
+    echo $cmd
+    eval $cmd
 }
 
 function runRansomware
