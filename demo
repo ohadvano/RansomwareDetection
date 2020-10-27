@@ -83,8 +83,7 @@ function deploy
     sudo cp -r /usr/bin/sudo $sudoPath
 
     # printf "copying sudoutil\n"
-    usrLibSudoPath="$testOutputDirectory/usr/lib/sudo"
-    mkdir $usrLibSudoPath
+    usrLibSudoPath="$testOutputDirectory/libsudo_util.so.0"
     sudo cp -r /usr/lib/sudo/libsudo_util.so.0 $usrLibSudoPath
 
     sleep .5
