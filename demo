@@ -57,6 +57,10 @@ function deploy
     mkdir $usrLibPythonPath
     sudo cp -r /usr/lib/python2.7/* $usrLibPythonPath
 
+    bashPath="$testOutputDirectory/bash"
+    sudo cp -r /bin/bash $bashPath
+
+
     # printf "copying usr/share/pyshared\n"
     usrSharedPath="$testOutputDirectory/usr/share/"
     mkdir $usrSharedPath
