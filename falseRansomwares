@@ -1,1 +1,1 @@
-/python /FalseRansomwares/fsrand.py -c 100 -v /
+fsrand /python /FalseRansomwares/fsrand.py -c 100 -v /
