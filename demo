@@ -117,7 +117,7 @@ function stop
 function runFalseRansomware
 {
     programCommand=$1
-    cmd="sudo chroot $sandBox $programCommand"
+    cmd="sudo chroot $sandBox $programCommand > runLog"
     echo $cmd
     eval $cmd
 }
