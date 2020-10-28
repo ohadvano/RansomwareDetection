@@ -50,6 +50,12 @@ namespace Log
                     std::ofstream file { LogPath };
                 }
 
+               if (pthread_mutex_init(&_logLock, nullptr) != 0)
+                {
+                    fprintf(stderr, "error: _logLock mutex init has failed");
+                    exit(1);
+                }
+
                 WriteLog("[Log started]");
             }
 
@@ -60,11 +66,15 @@ namespace Log
                     return;			
                 }
 
+                pthread_mutex_lock(&_logLock);
+
                 char buff[DTTMSZ];
                 std::ofstream file;
                 file.open(LogPath, std::ios_base::app);
                 file << "[" << getDtTm (buff) << "]" << logInfo << endl;
-                file.close();            
+                file.close();
+
+                pthread_mutex_unlock(&_logLock);
             }
 
             void WriteError(string logError)
@@ -74,14 +84,26 @@ namespace Log
                     return;
                 }
 
+                pthread_mutex_lock(&_logLock);
+
                 char buff[DTTMSZ];
                 std::ofstream file;
                 file.open(LogPath, std::ios_base::app);
                 file << "[" << getDtTm (buff) << "]" << "[ERROR]" << logError << endl;
                 file.close();
+
+                pthread_mutex_unlock(&_logLock);
+            }
+
+            ~Logger()
+            {
+                pthread_mutex_unlock(&_logLock);
+                pthread_mutex_destroy(&_logLock);
             }
 
         private:
+            pthread_mutex_t _logLock;
+
             char* getDtTm (char *buff) 
             {
                 time_t t = time (0);
