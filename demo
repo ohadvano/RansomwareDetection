@@ -31,7 +31,9 @@ function deploy
 {
     printf "\033[1;34mCreate test data\033[0m\n"
     mkdir $testOutputDirectory
-    tar -C $testOutputDirectory -zxf $testTar
+    testFilesDir="$testOutputDirectory/TestFiles"
+    mkdir $testFilesDir
+    tar -C $testFilesDir -zxf $testTar
 
     # printf "Copying lib\n"
     libPath="$testOutputDirectory/lib/"
