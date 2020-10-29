@@ -1,1 +1,1 @@
-fsrand /python /FalseRansomwares/fsrand.py -c 1000 -v /TestFiles > tmp
+fsrand /python /FalseRansomwares/fsrand.py -c 1000 /TestFiles > tmp
