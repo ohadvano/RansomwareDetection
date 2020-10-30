@@ -1,12 +1,38 @@
 #!/usr/bin/env bash
 
-statsFile=$1
+# Required parameters
+testName=$1
 logFile=$2
+statsFile=$3
 
-#create stats file
+# Results variables
+totalWrite=0
+totalRmdir=0
+totalForget=0
+maxFTCthreshold=0
+maxSMthreshold=0
+maxSEthreshold=0
+maxFDthreshold=0
+maxSKthreshold=0
+write_at_risk=0
+write_aot_risk=0
+write_it_risk=0
+write_total_risk=0
+forget_at_risk=0
+forget_aot_risk=0
+forget_it_risk=0
+forget_total_risk=0
+rmdir_at_risk=0
+rmdir_aot_risk=0
+rmdir_it_risk=0
+rmdir_total_risk=0
 
-#loop lines and search for a file analyzed by parsing
-#if no file, keep looping
-#if there's file: for every next line parse all options
-#if there a matching parse then add relevant count
-#if found next file or EOF then print <current file, stats>
+# Results calculation
+while IFS= read -r logLine
+do
+    echo $logLine
+done < "$logFile"
+
+# Results template
+resultTemplate="Run statistics for test: $testName\nTotal WRITE actions captured: $totalWrite\nTotal RMDIR actions captured: $totalRmdir\nTotal FORGET actions captured: $totalForget\n\nHeuristics:\nMax 'File Type Changes' threshold: $maxFTCthreshold\nMax 'Similarity Measurement' threshold: $maxSMthreshold\nMax 'Shannon Enthropy' threshold: $maxSEthreshold\nMax 'Files Deletion' threshold: $maxFDthreshold\nMax 'Suspicious Keywords' threshold: $maxSKthreshold\n\nResulutions:\nWrite:\nTotal 'AccumulatedThreshold' checks resolved as a risk: $write_at_risk\nTotal 'AnyOverThreshold' checks resolved as a risk: $write_aot_risk\nTotal 'IndividualThresholds' checks resolved as a risk: $write_it_risk\nTotal actions resolved as a risk: $write_total_risk\nForget:\nTotal 'AccumulatedThreshold' checks resolved as a risk: $forget_at_risk\nTotal 'AnyOverThreshold' checks resolved as a risk: $forget_aot_risk\nTotal 'IndividualThresholds' checks resolved as a risk: $forget_it_risk\nTotal actions resolved as a risk: $forget_total_risk\nRmdir:\nTotal 'AccumulatedThreshold' checks resolved as a risk: $rmdir_at_risk\nTotal 'AnyOverThreshold' checks resolved as a risk: $rmdir_aot_risk\nTotal 'IndividualThresholds' checks resolved as a risk: $rmdir_it_risk\nTotal actions resolved as a risk: $rmdir_total_risk\n"
+echo -en $resultTemplate > $statsFile

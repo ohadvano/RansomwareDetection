@@ -172,7 +172,7 @@ function run
         logOutput=${logOutput// /\\ }
         eval cp $logOutput "$runSummaryPath/log.txt"
         cd ..
-        ./statsSingleRun "$statsFilePath/$singleSummaryFile" "$runSummaryPath/log.txt" 
+        ./statsSingleRun $ransomwareName "$runSummaryPath/log.txt" "$statsFilePath/$singleSummaryFile"
 
         printf "\033[1;33mDone.\033[0m\n"
     done < "$ransomwaresFile"
