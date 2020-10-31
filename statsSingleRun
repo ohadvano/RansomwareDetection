@@ -175,41 +175,47 @@ do
 
     elif [[ $logLine =~ $fileTypeChangesRegex ]]; then
         newTh=${BASH_REMATCH[1]}
-        echo $maxFTCthreshold
         SetIfGreater_maxFTCthreshold $newTh
-        echo $maxFTCthreshold
 
     elif [[ $logLine =~ $similarityRegex ]]; then
         newTh=${BASH_REMATCH[1]}
-        echo "simi: $newTh"
+        SetIfGreater_maxSMthreshold $newTh
 
     elif [[ $logLine =~ $shannonRegex ]]; then
         newTh=${BASH_REMATCH[1]}
-        echo "sha: $newTh"
+        SetIfGreater_maxSEthreshold $newTh
 
     elif [[ $logLine =~ $fileDeletionRegex ]]; then
         newTh=${BASH_REMATCH[1]}
-        echo "fd: $newTh"
+        SetIfGreater_maxFDthreshold $newTh
 
     elif [[ $logLine =~ $suspiciousRegex ]]; then
         newTh=${BASH_REMATCH[1]}
-        echo "sk: $newTh"
+        SetIfGreater_maxSKthreshold $newTh
 
     elif [[ $logLine =~ $accumulatedRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
-        echo "accu $riskStatus"
+        if [ "$riskStatus" = "Risk" ]; then
+            echo "1"
+        fi
 
     elif [[ $logLine =~ $anyOverRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
-        echo "anyover $riskStatus"
+        if [ "$riskStatus" = "Risk" ]; then
+            echo "2"
+        fi
 
     elif [[ $logLine =~ $individualRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
-        echo "ind $riskStatus"
+        if [ "$riskStatus" = "Risk" ]; then
+            echo "3"
+        fi
 
     elif [[ $logLine =~ $resolutionRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
-        echo "resolution $riskStatus"
+        if [ "$riskStatus" = "Risk" ]; then
+            echo "4"
+        fi
 
     fi
 done < "$logFile"

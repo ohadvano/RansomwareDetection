@@ -24,7 +24,7 @@
 [2020-10-11 22:57:42][Files Deletion][New threshold: 4]
 [2020-10-11 22:57:42][Suspicious Keywords][Results found in history search: 0]
 [2020-10-11 22:57:42][Suspicious Keywords][New threshold: 5]
-[2020-10-11 22:57:42][Checking action with: AccumulatedThreshold][Condition result: Safe]
+[2020-10-11 22:57:42][Checking action with: AccumulatedThreshold][Condition result: Risk]
 [2020-10-11 22:57:42][Checking action with: AnyOverThreshold][Condition result: Risk]
 [2020-10-11 22:57:42][Checking action with: IndividualThresholds][Condition result: Safe]
 [2020-10-11 22:57:42][Action resolution: Risk]
