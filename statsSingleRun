@@ -227,11 +227,11 @@ do
 
     elif [[ $logLine =~ $forgetHeaderRegex ]]; then
         context=2
-        Promote_totalRmdir
+        Promote_totalForget
 
     elif [[ $logLine =~ $rmdirHeaderRegex ]]; then
         context=3
-        Promote_totalForget
+        Promote_totalRmdir
 
     elif [[ $logLine =~ $fileTypeChangesRegex ]]; then
         newTh=${BASH_REMATCH[1]}
