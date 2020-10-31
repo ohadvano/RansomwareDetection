@@ -38,7 +38,8 @@ namespace Heuristics
     class FilesDeletionHeuristic : public HeuristicBase
     {
         public:
-            FilesDeletionHeuristic(Logger* logger, TempWriter* tempWriter)
+            FilesDeletionHeuristic(Logger* logger, TempWriter* tempWriter, int lookbackTime)
+                : HeuristicBase { lookbackTime }
             {
                 _tempWriter = tempWriter;
                 _logger = logger;

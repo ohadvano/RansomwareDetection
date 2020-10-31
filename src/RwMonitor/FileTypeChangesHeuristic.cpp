@@ -38,7 +38,8 @@ namespace Heuristics
     class FileTypeChangesHeuristic : public HeuristicBase
     {
         public:
-            FileTypeChangesHeuristic(Logger* logger, TempWriter* tempWriter)
+            FileTypeChangesHeuristic(Logger* logger, TempWriter* tempWriter, int lookbackTime)
+                : HeuristicBase { lookbackTime }
             {
                 _tempWriter = tempWriter;
                 _logger = logger;

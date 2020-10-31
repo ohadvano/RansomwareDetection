@@ -77,6 +77,11 @@ namespace Configurations
                 return _individualThresholds;
             }
 
+            int GetLookbackTime()
+            {
+                return _lookbackTime;
+            }
+
         private:
             bool _isDebugMode;
             int _similarityTh;
@@ -89,6 +94,7 @@ namespace Configurations
             double _minAccumulatedThreshold;
             double _minGlobalThreshold;
             double* _individualThresholds;
+            int _lookbackTime;
 
             regex _runningModeRegex = regex("Debug: (.*);");
             regex _logFilePathRegex = regex("LogFilePath: (.*);");
@@ -101,7 +107,8 @@ namespace Configurations
             regex _minAccumulatedThresholdRegex = regex("MinAccumulatedThreshold: (.*);");
             regex _minGlobalThresholdRegex = regex("MinGlobalThresholdRegex: (.*);");
             regex _individualThresholdRegex = regex("IndividualThresholdRegex: (.*);");
-            
+            regex _lookbackTimeRegex = regex("LookbackTime: (.*);");
+
             void Init(char const* configPath)
             {
                 ifstream inFile;
@@ -122,6 +129,7 @@ namespace Configurations
                 char* minAccumulatedThreshold = Parse(str, _minAccumulatedThresholdRegex);
                 char* minGlobalThreshold = Parse(str, _minGlobalThresholdRegex);
                 char* individualThreshold = Parse(str, _individualThresholdRegex);
+                char* lookbackTime = Parse(str, _lookbackTimeRegex);
 
                 _isDebugMode = IsDebugMode(runningModeStr);
                 _similarityTh = ConvertToInt(similarityString);
@@ -134,6 +142,7 @@ namespace Configurations
                 _minAccumulatedThreshold = ConvertToDouble(minAccumulatedThreshold);
                 _minGlobalThreshold = ConvertToDouble(minGlobalThreshold);
                 _individualThresholds = GetIndividualThresholds(individualThreshold);
+                _lookbackTime = ConvertToInt(enthropyString);
             }
 
             char* Parse(string str, regex reg)

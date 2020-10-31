@@ -40,11 +40,16 @@ namespace Heuristics
         public:
             virtual void CalculateTH(FsAction* action) = 0;
 
+            HeuristicBase(int lookbackTime)
+            {
+                _lookBackTime = lookbackTime;
+            }
+
             virtual ~HeuristicBase()
             {
             }
 
-            int _lookBackTime = 30;
+            int _lookBackTime;
             double heuristicTH = 0;
 
             TempWriter* _tempWriter;

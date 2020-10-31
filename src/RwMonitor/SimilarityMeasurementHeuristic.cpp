@@ -38,7 +38,8 @@ namespace Heuristics
     class SimilarityMeasurementHeuristic : public HeuristicBase
     {
         public:
-            SimilarityMeasurementHeuristic(Logger* logger, TempWriter* tempWriter, TempWriter* tempWriter2, int threshold)
+            SimilarityMeasurementHeuristic(Logger* logger, TempWriter* tempWriter, TempWriter* tempWriter2, int threshold, int lookbackTime)
+                : HeuristicBase { lookbackTime }
             {
                 
                 _tempWriter = tempWriter;

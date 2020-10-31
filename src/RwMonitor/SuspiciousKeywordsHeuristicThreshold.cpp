@@ -38,7 +38,8 @@ namespace Heuristics
     class SuspiciousKeywordsHeuristicThreshold : public HeuristicBase
     {
         public:
-            SuspiciousKeywordsHeuristicThreshold(Logger* logger, TempWriter* tempWriter, vector<string> suspiciousKeywords)
+            SuspiciousKeywordsHeuristicThreshold(Logger* logger, TempWriter* tempWriter, vector<string> suspiciousKeywords, int lookbackTime)
+                : HeuristicBase { lookbackTime }
             {
                 _tempWriter = tempWriter;
                 _logger = logger;
