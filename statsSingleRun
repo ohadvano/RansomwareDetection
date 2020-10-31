@@ -54,6 +54,48 @@ do
     # WRITE header
     if [[ $logLine =~ $writeHeaderRegex ]]; then
         echo "write"
+    # FORGET header
+    elif [[ $logLine =~ $forgetHeaderRegex ]]; then
+        echo "forget"
+    # RMDIR
+    elif [[ $logLine =~ $rmdirHeaderRegex ]]; then
+        echo "rmdir"
+    # File type changes threshold line
+    elif [[ $logLine =~ $fileTypeChangesRegex ]]; then
+        newTh=${BASH_REMATCH[1]}
+        echo "ftc: $newTh"
+    # Similarity threshold line
+    elif [[ $logLine =~ $similarityRegex ]]; then
+        newTh=${BASH_REMATCH[1]}
+        echo "simi: $newTh"
+    # Shannon threshold line
+    elif [[ $logLine =~ $shannonRegex ]]; then
+        newTh=${BASH_REMATCH[1]}
+        echo "sha: $newTh"
+    # File deletion threshold line
+    elif [[ $logLine =~ $fileDeletionRegex ]]; then
+        newTh=${BASH_REMATCH[1]}
+        echo "fd: $newTh"
+    # Suspicious keywords threshold line
+    elif [[ $logLine =~ $suspiciousRegex ]]; then
+        newTh=${BASH_REMATCH[1]}
+        echo "sk: $newTh"
+    # AccumulatedThreshold line
+    elif [[ $logLine =~ $accumulatedRegex ]]; then
+        riskStatus=${BASH_REMATCH[1]}
+        echo "accu $riskStatus"
+    # AnyOverThreshold line
+    elif [[ $logLine =~ $anyOverRegex ]]; then
+        riskStatus=${BASH_REMATCH[1]}
+        echo "anyover $riskStatus"
+    # IndividualThresholds line
+    elif [[ $logLine =~ $individualRegex ]]; then
+        riskStatus=${BASH_REMATCH[1]}
+        echo "ind $riskStatus"
+    # Action resolution line
+    elif [[ $logLine =~ $resolutionRegex ]]; then
+        riskStatus=${BASH_REMATCH[1]}
+        echo "resolution $riskStatus"
     fi
 done < "$logFile"
 
