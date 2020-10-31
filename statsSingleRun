@@ -119,7 +119,7 @@ function SetIfGreater_maxFTCthreshold
 {
     newVal=$1
     if [ "$newVal" -gt "$maxFTCthreshold" ]; then
-        maxFTCthreshold=newVal
+        maxFTCthreshold=$newVal
     fi
 }
 
@@ -127,7 +127,7 @@ function SetIfGreater_maxSMthreshold
 {
     newVal=$1
     if [ "$newVal" -gt "$maxSMthreshold" ]; then
-        maxSMthreshold=newVal
+        maxSMthreshold=$newVal
     fi
 }
 
@@ -135,7 +135,7 @@ function SetIfGreater_maxSEthreshold
 {
     newVal=$1
     if [ "$newVal" -gt "$maxSEthreshold" ]; then
-        maxSEthreshold=newVal
+        maxSEthreshold=$newVal
     fi
 }
 
@@ -143,7 +143,7 @@ function SetIfGreater_maxFDthreshold
 {
     newVal=$1
     if [ "$newVal" -gt "$maxFDthreshold" ]; then
-        maxFDthreshold=newVal
+        maxFDthreshold=$newVal
     fi
 }
 
@@ -151,7 +151,7 @@ function SetIfGreater_maxSKthreshold
 {
     newVal=$1
     if [ "$newVal" -gt "$maxSKthreshold" ]; then
-        maxSKthreshold=newVal
+        maxSKthreshold=$newVal
     fi
 }
 
