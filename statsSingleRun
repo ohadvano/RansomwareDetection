@@ -161,10 +161,10 @@ function PromoteByContext_at
     if [ "$ctx" = "1" ]; then
         write_at_risk=$((write_at_risk+1))
 
-    elif [ "$ctx" = "1" ]; then
+    elif [ "$ctx" = "2" ]; then
         fotget_at_risk=$((fotget_at_risk+1))
 
-    elif [ "$ctx" = "2" ]; then
+    elif [ "$ctx" = "3" ]; then
         rmdir_at_risk=$((rmdir_at_risk+1))
 
     fi
@@ -176,10 +176,10 @@ function PromoteByContext_aot
     if [ "$ctx" = "1" ]; then
         write_aot_risk=$((write_aot_risk+1))
 
-    elif [ "$ctx" = "1" ]; then
+    elif [ "$ctx" = "2" ]; then
         fotget_aot_risk=$((fotget_aot_risk+1))
 
-    elif [ "$ctx" = "2" ]; then
+    elif [ "$ctx" = "3" ]; then
         rmdir_aot_risk=$((rmdir_aot_risk+1))
 
     fi
@@ -191,10 +191,10 @@ function PromoteByContext_it
     if [ "$ctx" = "1" ]; then
         write_it_risk=$((write_it_risk+1))
 
-    elif [ "$ctx" = "1" ]; then
+    elif [ "$ctx" = "2" ]; then
         fotget_it_risk=$((fotget_it_risk+1))
 
-    elif [ "$ctx" = "2" ]; then
+    elif [ "$ctx" = "3" ]; then
         rmdir_it_risk=$((rmdir_it_risk+1))
 
     fi
@@ -206,10 +206,10 @@ function PromoteByContext_total
     if [ "$ctx" = "1" ]; then
         write_total_risk=$((write_total_risk+1))
 
-    elif [ "$ctx" = "1" ]; then
+    elif [ "$ctx" = "2" ]; then
         fotget_total_risk=$((fotget_total_risk+1))
 
-    elif [ "$ctx" = "2" ]; then
+    elif [ "$ctx" = "3" ]; then
         rmdir_total_risk=$((rmdir_total_risk+1))
 
     fi
