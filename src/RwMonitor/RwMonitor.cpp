@@ -189,7 +189,6 @@ namespace RwMonitor
             bool AccumulatedThreshold(double thresholds[], int length, double minThreshold)
             {
                 string conditionDescription = "AccumulatedThreshold";
-                _logger->WriteLog("[Checking action with: " + conditionDescription + "]");
 
                 double sum = 0;
                 for (int idx = 0; idx < length; idx++)
@@ -200,7 +199,7 @@ namespace RwMonitor
                 bool result = sum > minThreshold;
 
                 string resultAsString = result ? "Risk" : "Safe";
-                _logger->WriteLog("[Condition result: " + resultAsString + "]");
+                _logger->WriteLog("[Checking action with: " + conditionDescription + "][Condition result: " + resultAsString + "]");
 
                 return result;
             }
@@ -208,7 +207,6 @@ namespace RwMonitor
             bool AnyOverThreshold(double thresholds[], int length, double minThreshold)
             {
                 string conditionDescription = "AnyOverThreshold";
-                _logger->WriteLog("[Checking action with: " + conditionDescription + "]");
 
                 bool result = false;
                 for (int idx = 0; idx < length; idx++)
@@ -221,7 +219,7 @@ namespace RwMonitor
                 }
 
                 string resultAsString = result ? "Risk" : "Safe";
-                _logger->WriteLog("[Condition result: " + resultAsString + "]");
+                _logger->WriteLog("[Checking action with: " + conditionDescription + "][Condition result: " + resultAsString + "]");
                 
                 return result;
             }
@@ -229,7 +227,6 @@ namespace RwMonitor
             bool IndividualThresholds(double thresholds[], double* individualMinThresholds, int length)
             {
                 string conditionDescription = "IndividualThresholds";
-                _logger->WriteLog("[Checking action with: " + conditionDescription + "]");
 
                 bool result = false;
                 for (int idx = 0; idx < length; idx++)
@@ -242,7 +239,7 @@ namespace RwMonitor
                 }
 
                 string resultAsString = result ? "Risk" : "Safe";
-                _logger->WriteLog("[Condition result: " + resultAsString + "]");
+                _logger->WriteLog("[Checking action with: " + conditionDescription + "][Condition result: " + resultAsString + "]");
                 
                 return result;
             }
