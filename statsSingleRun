@@ -42,7 +42,7 @@ resolutionRegex="\[.*\]\[Action resolution: (Safe|Risk)\]"
 
 function Promote
 {
-    var=$1
+    (($1=$1+1))
 }
 
 # 0 = not set | 1 = WRITE | 2 = FORGET | 3 = RMDIR
@@ -53,13 +53,18 @@ while IFS= read -r logLine
 do
     # WRITE header
     if [[ $logLine =~ $writeHeaderRegex ]]; then
-        echo "write"
+        context=1
+        echo $totalWrite
+        Promote $totalWrite
+        echo $totalWrite
     # FORGET header
     elif [[ $logLine =~ $forgetHeaderRegex ]]; then
-        echo "forget"
+        context=2
+        Promote $totalRmdir
     # RMDIR
     elif [[ $logLine =~ $rmdirHeaderRegex ]]; then
-        echo "rmdir"
+        context=3
+        Promote $totalForget
     # File type changes threshold line
     elif [[ $logLine =~ $fileTypeChangesRegex ]]; then
         newTh=${BASH_REMATCH[1]}
