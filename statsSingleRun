@@ -118,26 +118,41 @@ function Promote_rmdir_total_risk
 function SetIfGreater_maxFTCthreshold
 {
     newVal=$1
+    if [ "$newVal" -gt "$maxFTCthreshold" ]; then
+        maxFTCthreshold=newVal
+    fi
 }
 
 function SetIfGreater_maxSMthreshold
 {
     newVal=$1
+    if [ "$newVal" -gt "$maxSMthreshold" ]; then
+        maxSMthreshold=newVal
+    fi
 }
 
 function SetIfGreater_maxSEthreshold
 {
     newVal=$1
+    if [ "$newVal" -gt "$maxSEthreshold" ]; then
+        maxSEthreshold=newVal
+    fi
 }
 
 function SetIfGreater_maxFDthreshold
 {
     newVal=$1
+    if [ "$newVal" -gt "$maxFDthreshold" ]; then
+        maxFDthreshold=newVal
+    fi
 }
 
 function SetIfGreater_maxSKthreshold
 {
     newVal=$1
+    if [ "$newVal" -gt "$maxSKthreshold" ]; then
+        maxSKthreshold=newVal
+    fi
 }
 
 # 0 = not set | 1 = WRITE | 2 = FORGET | 3 = RMDIR
