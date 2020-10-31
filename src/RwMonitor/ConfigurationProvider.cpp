@@ -142,7 +142,7 @@ namespace Configurations
                 _minAccumulatedThreshold = ConvertToDouble(minAccumulatedThreshold);
                 _minGlobalThreshold = ConvertToDouble(minGlobalThreshold);
                 _individualThresholds = GetIndividualThresholds(individualThreshold);
-                _lookbackTime = ConvertToInt(enthropyString);
+                _lookbackTime = ConvertToInt(lookbackTime);
             }
 
             char* Parse(string str, regex reg)
