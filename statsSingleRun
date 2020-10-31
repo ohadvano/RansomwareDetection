@@ -173,6 +173,7 @@ function PromoteByContext_at
 function PromoteByContext_aot
 {
     ctx=$1
+    echo $ctx
     if [ "$ctx" = "1" ]; then
         write_aot_risk=$((write_aot_risk+1))
 
@@ -188,6 +189,7 @@ function PromoteByContext_aot
 function PromoteByContext_it
 {
     ctx=$1
+    echo $ctx
     if [ "$ctx" = "1" ]; then
         write_it_risk=$((write_it_risk+1))
 
@@ -203,6 +205,7 @@ function PromoteByContext_it
 function PromoteByContext_total
 {
     ctx=$1
+    echo $ctx
     if [ "$ctx" = "1" ]; then
         write_total_risk=$((write_total_risk+1))
 
