@@ -70,7 +70,7 @@ do
     else
         echo "xxx"
     fi
-fidone < "$logFile"
+done < "$logFile"
 
 # Results template
 resultTemplate="Run statistics for test: $testName\nTotal WRITE actions captured: $totalWrite\nTotal RMDIR actions captured: $totalRmdir\nTotal FORGET actions captured: $totalForget\n\nHeuristics:\nMax 'File Type Changes' threshold: $maxFTCthreshold\nMax 'Similarity Measurement' threshold: $maxSMthreshold\nMax 'Shannon Enthropy' threshold: $maxSEthreshold\nMax 'Files Deletion' threshold: $maxFDthreshold\nMax 'Suspicious Keywords' threshold: $maxSKthreshold\n\nResulutions:\nWrite:\nTotal 'AccumulatedThreshold' checks resolved as a risk: $write_at_risk\nTotal 'AnyOverThreshold' checks resolved as a risk: $write_aot_risk\nTotal 'IndividualThresholds' checks resolved as a risk: $write_it_risk\nTotal actions resolved as a risk: $write_total_risk\nForget:\nTotal 'AccumulatedThreshold' checks resolved as a risk: $forget_at_risk\nTotal 'AnyOverThreshold' checks resolved as a risk: $forget_aot_risk\nTotal 'IndividualThresholds' checks resolved as a risk: $forget_it_risk\nTotal actions resolved as a risk: $forget_total_risk\nRmdir:\nTotal 'AccumulatedThreshold' checks resolved as a risk: $rmdir_at_risk\nTotal 'AnyOverThreshold' checks resolved as a risk: $rmdir_aot_risk\nTotal 'IndividualThresholds' checks resolved as a risk: $rmdir_it_risk\nTotal actions resolved as a risk: $rmdir_total_risk\n"
