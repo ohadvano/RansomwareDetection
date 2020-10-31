@@ -162,7 +162,6 @@ function PromoteByContext_at
         write_at_risk=$((write_at_risk+1))
 
     elif [ "$ctx" = "2" ]; then
-        echo "x1"
         forget_at_risk=$((forget_at_risk+1))
 
     elif [ "$ctx" = "3" ]; then
@@ -174,12 +173,10 @@ function PromoteByContext_at
 function PromoteByContext_aot
 {
     ctx=$1
-    echo $ctx
     if [ "$ctx" = "1" ]; then
         write_aot_risk=$((write_aot_risk+1))
 
     elif [ "$ctx" = "2" ]; then
-        echo "x2"
         forget_aot_risk=$((forget_aot_risk+1))
 
     elif [ "$ctx" = "3" ]; then
@@ -191,12 +188,10 @@ function PromoteByContext_aot
 function PromoteByContext_it
 {
     ctx=$1
-    echo $ctx
     if [ "$ctx" = "1" ]; then
         write_it_risk=$((write_it_risk+1))
 
     elif [ "$ctx" = "2" ]; then
-        echo "x3"
         forget_it_risk=$((forget_it_risk+1))
 
     elif [ "$ctx" = "3" ]; then
@@ -208,12 +203,10 @@ function PromoteByContext_it
 function PromoteByContext_total
 {
     ctx=$1
-    echo $ctx
     if [ "$ctx" = "1" ]; then
         write_total_risk=$((write_total_risk+1))
 
     elif [ "$ctx" = "2" ]; then
-        echo "x4"
         forget_total_risk=$((forget_total_risk+1))
 
     elif [ "$ctx" = "3" ]; then

@@ -6,7 +6,7 @@
 [2020-10-11 22:57:29][Shannon Enthropy][Init]
 [2020-10-11 22:57:29][Files Deletion][Init]
 [2020-10-11 22:57:29][Suspicious Keywords][Init]
-[2020-10-11 22:57:42][GATEWAY - RMDIR ACTION CAPTURED]
+[2020-10-11 22:57:42][GATEWAY - WRITE ACTION CAPTURED]
 [2020-10-11 22:57:42]####################################################
 [2020-10-11 22:57:42][New action detected in monitor: ForgetAction]
 [2020-10-11 22:57:42][File Type Changes][Results found in history search: 0]
