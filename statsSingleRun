@@ -155,6 +155,66 @@ function SetIfGreater_maxSKthreshold
     fi
 }
 
+function PromoteByContext_at
+{
+    ctx=$1
+    if [ "$ctx" = "1" ]; then
+        write_at_risk=$((write_at_risk+1))
+
+    elif [ "$ctx" = "1" ]; then
+        fotget_at_risk=$((fotget_at_risk+1))
+
+    elif [ "$ctx" = "2" ]; then
+        rmdir_at_risk=$((rmdir_at_risk+1))
+
+    fi
+}
+
+function PromoteByContext_aot
+{
+    ctx=$1
+    if [ "$ctx" = "1" ]; then
+        write_aot_risk=$((write_aot_risk+1))
+
+    elif [ "$ctx" = "1" ]; then
+        fotget_aot_risk=$((fotget_aot_risk+1))
+
+    elif [ "$ctx" = "2" ]; then
+        rmdir_aot_risk=$((rmdir_aot_risk+1))
+
+    fi
+}
+
+function PromoteByContext_it
+{
+    ctx=$1
+    if [ "$ctx" = "1" ]; then
+        write_it_risk=$((write_it_risk+1))
+
+    elif [ "$ctx" = "1" ]; then
+        fotget_it_risk=$((fotget_it_risk+1))
+
+    elif [ "$ctx" = "2" ]; then
+        rmdir_it_risk=$((rmdir_it_risk+1))
+
+    fi
+}
+
+function PromoteByContext_total
+{
+    ctx=$1
+    if [ "$ctx" = "1" ]; then
+        write_total_risk=$((write_total_risk+1))
+
+    elif [ "$ctx" = "1" ]; then
+        fotget_total_risk=$((fotget_total_risk+1))
+
+    elif [ "$ctx" = "2" ]; then
+        rmdir_total_risk=$((rmdir_total_risk+1))
+
+    fi
+}
+
 # 0 = not set | 1 = WRITE | 2 = FORGET | 3 = RMDIR
 context=0
 
@@ -196,25 +256,25 @@ do
     elif [[ $logLine =~ $accumulatedRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
         if [ "$riskStatus" = "Risk" ]; then
-            echo "1"
+            PromoteByContext_at $context
         fi
 
     elif [[ $logLine =~ $anyOverRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
         if [ "$riskStatus" = "Risk" ]; then
-            echo "2"
+            PromoteByContext_aot $context
         fi
 
     elif [[ $logLine =~ $individualRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
         if [ "$riskStatus" = "Risk" ]; then
-            echo "3"
+            PromoteByContext_it $context
         fi
 
     elif [[ $logLine =~ $resolutionRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
         if [ "$riskStatus" = "Risk" ]; then
-            echo "4"
+            PromoteByContext_total $context
         fi
 
     fi
