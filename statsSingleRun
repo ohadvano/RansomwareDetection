@@ -45,62 +45,157 @@ function Promote_totalWrite
     totalWrite=$((totalWrite+1))
 }
 
+function Promote_totalRmdir
+{
+    totalRmdir=$((totalRmdir+1))
+}
+
+function Promote_totalForget
+{
+    totalForget=$((totalForget+1))
+}
+
+function Promote_write_at_risk
+{
+    write_at_risk=$((write_at_risk+1))
+}
+
+function Promote_write_aot_risk
+{
+    write_aot_risk=$((write_aot_risk+1))
+}
+
+function Promote_write_it_risk
+{
+    write_it_risk=$((write_it_risk+1))
+}
+
+function Promote_write_total_risk
+{
+    write_total_risk=$((write_total_risk+1))
+}
+
+function Promote_forget_at_risk
+{
+    forget_at_risk=$((forget_at_risk+1))
+}
+
+function Promote_forget_aot_risk
+{
+    forget_aot_risk=$((forget_aot_risk+1))
+}
+
+function Promote_forget_it_risk
+{
+    forget_it_risk=$((forget_it_risk+1))
+}
+
+function Promote_forget_total_risk
+{
+    forget_total_risk=$((forget_total_risk+1))
+}
+
+function Promote_rmdir_at_risk
+{
+    rmdir_at_risk=$((rmdir_at_risk+1))
+}
+
+function Promote_rmdir_aot_risk
+{
+    rmdir_aot_risk=$((rmdir_aot_risk+1))
+}
+
+function Promote_rmdir_it_risk
+{
+    rmdir_it_risk=$((rmdir_it_risk+1))
+}
+
+function Promote_rmdir_total_risk
+{
+    rmdir_total_risk=$((rmdir_total_risk+1))
+}
+
+function SetIfGreater_maxFTCthreshold
+{
+    newVal=$1
+}
+
+function SetIfGreater_maxSMthreshold
+{
+    newVal=$1
+}
+
+function SetIfGreater_maxSEthreshold
+{
+    newVal=$1
+}
+
+function SetIfGreater_maxFDthreshold
+{
+    newVal=$1
+}
+
+function SetIfGreater_maxSKthreshold
+{
+    newVal=$1
+}
+
 # 0 = not set | 1 = WRITE | 2 = FORGET | 3 = RMDIR
 context=0
 
 # Results calculation
 while IFS= read -r logLine
 do
-    # WRITE header
     if [[ $logLine =~ $writeHeaderRegex ]]; then
         context=1
-        echo $totalWrite
         Promote_totalWrite
-        echo $totalWrite
-    # FORGET header
+
     elif [[ $logLine =~ $forgetHeaderRegex ]]; then
         context=2
         Promote $totalRmdir
-    # RMDIR
+
     elif [[ $logLine =~ $rmdirHeaderRegex ]]; then
         context=3
         Promote $totalForget
-    # File type changes threshold line
+
     elif [[ $logLine =~ $fileTypeChangesRegex ]]; then
         newTh=${BASH_REMATCH[1]}
-        echo "ftc: $newTh"
-    # Similarity threshold line
+        echo $maxFTCthreshold
+        SetIfGreater_maxFTCthreshold $newTh
+        echo $maxFTCthreshold
+
     elif [[ $logLine =~ $similarityRegex ]]; then
         newTh=${BASH_REMATCH[1]}
         echo "simi: $newTh"
-    # Shannon threshold line
+
     elif [[ $logLine =~ $shannonRegex ]]; then
         newTh=${BASH_REMATCH[1]}
         echo "sha: $newTh"
-    # File deletion threshold line
+
     elif [[ $logLine =~ $fileDeletionRegex ]]; then
         newTh=${BASH_REMATCH[1]}
         echo "fd: $newTh"
-    # Suspicious keywords threshold line
+
     elif [[ $logLine =~ $suspiciousRegex ]]; then
         newTh=${BASH_REMATCH[1]}
         echo "sk: $newTh"
-    # AccumulatedThreshold line
+
     elif [[ $logLine =~ $accumulatedRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
         echo "accu $riskStatus"
-    # AnyOverThreshold line
+
     elif [[ $logLine =~ $anyOverRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
         echo "anyover $riskStatus"
-    # IndividualThresholds line
+
     elif [[ $logLine =~ $individualRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
         echo "ind $riskStatus"
-    # Action resolution line
+
     elif [[ $logLine =~ $resolutionRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
         echo "resolution $riskStatus"
+
     fi
 done < "$logFile"
 
