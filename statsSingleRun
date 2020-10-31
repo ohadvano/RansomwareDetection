@@ -27,48 +27,75 @@ rmdir_aot_risk=0
 rmdir_it_risk=0
 rmdir_total_risk=0
 
-fileTypeChangesRegex="a"
-similarityRegex="b"
-shannonRegex="c"
-fileDeletionRegex="d"
-suspiciousRegex="e"
-accumulatedRegex="f"
-anyOverRegex="g"
-individualRegex="h"
-resolutionRegex="i"
+writeHeaderRegex="\[.*\]\[GATEWAY - WRITE ACTION CAPTURED\]"
+forgetHeaderRegex="\[.*\]\[GATEWAY - FORGET ACTION CAPTURED\]"
+rmdirHeaderRegex="\[.*\]\[GATEWAY - RMDIR ACTION CAPTURED\]"
+fileTypeChangesRegex="\[.*\]\[File Type Changes\]\[New threshold: ([0-9^]+)\]"
+similarityRegex="\[.*\]\[Similarity Measurement\]\[New threshold: ([0-9^]+)\]"
+shannonRegex="\[.*\]\[Shannon Enthropy\]\[New threshold: ([0-9^]+)\]"
+fileDeletionRegex="\[.*\]\[Files Deletion\]\[New threshold: ([0-9^]+)\]"
+suspiciousRegex="\[.*\]\[Suspicious Keywords\]\[New threshold: ([0-9^]+)\]"
+accumulatedRegex="\[.*\]\[Checking action with: AccumulatedThreshold\]\[Condition result: (Safe|Risk)\]"
+anyOverRegex="\[.*\]\[Checking action with: AnyOverThreshold\]\[Condition result: (Safe|Risk)\]"
+individualRegex="\[.*\]\[Checking action with: IndividualThresholds\]\[Condition result: (Safe|Risk)\]"
+resolutionRegex="\[.*\]\[Action resolution: (Safe|Risk)\]"
+
+function Promote
+{
+    var=$1
+}
+
+# 0 = not set | 1 = WRITE | 2 = FORGET | 3 = RMDIR
+context=0
 
 # Results calculation
 while IFS= read -r logLine
 do
+    # WRITE header
+    if [[ $logLine =~ $writeHeaderRegex ]]; then
+        echo "write"
+    # FORGET header
+    if [[ $logLine =~ $forgetHeaderRegex ]]; then
+        echo "forget"
+    # RMDIR
+    if [[ $logLine =~ $rmdirHeaderRegex ]]; then
+        echo "rmdir"
     # File type changes threshold line
     if [[ $logLine =~ $fileTypeChangesRegex ]]; then
-        echo "1"
+        newTh=${BASH_REMATCH[1]}
+        echo "ftc: $newTh"
     # Similarity threshold line
     elif [[ $logLine =~ $similarityRegex ]]; then
-        echo "2"
+        newTh=${BASH_REMATCH[1]}
+        echo "simi: $newTh"
     # Shannon threshold line
     elif [[ $logLine =~ $shannonRegex ]]; then
-        echo "3"
+        newTh=${BASH_REMATCH[1]}
+        echo "sha: $newTh"
     # File deletion threshold line
     elif [[ $logLine =~ $fileDeletionRegex ]]; then
-        echo "4"
+        newTh=${BASH_REMATCH[1]}
+        echo "fd: $newTh"
     # Suspicious keywords threshold line
     elif [[ $logLine =~ $suspiciousRegex ]]; then
-        echo "5"
+        newTh=${BASH_REMATCH[1]}
+        echo "sk: $newTh"
     # AccumulatedThreshold line
     elif [[ $logLine =~ $accumulatedRegex ]]; then
-        echo "6"
+        riskStatus=${BASH_REMATCH[1]}
+        echo "accu $riskStatus"
     # AnyOverThreshold line
     elif [[ $logLine =~ $anyOverRegex ]]; then
-        echo "7"
+        riskStatus=${BASH_REMATCH[1]}
+        echo "anyover $riskStatus"
     # IndividualThresholds line
     elif [[ $logLine =~ $individualRegex ]]; then
-        echo "8"
+        riskStatus=${BASH_REMATCH[1]}
+        echo "ind $riskStatus"
     # Action resolution line
     elif [[ $logLine =~ $resolutionRegex ]]; then
-        echo "9"
-    else
-        echo "xxx"
+        riskStatus=${BASH_REMATCH[1]}
+        echo "resolution $riskStatus"
     fi
 done < "$logFile"
 
