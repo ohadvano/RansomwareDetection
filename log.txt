@@ -6,8 +6,6 @@
 [2020-10-11 22:57:29][Shannon Enthropy][Init]
 [2020-10-11 22:57:29][Files Deletion][Init]
 [2020-10-11 22:57:29][Suspicious Keywords][Init]
-[2020-10-11 22:57:42][GATEWAY - RMDIR ACTION CAPTURED]
-[2020-10-11 22:57:42][GATEWAY - WRITE ACTION CAPTURED]
 [2020-10-11 22:57:42][GATEWAY - FORGET ACTION CAPTURED]
 [2020-10-11 22:57:42]####################################################
 [2020-10-11 22:57:42][New action detected in monitor: ForgetAction]
@@ -26,5 +24,5 @@
 [2020-10-11 22:57:42][Suspicious Keywords][New threshold: 5]
 [2020-10-11 22:57:42][Checking action with: AccumulatedThreshold][Condition result: Risk]
 [2020-10-11 22:57:42][Checking action with: AnyOverThreshold][Condition result: Risk]
-[2020-10-11 22:57:42][Checking action with: IndividualThresholds][Condition result: Safe]
+[2020-10-11 22:57:42][Checking action with: IndividualThresholds][Condition result: Risk]
 [2020-10-11 22:57:42][Action resolution: Risk]
