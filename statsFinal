@@ -125,10 +125,9 @@ function SetIfGreater_maxSKthreshold
 # 0 = not set | 1 = WRITE | 2 = FORGET | 3 = RMDIR
 context=0
 
-filesName="$statsDirectory/*/$singleSummaryName"
-summaryFiles=(`ls $filesName`)
+summaryFiles=`find $statsDirectory -name $singleSummaryName`
 
-for runResultsFile in (`ls $filesName`)
+for runResultsFile in `find $statsDirectory -name $singleSummaryName`
 do
     echo "aasd: $runResultsFile"
     while IFS= read -r summaryLine
