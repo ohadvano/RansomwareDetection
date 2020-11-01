@@ -24,7 +24,7 @@ config=`echo "$config" | sed -e 's/^/| /'`
 config=`echo "${config//;}"`
 config=`echo "$config" | tr "," " || "`
 
-writeRegex="| Write                  | ([0-9^]+)"
+writeRegex="adasd"
 rmdirRegex="| Rmdir                  | ([0-9^]+)"
 forgetRegex="| Forget                 | ([0-9^]+)"
 resWriteRegex="| Resolutions - Write"
