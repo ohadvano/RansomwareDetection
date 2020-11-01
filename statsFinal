@@ -18,7 +18,8 @@ maxSKthreshold=0
 totalWriteRisk=0
 totalRmdirRisk=0
 totalForgetRisk=0
-config=`cat $configFile | tr ; ";\\n"`
+totalRisk=0
+{ IFS= read -rd '' config <$configFile;} 2>/dev/null
 
 # writeHeaderRegex="\[.*\]\[GATEWAY - WRITE ACTION CAPTURED\]"
 
