@@ -175,11 +175,11 @@ do
 
         elif [[ $summaryLine =~ $totalRegex ]]; then
             number=${BASH_REMATCH[1]}
-            if [ "$ctx" = "1" ]; then
+            if [ "$context" = "1" ]; then
                 Promote_totalWriteRisk $number
-            elif [ "$ctx" = "2" ]; then
+            elif [ "$context" = "2" ]; then
                 Promote_totalForgetRisk $number
-            elif [ "$ctx" = "3" ]; then
+            elif [ "$context" = "3" ]; then
                 Promote_totalRmdirRisk $number
             fi
 
