@@ -35,6 +35,7 @@ smeRegex="\| Similarity Measurement \| ([0-9^]+)"
 sheRegex="\| Shannon Enthropy       \| ([0-9^]+)"
 fidRegex="\| Files Deletion         \| ([0-9^]+)"
 sukRegex="\| Suspicious Keywords    \| ([0-9^]+)"
+totalRegex="\| Total                  \| ([0-9^]+)"
 
 # 0 = not set | 1 = WRITE | 2 = FORGET | 3 = RMDIR
 context=0
@@ -48,44 +49,40 @@ do
     do
         if [[ $summaryLine =~ $writeRegex ]]; then
             number=${BASH_REMATCH[1]}
-            echo $summaryLine
 
         elif [[ $summaryLine =~ $rmdirRegex ]]; then
             number=${BASH_REMATCH[1]}
-            echo $summaryLine
 
         elif [[ $summaryLine =~ $forgetRegex ]]; then
             number=${BASH_REMATCH[1]}
-            echo $summaryLine
 
         elif [[ $summaryLine =~ $resWriteRegex ]]; then
-            echo $summaryLine
+            context=1
 
         elif [[ $summaryLine =~ $resRmdirRegex ]]; then
-            echo $summaryLine
+            context=3
 
         elif [[ $summaryLine =~ $resForgetRegex ]]; then
-            echo $summaryLine
+            context=2
 
         elif [[ $summaryLine =~ $ftcRegex ]]; then
             number=${BASH_REMATCH[1]}
-            echo $summaryLine
 
         elif [[ $summaryLine =~ $smeRegex ]]; then
             number=${BASH_REMATCH[1]}
-            echo $summaryLine
 
         elif [[ $summaryLine =~ $sheRegex ]]; then
             number=${BASH_REMATCH[1]}
-            echo $summaryLine
 
         elif [[ $summaryLine =~ $fidRegex ]]; then
             number=${BASH_REMATCH[1]}
-            echo $summaryLine
 
         elif [[ $summaryLine =~ $sukRegex ]]; then
             number=${BASH_REMATCH[1]}
-            echo $summaryLine
+
+        elif [[ $summaryLine =~ $totalRegex ]]; then
+            number=${BASH_REMATCH[1]}
+            echo "$summaryLine"
 
         fi
     done < "$runResultsFile"
