@@ -34,7 +34,10 @@ summaryFiles=(`ls $filesName`)
 
 for runResultsFile in $summaryFiles
 do
-	echo "Processing $runResultsFile"
+    while IFS= read -r summaryLine
+    do
+        echo "$summaryLine"
+    done < "$runResultsFile"
 done
 
 summaryTemplate="|----------------------------------------\n| Demo Summary\n|----------------------------------------\n| Demo Configurations:\n|----------------------------------------\n$config\n|----------------------------------------\n| Action name            | Total count\n|----------------------------------------\n| Write                  | $totalWrite\n| Rmdir                  | $totalRmdir\n| Forget                 | $totalForget\n|----------------------------------------\n| Heuristic name         | Max threshold\n|----------------------------------------\n| File type changes      | $maxFTCthreshold\n| Similarity Measurement | $maxSMthreshold\n| Shannon Enthropy       | $maxSEthreshold\n| Files Deletion         | $maxFDthreshold\n| Suspicious Keywords    | $maxSKthreshold\n|----------------------------------------\n| Resolutions\n|----------------------------------------\n| Action name            | Total Risk\n|----------------------------------------\n| Write                  | $totalWriteRisk\n| Rmdir                  | $totalRmdirRisk\n| Forget                 | $totalForgetRisk\n| Total                  | $totalRisk\n|----------------------------------------\n"
