@@ -3,5 +3,45 @@
 statsDirectory=$1
 summaryName=$2
 singleSummaryName=$3
+configFile=$4
 
-#create stats file
+summaryFile="$statsDirectory/$summaryName"
+
+totalWrite=0
+totalRmdir=0
+totalForget=0
+maxFTCthreshold=0
+maxSMthreshold=0
+maxSEthreshold=0
+maxFDthreshold=0
+maxSKthreshold=0
+totalWriteRisk=0
+totalRmdirRisk=0
+totalForgetRisk=0
+config=`cat $configFile`
+
+# writeHeaderRegex="\[.*\]\[GATEWAY - WRITE ACTION CAPTURED\]"
+
+# for runResultsFile in $summaryFiles do
+#     while IFS= read -r summaryLine
+#     do
+#         if [[ $logLine =~ $writeHeaderRegex ]]; then
+#             context=1
+#             Promote_totalWrite
+# 
+#         elif [[ $logLine =~ $forgetHeaderRegex ]]; then
+#             context=2
+#             Promote_totalForget
+# 
+#         elif [[ $logLine =~ $rmdirHeaderRegex ]]; then
+#             context=3
+#             Promote_totalRmdir
+# 
+#         fi
+#     done < "$runResultsFile"
+# done
+
+summaryTemplate="|----------------------------------------\n| Demo Summary\n|----------------------------------------\n| Demo $config:\n|----------------------------------------\n$config\n|----------------------------------------\n| Action name            | Total count\n|----------------------------------------\n| Write                  | $totalWrite\n| Rmdir                  | $totalRmdir\n| Forget                 | $totalForget\n|----------------------------------------\n| Heuristic name         | Max threshold\n|----------------------------------------\n| File type changes      | $maxFTCthreshold\n| Similarity Measurement | $maxSMthreshold\n| Shannon Enthropy       | $maxSEthreshold\n| Files Deletion         | $maxFDthreshold\n| Suspicious Keywords    | $maxSKthreshold\n|----------------------------------------\n| Resolutions\n|----------------------------------------\n| Action name            | Total Risk\n|----------------------------------------\n| Write   				 | $totalWriteRisk\n| Rmdir       			 | $totalRmdirRisk\n| Forget   				 | $totalForgetRisk\n| Total                  | $totalRisk\n|----------------------------------------\n"
+sudo touch $summaryFile
+sudo chmod 777 $summaryFile
+sudo echo -en $summaryTemplate > $summaryFile

@@ -1,0 +1,30 @@
+|----------------------------------------
+| Demo Summary
+|----------------------------------------
+| Demo config:
+|----------------------------------------
+$config
+|----------------------------------------
+| Action name            | Total count
+|----------------------------------------
+| Write                  | $totalWrite
+| Rmdir                  | $totalRmdir
+| Forget                 | $totalForget
+|----------------------------------------
+| Heuristic name         | Max threshold
+|----------------------------------------
+| File type changes      | $maxFTCthreshold
+| Similarity Measurement | $maxSMthreshold
+| Shannon Enthropy       | $maxSEthreshold
+| Files Deletion         | $maxFDthreshold
+| Suspicious Keywords    | $maxSKthreshold
+|----------------------------------------
+| Resolutions
+|----------------------------------------
+| Action name            | Total Risk
+|----------------------------------------
+| Write   				 | $totalWriteRisk
+| Rmdir       			 | $totalRmdirRisk
+| Forget   				 | $totalForgetRisk
+| Total                  | $totalRisk
+|----------------------------------------

@@ -1,0 +1,48 @@
+|----------------------------------------
+| Run statistics for test: $testName
+|----------------------------------------
+| Actions
+|----------------------------------------
+| Action name            | Total count
+|----------------------------------------
+| Write                  | $totalWrite
+| Rmdir                  | $totalRmdir
+| Forget                 | $totalForget
+|----------------------------------------
+| Heuristics
+|----------------------------------------
+| Heuristic name         | Max threshold
+|----------------------------------------
+| File type changes      | $maxFTCthreshold
+| Similarity Measurement | $maxSMthreshold
+| Shannon Enthropy       | $maxSEthreshold
+| Files Deletion         | $maxFDthreshold
+| Suspicious Keywords    | $maxSKthreshold
+|----------------------------------------
+| Resolutions - Write
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | $write_at_risk
+| AnyOverThreshold       | $write_aot_risk
+| IndividualThresholds   | $write_it_risk
+| Total                  | $write_total_risk
+|----------------------------------------
+| Resolutions - Rmdir
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | $rmdir_at_risk
+| AnyOverThreshold       | $rmdir_aot_risk
+| IndividualThresholds   | $rmdir_it_risk
+| Total                  | $rmdir_total_risk
+|----------------------------------------
+| Resolutions - Forget
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | $forget_at_risk
+| AnyOverThreshold       | $forget_aot_risk
+| IndividualThresholds   | $forget_it_risk
+| Total                  | $forget_total_risk
+|----------------------------------------
