@@ -25,16 +25,16 @@ config=`echo "${config//;}"`
 config=`echo "$config" | tr "," " || "`
 
 writeRegex="\| Write                  \| ([0-9^]+)"
-rmdirRegex="| Rmdir                  | ([0-9^]+)"
-forgetRegex="| Forget                 | ([0-9^]+)"
-resWriteRegex="| Resolutions - Write"
-resRmdirRegex="| Resolutions - Rmdir"
-resForgetRegex="| Resolutions - Forget"
-ftcRegex="| File type changes      | ([0-9^]+)"
-smeRegex="| Similarity Measurement | ([0-9^]+)"
-sheRegex="| Shannon Enthropy       | ([0-9^]+)"
-fidRegex="| Files Deletion         | ([0-9^]+)"
-sukRegex="| Suspicious Keywords    | ([0-9^]+)"
+rmdirRegex="\| Rmdir                  \| ([0-9^]+)"
+forgetRegex="\| Forget                 \| ([0-9^]+)"
+resWriteRegex="\| Resolutions - Write"
+resRmdirRegex="\| Resolutions - Rmdir"
+resForgetRegex="\| Resolutions - Forget"
+ftcRegex="\| File type changes      \| ([0-9^]+)"
+smeRegex="\| Similarity Measurement \| ([0-9^]+)"
+sheRegex="\| Shannon Enthropy       \| ([0-9^]+)"
+fidRegex="\| Files Deletion         \| ([0-9^]+)"
+sukRegex="\| Suspicious Keywords    \| ([0-9^]+)"
 
 # 0 = not set | 1 = WRITE | 2 = FORGET | 3 = RMDIR
 context=0
@@ -47,37 +47,45 @@ do
     while IFS= read -r summaryLine
     do
         if [[ $summaryLine =~ $writeRegex ]]; then
-            echo "xxxxxx"
+            number=${BASH_REMATCH[1]}
+            echo $summaryLine
 
-    #    elif [[ $summaryLine =~ $rmdirRegex ]]; then
-    #        echo $summaryLine
+        elif [[ $summaryLine =~ $rmdirRegex ]]; then
+            number=${BASH_REMATCH[1]}
+            echo $summaryLine
 
-    #    elif [[ $summaryLine =~ $forgetRegex ]]; then
-    #        echo $summaryLine
+        elif [[ $summaryLine =~ $forgetRegex ]]; then
+            number=${BASH_REMATCH[1]}
+            echo $summaryLine
 
-    #    elif [[ $summaryLine =~ $resWriteRegex ]]; then
-    #        echo $summaryLine
+        elif [[ $summaryLine =~ $resWriteRegex ]]; then
+            echo $summaryLine
 
-    #    elif [[ $summaryLine =~ $resRmdirRegex ]]; then
-    #        echo $summaryLine
+        elif [[ $summaryLine =~ $resRmdirRegex ]]; then
+            echo $summaryLine
 
-    #    elif [[ $summaryLine =~ $resForgetRegex ]]; then
-    #        echo $summaryLine
+        elif [[ $summaryLine =~ $resForgetRegex ]]; then
+            echo $summaryLine
 
-    #    elif [[ $summaryLine =~ $ftcRegex ]]; then
-    #        echo $summaryLine
+        elif [[ $summaryLine =~ $ftcRegex ]]; then
+            number=${BASH_REMATCH[1]}
+            echo $summaryLine
 
-    #    elif [[ $summaryLine =~ $smeRegex ]]; then
-    #        echo $summaryLine
+        elif [[ $summaryLine =~ $smeRegex ]]; then
+            number=${BASH_REMATCH[1]}
+            echo $summaryLine
 
-    #    elif [[ $summaryLine =~ $sheRegex ]]; then
-    #        echo $summaryLine
+        elif [[ $summaryLine =~ $sheRegex ]]; then
+            number=${BASH_REMATCH[1]}
+            echo $summaryLine
 
-    #    elif [[ $summaryLine =~ $fidRegex ]]; then
-    #        echo $summaryLine
+        elif [[ $summaryLine =~ $fidRegex ]]; then
+            number=${BASH_REMATCH[1]}
+            echo $summaryLine
 
-    #    elif [[ $summaryLine =~ $sukRegex ]]; then
-    #        echo $summaryLine
+        elif [[ $summaryLine =~ $sukRegex ]]; then
+            number=${BASH_REMATCH[1]}
+            echo $summaryLine
 
         fi
     done < "$runResultsFile"
