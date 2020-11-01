@@ -31,7 +31,7 @@ context=0
 
 filesName="$statsDirectory/*/$singleSummaryName"
 summaryFiles=(`ls $filesName`)
-echo "$summaryFiles"
+echo "xx: $summaryFiles"
 
 # for runResultsFile in $summaryFiles do
 #     while IFS= read -r summaryLine
