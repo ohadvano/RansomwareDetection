@@ -22,6 +22,7 @@ totalRisk=0
 { IFS= read -rd '' config <$configFile;} 2>/dev/null
 config=`echo "$config" | sed -e 's/^/| /'`
 config=`echo "${config//;}"`
+config=`echo "$config" | tr "," " | "`
 
 # writeHeaderRegex="\[.*\]\[GATEWAY - WRITE ACTION CAPTURED\]"
 
