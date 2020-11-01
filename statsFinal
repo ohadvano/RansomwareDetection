@@ -22,9 +22,16 @@ totalRisk=0
 { IFS= read -rd '' config <$configFile;} 2>/dev/null
 config=`echo "$config" | sed -e 's/^/| /'`
 config=`echo "${config//;}"`
-config=`echo "$config" | tr "," " | "`
+config=`echo "$config" | tr "," " || "`
 
 # writeHeaderRegex="\[.*\]\[GATEWAY - WRITE ACTION CAPTURED\]"
+
+# 0 = not set | 1 = WRITE | 2 = FORGET | 3 = RMDIR
+context=0
+
+filesName="$statsDirectory/$singleSummaryName"
+summaryFiles=(`ls $filesName`)
+echo "$summaryFiles"
 
 # for runResultsFile in $summaryFiles do
 #     while IFS= read -r summaryLine
