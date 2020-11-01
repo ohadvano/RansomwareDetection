@@ -22,7 +22,7 @@ totalRisk=0
 { IFS= read -rd '' config <$configFile;} 2>/dev/null
 config=`echo "$config" | sed -e 's/^/| /'`
 config=`echo "${config//;}"`
-config=`echo "$config" | tr "," " || "`
+config=`echo "$config" | tr "," " \| "`
 
 writeRegex="\| Write                  \| ([0-9^]+)"
 rmdirRegex="\| Rmdir                  \| ([0-9^]+)"
