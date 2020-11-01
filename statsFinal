@@ -48,38 +48,37 @@ do
     do
         if [[ $summaryLine =~ $writeRegex ]]; then
             echo "xxxxxx"
-            echo $summaryLine
 
-#        elif [[ $summaryLine =~ $rmdirRegex ]]; then
-#            echo $summaryLine
-#
-#        elif [[ $summaryLine =~ $forgetRegex ]]; then
-#            echo $summaryLine
-#
-#        elif [[ $summaryLine =~ $resWriteRegex ]]; then
-#            echo $summaryLine
-#
-#        elif [[ $summaryLine =~ $resRmdirRegex ]]; then
-#            echo $summaryLine
-#
-#        elif [[ $summaryLine =~ $resForgetRegex ]]; then
-#            echo $summaryLine
-#
-#        elif [[ $summaryLine =~ $ftcRegex ]]; then
-#            echo $summaryLine
-#
-#        elif [[ $summaryLine =~ $smeRegex ]]; then
-#            echo $summaryLine
-#
-#        elif [[ $summaryLine =~ $sheRegex ]]; then
-#            echo $summaryLine
-#
-#        elif [[ $summaryLine =~ $fidRegex ]]; then
-#            echo $summaryLine
-#
-#        elif [[ $summaryLine =~ $sukRegex ]]; then
-#            echo $summaryLine
-#
+    #    elif [[ $summaryLine =~ $rmdirRegex ]]; then
+    #        echo $summaryLine
+
+    #    elif [[ $summaryLine =~ $forgetRegex ]]; then
+    #        echo $summaryLine
+
+    #    elif [[ $summaryLine =~ $resWriteRegex ]]; then
+    #        echo $summaryLine
+
+    #    elif [[ $summaryLine =~ $resRmdirRegex ]]; then
+    #        echo $summaryLine
+
+    #    elif [[ $summaryLine =~ $resForgetRegex ]]; then
+    #        echo $summaryLine
+
+    #    elif [[ $summaryLine =~ $ftcRegex ]]; then
+    #        echo $summaryLine
+
+    #    elif [[ $summaryLine =~ $smeRegex ]]; then
+    #        echo $summaryLine
+
+    #    elif [[ $summaryLine =~ $sheRegex ]]; then
+    #        echo $summaryLine
+
+    #    elif [[ $summaryLine =~ $fidRegex ]]; then
+    #        echo $summaryLine
+
+    #    elif [[ $summaryLine =~ $sukRegex ]]; then
+    #        echo $summaryLine
+
         fi
     done < "$runResultsFile"
 done
