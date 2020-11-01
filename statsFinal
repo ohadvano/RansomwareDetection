@@ -127,11 +127,10 @@ context=0
 
 filesName="$statsDirectory/*/$singleSummaryName"
 summaryFiles=(`ls $filesName`)
-echo "$summaryFiles"
 
-for runResultsFile in $summaryFiles
+for runResultsFile in (`ls $filesName`)
 do
-    echo "asdasdasdasdasdjjjjjjjjjjjjjjjjjjjjjjjjjjj: $runResultsFile"
+    echo "aasd: $runResultsFile"
     while IFS= read -r summaryLine
     do
         if [[ $summaryLine =~ $writeRegex ]]; then
