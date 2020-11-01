@@ -127,7 +127,7 @@ context=0
 
 filesName="$statsDirectory/*/$singleSummaryName"
 summaryFiles=(`ls $filesName`)
-echo $summaryFiles"
+echo "$summaryFiles"
 
 for runResultsFile in $summaryFiles
 do
