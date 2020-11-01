@@ -47,6 +47,7 @@ do
     while IFS= read -r summaryLine
     do
         if [[ $summaryLine =~ $writeRegex ]]; then
+            echo "xxxxxx"
             echo $summaryLine
 
         elif [[ $summaryLine =~ $rmdirRegex ]]; then
