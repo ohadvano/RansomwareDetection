@@ -213,6 +213,7 @@ build
 run 0
 sleep 1
 run 1
+cleanup
 
 # Get final statistics
 printf "\033[1;34mChecking overall results\033[0m\n"

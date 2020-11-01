@@ -130,6 +130,7 @@ summaryFiles=(`ls $filesName`)
 
 for runResultsFile in $summaryFiles
 do
+    echo "asdasdasdasdasdjjjjjjjjjjjjjjjjjjjjjjjjjjj: $runResultsFile"
     while IFS= read -r summaryLine
     do
         if [[ $summaryLine =~ $writeRegex ]]; then
