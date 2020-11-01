@@ -20,7 +20,7 @@ totalRmdirRisk=0
 totalForgetRisk=0
 totalRisk=0
 { IFS= read -rd '' config <$configFile;} 2>/dev/null
-config=`echo $config | ts "| "`
+config=`echo $config | sed -e 's/^/| /'`
 
 # writeHeaderRegex="\[.*\]\[GATEWAY - WRITE ACTION CAPTURED\]"
 
