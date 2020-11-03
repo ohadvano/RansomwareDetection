@@ -15,15 +15,12 @@ maxSEthreshold=0
 maxFDthreshold=0
 maxSKthreshold=0
 write_at_risk=0
-write_aot_risk=0
 write_it_risk=0
 write_total_risk=0
 forget_at_risk=0
-forget_aot_risk=0
 forget_it_risk=0
 forget_total_risk=0
 rmdir_at_risk=0
-rmdir_aot_risk=0
 rmdir_it_risk=0
 rmdir_total_risk=0
 
@@ -36,7 +33,6 @@ shannonRegex="\[.*\]\[Shannon Enthropy\]\[New threshold: ([0-9^]+)\]"
 fileDeletionRegex="\[.*\]\[Files Deletion\]\[New threshold: ([0-9^]+)\]"
 suspiciousRegex="\[.*\]\[Suspicious Keywords\]\[New threshold: ([0-9^]+)\]"
 accumulatedRegex="\[.*\]\[Checking action with: AccumulatedThreshold\]\[Condition result: (Safe|Risk)\]"
-anyOverRegex="\[.*\]\[Checking action with: AnyOverThreshold\]\[Condition result: (Safe|Risk)\]"
 individualRegex="\[.*\]\[Checking action with: IndividualThresholds\]\[Condition result: (Safe|Risk)\]"
 resolutionRegex="\[.*\]\[Action resolution: (Safe|Risk)\]"
 
@@ -60,11 +56,6 @@ function Promote_write_at_risk
     write_at_risk=$((write_at_risk+1))
 }
 
-function Promote_write_aot_risk
-{
-    write_aot_risk=$((write_aot_risk+1))
-}
-
 function Promote_write_it_risk
 {
     write_it_risk=$((write_it_risk+1))
@@ -80,11 +71,6 @@ function Promote_forget_at_risk
     forget_at_risk=$((forget_at_risk+1))
 }
 
-function Promote_forget_aot_risk
-{
-    forget_aot_risk=$((forget_aot_risk+1))
-}
-
 function Promote_forget_it_risk
 {
     forget_it_risk=$((forget_it_risk+1))
@@ -98,11 +84,6 @@ function Promote_forget_total_risk
 function Promote_rmdir_at_risk
 {
     rmdir_at_risk=$((rmdir_at_risk+1))
-}
-
-function Promote_rmdir_aot_risk
-{
-    rmdir_aot_risk=$((rmdir_aot_risk+1))
 }
 
 function Promote_rmdir_it_risk
@@ -166,21 +147,6 @@ function PromoteByContext_at
 
     elif [ "$ctx" = "3" ]; then
         rmdir_at_risk=$((rmdir_at_risk+1))
-
-    fi
-}
-
-function PromoteByContext_aot
-{
-    ctx=$1
-    if [ "$ctx" = "1" ]; then
-        write_aot_risk=$((write_aot_risk+1))
-
-    elif [ "$ctx" = "2" ]; then
-        forget_aot_risk=$((forget_aot_risk+1))
-
-    elif [ "$ctx" = "3" ]; then
-        rmdir_aot_risk=$((rmdir_aot_risk+1))
 
     fi
 }
@@ -259,12 +225,6 @@ do
             PromoteByContext_at $context
         fi
 
-    elif [[ $logLine =~ $anyOverRegex ]]; then
-        riskStatus=${BASH_REMATCH[1]}
-        if [ "$riskStatus" = "Risk" ]; then
-            PromoteByContext_aot $context
-        fi
-
     elif [[ $logLine =~ $individualRegex ]]; then
         riskStatus=${BASH_REMATCH[1]}
         if [ "$riskStatus" = "Risk" ]; then
@@ -280,7 +240,7 @@ do
     fi
 done < "$logFile"
 
-resultTemplate="|----------------------------------------\n| Run statistics for test: $testName\n|----------------------------------------\n| Actions\n|----------------------------------------\n| Action name            | Total count\n|----------------------------------------\n| Write                  | $totalWrite\n| Rmdir                  | $totalRmdir\n| Forget                 | $totalForget\n|----------------------------------------\n| Heuristics\n|----------------------------------------\n| Heuristic name         | Max threshold\n|----------------------------------------\n| File type changes      | $maxFTCthreshold\n| Similarity Measurement | $maxSMthreshold\n| Shannon Enthropy       | $maxSEthreshold\n| Files Deletion         | $maxFDthreshold\n| Suspicious Keywords    | $maxSKthreshold\n|----------------------------------------\n| Resolutions - Write\n|----------------------------------------\n| Condition name         | Total Risk\n|----------------------------------------\n| AccumulatedThreshold   | $write_at_risk\n| AnyOverThreshold       | $write_aot_risk\n| IndividualThresholds   | $write_it_risk\n| Total                  | $write_total_risk\n|----------------------------------------\n| Resolutions - Rmdir\n|----------------------------------------\n| Condition name         | Total Risk\n|----------------------------------------\n| AccumulatedThreshold   | $rmdir_at_risk\n| AnyOverThreshold       | $rmdir_aot_risk\n| IndividualThresholds   | $rmdir_it_risk\n| Total                  | $rmdir_total_risk\n|----------------------------------------\n| Resolutions - Forget\n|----------------------------------------\n| Condition name         | Total Risk\n|----------------------------------------\n| AccumulatedThreshold   | $forget_at_risk\n| AnyOverThreshold       | $forget_aot_risk\n| IndividualThresholds   | $forget_it_risk\n| Total                  | $forget_total_risk\n|----------------------------------------\n"
+resultTemplate="|----------------------------------------\n| Run statistics for test: $testName\n|----------------------------------------\n| Actions\n|----------------------------------------\n| Action name            | Total count\n|----------------------------------------\n| Write                  | $totalWrite\n| Rmdir                  | $totalRmdir\n| Forget                 | $totalForget\n|----------------------------------------\n| Heuristics\n|----------------------------------------\n| Heuristic name         | Max threshold\n|----------------------------------------\n| File type changes      | $maxFTCthreshold\n| Similarity Measurement | $maxSMthreshold\n| Shannon Enthropy       | $maxSEthreshold\n| Files Deletion         | $maxFDthreshold\n| Suspicious Keywords    | $maxSKthreshold\n|----------------------------------------\n| Resolutions - Write\n|----------------------------------------\n| Condition name         | Total Risk\n|----------------------------------------\n| AccumulatedThreshold   | $write_at_risk\n| IndividualThresholds   | $write_it_risk\n| Total                  | $write_total_risk\n|----------------------------------------\n| Resolutions - Rmdir\n|----------------------------------------\n| Condition name         | Total Risk\n|----------------------------------------\n| AccumulatedThreshold   | $rmdir_at_risk\n| IndividualThresholds   | $rmdir_it_risk\n| Total                  | $rmdir_total_risk\n|----------------------------------------\n| Resolutions - Forget\n|----------------------------------------\n| Condition name         | Total Risk\n|----------------------------------------\n| AccumulatedThreshold   | $forget_at_risk\n| IndividualThresholds   | $forget_it_risk\n| Total                  | $forget_total_risk\n|----------------------------------------\n"
 sudo touch $statsFile
 sudo chmod 777 $statsFile
 sudo echo -en "$resultTemplate" > $statsFile
