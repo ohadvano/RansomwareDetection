@@ -128,8 +128,7 @@ function runFalseRansomware
 function runRansomware
 {
     programCommand=$1
-    wineCommand="/wine $programCommand"
-    cmd="sudo chroot $sandBox $wineCommand"
+    cmd="sudo chroot $sandBox $programCommand"
     eval $cmd
 }
 
