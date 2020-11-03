@@ -46,7 +46,6 @@ namespace RwMonitor
                 _tempWriter2 = new TempWriter(tempFilePath2);
 
                 _minAccumulatedThreshold = _configurationProvider->GetMinAccumulatedThreshold();
-                _minGlobalThreshold = _configurationProvider->GetMinGlobalThreshold();
                 _individualThresholds = _configurationProvider->GetIndividualThresholds();
 
                 _heuristics = new list<HeuristicBase*>();
@@ -161,7 +160,6 @@ namespace RwMonitor
             std::list<HeuristicBase*>* _heuristics;
 
             double _minAccumulatedThreshold;
-            double _minGlobalThreshold;
             double* _individualThresholds;
 
             bool IsSystemAtRiskWithNewThresholds()
@@ -176,9 +174,8 @@ namespace RwMonitor
                 }
 
                 bool accumulated = AccumulatedThreshold(thresholds, idx, _minAccumulatedThreshold);
-                bool anyOver = AnyOverThreshold(thresholds, idx, _minGlobalThreshold);
                 bool individual = IndividualThresholds(thresholds, _individualThresholds, idx);
-                bool isThreat = accumulated || anyOver || individual;
+                bool isThreat = accumulated || individual;
 
                 string resultAsString = isThreat ? "Risk" : "Safe";
                 _logger->WriteLog("[Action resolution: " + resultAsString + "]");
@@ -201,26 +198,6 @@ namespace RwMonitor
                 string resultAsString = result ? "Risk" : "Safe";
                 _logger->WriteLog("[Checking action with: " + conditionDescription + "][Condition result: " + resultAsString + "]");
 
-                return result;
-            }
-
-            bool AnyOverThreshold(double thresholds[], int length, double minThreshold)
-            {
-                string conditionDescription = "AnyOverThreshold";
-
-                bool result = false;
-                for (int idx = 0; idx < length; idx++)
-                {
-                    if (thresholds[idx] > minThreshold)
-                    {
-                        result = true;
-                        break;
-                    }
-                }
-
-                string resultAsString = result ? "Risk" : "Safe";
-                _logger->WriteLog("[Checking action with: " + conditionDescription + "][Condition result: " + resultAsString + "]");
-                
                 return result;
             }
 

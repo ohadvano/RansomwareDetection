@@ -67,11 +67,6 @@ namespace Configurations
                 return _minAccumulatedThreshold;
             }
 
-            double GetMinGlobalThreshold()
-            {
-                return _minGlobalThreshold;
-            }
-
             double* GetIndividualThresholds()
             {
                 return _individualThresholds;
@@ -92,7 +87,6 @@ namespace Configurations
             char* _tmpFilePath;
             char* _tmpFilePath2;
             double _minAccumulatedThreshold;
-            double _minGlobalThreshold;
             double* _individualThresholds;
             int _lookbackTime;
 
@@ -105,7 +99,6 @@ namespace Configurations
             regex _enthropyThRegex = regex("ShannonEnthropy: (.*);");
             regex _suspiciousKeywordsRegex = regex("SuspiciousKeywords: (.*);");
             regex _minAccumulatedThresholdRegex = regex("MinAccumulatedThreshold: (.*);");
-            regex _minGlobalThresholdRegex = regex("MinGlobalThresholdRegex: (.*);");
             regex _individualThresholdRegex = regex("IndividualThresholdRegex: (.*);");
             regex _lookbackTimeRegex = regex("LookbackTime: (.*);");
 
@@ -127,7 +120,6 @@ namespace Configurations
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
                 char* tmpFilePath2String = Parse(str, _tmpFilePath2Regex);
                 char* minAccumulatedThreshold = Parse(str, _minAccumulatedThresholdRegex);
-                char* minGlobalThreshold = Parse(str, _minGlobalThresholdRegex);
                 char* individualThreshold = Parse(str, _individualThresholdRegex);
                 char* lookbackTime = Parse(str, _lookbackTimeRegex);
 
@@ -140,7 +132,6 @@ namespace Configurations
                 _tmpFilePath = tmpFilePathString;
                 _tmpFilePath2 = tmpFilePath2String;
                 _minAccumulatedThreshold = ConvertToDouble(minAccumulatedThreshold);
-                _minGlobalThreshold = ConvertToDouble(minGlobalThreshold);
                 _individualThresholds = GetIndividualThresholds(individualThreshold);
                 _lookbackTime = ConvertToInt(lookbackTime);
             }
@@ -197,7 +188,8 @@ namespace Configurations
             double* GetIndividualThresholds(char* str)
             {
                 int idx = 0;
-                double* res = (double*)malloc(sizeof(double)*6);
+                int numHeuristics = 5;
+                double* res = (double*)malloc(sizeof(double) * numHeuristics);
                 vector<string> splitted = SplitToWords(str, ',');
                 for (std::vector<string>::iterator it = splitted.begin(); it != splitted.end(); ++it)
                 {
