@@ -1,0 +1,5 @@
+rm -rf /home/ohadoz/Desktop/FalseRansomwares
+mkdir /home/ohadoz/Desktop/FalseRansomwares
+git clone https://github.com/billziss-gh/secfs.test.git /home/ohadoz/Desktop/FalseRansomwares/fsrand
+mv /home/ohadoz/Desktop/FalseRansomwares/fsrand/fsrand/fsrand.py /home/ohadoz/Desktop/FalseRansomwares/fsrand.py
+rm -rf /home/ohadoz/Desktop/FalseRansomwares/fsrand

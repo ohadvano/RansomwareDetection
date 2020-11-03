@@ -1,9 +1,12 @@
 printf "\033[1;34mUpdating repository\033[0m\n"
+git checkout fetchRansomwares
 git checkout demo
 git checkout statsSingleRun
 git checkout statsFinal
 git pull
 chmod 777 demo
+chmod 777 fetchRansomwares
 chmod 777 statsSingleRun
 chmod 777 statsFinal
+./fetchRansomwares
 ./demo
