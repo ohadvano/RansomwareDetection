@@ -46,6 +46,7 @@ namespace RwMonitor
                 _tempWriter2 = new TempWriter(tempFilePath2);
 
                 _minAccumulatedThreshold = _configurationProvider->GetMinAccumulatedThreshold();
+                _heuristicsWeights = _configurationProvider->GetHeuristicsWeights();
                 _individualThresholds = _configurationProvider->GetIndividualThresholds();
 
                 _heuristics = new list<HeuristicBase*>();
@@ -160,6 +161,7 @@ namespace RwMonitor
             std::list<HeuristicBase*>* _heuristics;
 
             double _minAccumulatedThreshold;
+            double* _heuristicsWeights;
             double* _individualThresholds;
 
             bool IsSystemAtRiskWithNewThresholds()
@@ -173,7 +175,7 @@ namespace RwMonitor
                     idx++;
                 }
 
-                bool accumulated = AccumulatedThreshold(thresholds, idx, _minAccumulatedThreshold);
+                bool accumulated = AccumulatedThreshold(thresholds, idx, _minAccumulatedThreshold, _heuristicsWeights);
                 bool individual = IndividualThresholds(thresholds, _individualThresholds, idx);
                 bool isThreat = accumulated || individual;
 
@@ -183,14 +185,14 @@ namespace RwMonitor
                 return isThreat;
             }
 
-            bool AccumulatedThreshold(double thresholds[], int length, double minThreshold)
+            bool AccumulatedThreshold(double thresholds[], int length, double minThreshold, double* heuristicsWeights)
             {
                 string conditionDescription = "AccumulatedThreshold";
 
                 double sum = 0;
                 for (int idx = 0; idx < length; idx++)
                 {
-                    sum += thresholds[idx];
+                    sum += heuristicsWeights[idx] * thresholds[idx];
                 }
 
                 bool result = sum > minThreshold;

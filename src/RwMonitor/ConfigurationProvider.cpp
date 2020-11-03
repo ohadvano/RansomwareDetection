@@ -67,6 +67,11 @@ namespace Configurations
                 return _minAccumulatedThreshold;
             }
 
+            double* GetHeuristicsWeights()
+            {
+                return _heuristicsWeights;
+            }
+
             double* GetIndividualThresholds()
             {
                 return _individualThresholds;
@@ -87,6 +92,7 @@ namespace Configurations
             char* _tmpFilePath;
             char* _tmpFilePath2;
             double _minAccumulatedThreshold;
+            double* _heuristicsWeights;
             double* _individualThresholds;
             int _lookbackTime;
 
@@ -99,6 +105,7 @@ namespace Configurations
             regex _enthropyThRegex = regex("ShannonEnthropy: (.*);");
             regex _suspiciousKeywordsRegex = regex("SuspiciousKeywords: (.*);");
             regex _minAccumulatedThresholdRegex = regex("MinAccumulatedThreshold: (.*);");
+            regex _heuristicsWeightsRegex = regex("HeuristicsWeights: (.*);");
             regex _individualThresholdRegex = regex("IndividualThresholdRegex: (.*);");
             regex _lookbackTimeRegex = regex("LookbackTime: (.*);");
 
@@ -120,6 +127,7 @@ namespace Configurations
                 char* tmpFilePathString = Parse(str, _tmpFilePathRegex);
                 char* tmpFilePath2String = Parse(str, _tmpFilePath2Regex);
                 char* minAccumulatedThreshold = Parse(str, _minAccumulatedThresholdRegex);
+                char* heuristicsWeights = Parse(str, _heuristicsWeightsRegex);
                 char* individualThreshold = Parse(str, _individualThresholdRegex);
                 char* lookbackTime = Parse(str, _lookbackTimeRegex);
 
@@ -132,7 +140,8 @@ namespace Configurations
                 _tmpFilePath = tmpFilePathString;
                 _tmpFilePath2 = tmpFilePath2String;
                 _minAccumulatedThreshold = ConvertToDouble(minAccumulatedThreshold);
-                _individualThresholds = GetIndividualThresholds(individualThreshold);
+                _heuristicsWeights = ParseDoubleArray(heuristicsWeights);
+                _individualThresholds = ParseDoubleArray(individualThreshold);
                 _lookbackTime = ConvertToInt(lookbackTime);
             }
 
@@ -185,7 +194,7 @@ namespace Configurations
                 return val;
             }
 
-            double* GetIndividualThresholds(char* str)
+            double* ParseDoubleArray(char* str)
             {
                 int idx = 0;
                 int numHeuristics = 5;
