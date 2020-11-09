@@ -11,7 +11,8 @@ mkdir /home/ohadoz/Desktop/RealRansomwares
 
 git clone https://github.com/tarcisio-marinho/GonnaCry.git /home/ohadoz/Desktop/RealRansomwares/GonnaCry
 sudo pip install -r /home/ohadoz/Desktop/RealRansomwares/GonnaCry/src/requeriments.txt
-pyinstaller -F --clean /home/ohadoz/Desktop/RealRansomwares/GonnaCry/src/GonnaCry/main.py -n /home/ohadoz/Desktop/RealRansomwares/gonnacry
+cp /home/ohadoz/Desktop/RealRansomwares/GonnaCry/src/GonnaCry/bin/gonnacry /home/ohadoz/Desktop/RealRansomwares/gonnaCry
+rm -rf /home/ohadoz/Desktop/RealRansomwares/GonnaCry
 
 # git clone https://github.com/uriloya/Ransomware.git /home/ohadoz/Desktop/RealRansomwares/Ransomware
 # mv /home/ohadoz/Desktop/RealRansomwares/Ransomware/main.py /home/ohadoz/Desktop/RealRansomwares/ransomware.py
