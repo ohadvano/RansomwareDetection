@@ -77,8 +77,8 @@ function deploy
     sudo cp -r /usr/bin/python2.7 $pythonPath
 
     # printf "copying usr/bin/wine\n"
-    winePath="$testOutputDirectory"
-    sudo cp -r /opt/wine-stable/bin/wine* $winePath
+    #winePath="$testOutputDirectory"
+    #sudo cp -r /opt/wine-stable/bin/wine* $winePath
     
     # printf "copying false ransomwares\n"
     falseRansomwaresPath="$testOutputDirectory/FalseRansomwares/"
