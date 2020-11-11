@@ -61,6 +61,26 @@ function deploy
     mkdir $usrLibPythonPath
     sudo cp -r /usr/lib/python2.7/* $usrLibPythonPath
 
+    # printf "copying usr/lib/python3\n"
+    usrLibPython3Path="$testOutputDirectory/usr/lib/python3/"
+    mkdir $usrLibPython3Path
+    sudo cp -r /usr/lib/python3/* $usrLibPython3Path
+
+    # printf "copying usr/lib/python3.6\n"
+    usrLibPython36Path="$testOutputDirectory/usr/lib/python3.6/"
+    mkdir $usrLibPython36Path
+    sudo cp -r /usr/lib/python3.6/* $usrLibPython36Path
+
+    # printf "copying usr/lib/python3.7\n"
+    usrLibPython37Path="$testOutputDirectory/usr/lib/python3.7/"
+    mkdir $usrLibPython37Path
+    sudo cp -r /usr/lib/python3.7/* $usrLibPython37Path
+
+    # printf "copying usr/lib/python3.8\n"
+    usrLibPython38Path="$testOutputDirectory/usr/lib/python3.8/"
+    mkdir $usrLibPython38Path
+    sudo cp -r /usr/lib/python3.8/* $usrLibPython38Path
+
     # printf "copying bash\n"
     bashPath="$testOutputDirectory/bash"
     sudo cp -r /bin/bash $bashPath
@@ -75,6 +95,10 @@ function deploy
     # printf "copying usr/bin/python2.7\n"
     pythonPath="$testOutputDirectory/python"
     sudo cp -r /usr/bin/python2.7 $pythonPath
+
+    # printf "copying usr/bin/python3.6\n"
+    python36Path="$testOutputDirectory/python3"
+    sudo cp -r /usr/bin/python3.6 $python36Path
 
     # printf "copying usr/bin/wine\n"
     #winePath="$testOutputDirectory"
