@@ -233,7 +233,7 @@ function build
 showConfig
 cd src
 build
-run 0
+# run 0
 sleep 1
 run 1
 
