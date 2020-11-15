@@ -1,25 +1,25 @@
 #!/bin/bash
 
-rm -rf /home/ohadoz/Desktop/FalseRansomwares
-mkdir /home/ohadoz/Desktop/FalseRansomwares
-git clone https://github.com/billziss-gh/secfs.test.git /home/ohadoz/Desktop/FalseRansomwares/fsrand
-mv /home/ohadoz/Desktop/FalseRansomwares/fsrand/fsrand/fsrand.py /home/ohadoz/Desktop/FalseRansomwares/fsrand.py
-rm -rf /home/ohadoz/Desktop/FalseRansomwares/fsrand
+# rm -rf /home/ohadoz/Desktop/FalseRansomwares
+# mkdir /home/ohadoz/Desktop/FalseRansomwares
+# git clone https://github.com/billziss-gh/secfs.test.git /home/ohadoz/Desktop/FalseRansomwares/fsrand
+# mv /home/ohadoz/Desktop/FalseRansomwares/fsrand/fsrand/fsrand.py /home/ohadoz/Desktop/FalseRansomwares/fsrand.py
+# rm -rf /home/ohadoz/Desktop/FalseRansomwares/fsrand
 
-rm -rf /home/ohadoz/Desktop/RealRansomwares
-mkdir /home/ohadoz/Desktop/RealRansomwares
+# rm -rf /home/ohadoz/Desktop/RealRansomwares
+# mkdir /home/ohadoz/Desktop/RealRansomwares
 
-git clone https://github.com/tarcisio-marinho/GonnaCry.git /home/ohadoz/Desktop/RealRansomwares/GonnaCry
-sudo pip install -r /home/ohadoz/Desktop/RealRansomwares/GonnaCry/src/requeriments.txt
-cp /home/ohadoz/Desktop/RealRansomwares/GonnaCry/src/GonnaCry/*.py /home/ohadoz/Desktop/RealRansomwares/
-mv /home/ohadoz/Desktop/RealRansomwares/main.py /home/ohadoz/Desktop/RealRansomwares/gonnacry.py
-rm -rf /home/ohadoz/Desktop/RealRansomwares/GonnaCry
+# git clone https://github.com/tarcisio-marinho/GonnaCry.git /home/ohadoz/Desktop/RealRansomwares/GonnaCry
+# sudo pip install -r /home/ohadoz/Desktop/RealRansomwares/GonnaCry/src/requeriments.txt
+# cp /home/ohadoz/Desktop/RealRansomwares/GonnaCry/src/GonnaCry/*.py /home/ohadoz/Desktop/RealRansomwares/
+# mv /home/ohadoz/Desktop/RealRansomwares/main.py /home/ohadoz/Desktop/RealRansomwares/gonnacry.py
+# rm -rf /home/ohadoz/Desktop/RealRansomwares/GonnaCry
 
-git clone https://github.com/uriloya/Ransomware.git /home/ohadoz/Desktop/RealRansomwares/Ransomware
-mv /home/ohadoz/Desktop/RealRansomwares/Ransomware/main.py /home/ohadoz/Desktop/RealRansomwares/crypy.py
-rm -rf /home/ohadoz/Desktop/RealRansomwares/Ransomware
+# git clone https://github.com/uriloya/Ransomware.git /home/ohadoz/Desktop/RealRansomwares/Ransomware
+# mv /home/ohadoz/Desktop/RealRansomwares/Ransomware/main.py /home/ohadoz/Desktop/RealRansomwares/crypy.py
+# rm -rf /home/ohadoz/Desktop/RealRansomwares/Ransomware
 
-# git clone https://github.com/leonv024/RAASNet.git /home/ohadoz/Desktop/RealRansomwares/RAASNet
-# sudo pip install -r /home/ohadoz/Desktop/RealRansomwares/RAASNet/requeriments.txt
-# mv /home/ohadoz/Desktop/RealRansomwares/RAASNet/* /home/ohadoz/Desktop/RealRansomwares/
-# sudo apt install python3-tk python3-pil python3-pil.imagetk
+# # git clone https://github.com/leonv024/RAASNet.git /home/ohadoz/Desktop/RealRansomwares/RAASNet
+# # sudo pip install -r /home/ohadoz/Desktop/RealRansomwares/RAASNet/requeriments.txt
+# # mv /home/ohadoz/Desktop/RealRansomwares/RAASNet/* /home/ohadoz/Desktop/RealRansomwares/
+# # sudo apt install python3-tk python3-pil python3-pil.imagetk
