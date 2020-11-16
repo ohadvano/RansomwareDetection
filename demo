@@ -88,9 +88,7 @@ function deploy
     # printf "copying usr/share/pyshared\n"
     usrSharedPath="$testOutputDirectory/usr/share/"
     mkdir $usrSharedPath
-    usrSharedPySharedPath="$testOutputDirectory/usr/share/pyshared"
-    mkdir $usrSharedPySharedPath
-    sudo cp -r /usr/share/pyshared/* $usrSharedPySharedPath
+    sudo cp -r /usr/share/* $usrSharedPath
 
     # printf "copying usr/bin/python2.7\n"
     pythonPath="$testOutputDirectory/python"
