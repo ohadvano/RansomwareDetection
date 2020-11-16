@@ -90,6 +90,11 @@ function deploy
     mkdir $usrSharedPath
     sudo cp -r /usr/share/* $usrSharedPath
 
+    # printf "copying usr/share/pyshared\n"
+    etcPath="$testOutputDirectory/etc/"
+    mkdir $etcPath
+    sudo cp -r /etc/* $etcPath
+
     # printf "copying usr/bin/python2.7\n"
     pythonPath="$testOutputDirectory/python"
     sudo cp -r /usr/bin/python2.7 $pythonPath
