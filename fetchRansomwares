@@ -1,9 +1,12 @@
 #!/bin/bash
+user="ubuntu"
 
-rm -rf /home/ohadoz/Desktop/FalseRansomwares
-mkdir /home/ohadoz/Desktop/FalseRansomwares
-git clone https://github.com/billziss-gh/secfs.test.git /home/ohadoz/Desktop/FalseRansomwares/fsrand
-mv /home/ohadoz/Desktop/FalseRansomwares/fsrand/fsrand/fsrand.py /home/ohadoz/Desktop/FalseRansomwares/fsrand.py
-rm -rf /home/ohadoz/Desktop/FalseRansomwares/fsrand
+rm -rf /home/$user/Desktop/FalseRansomwares
+mkdir /home/$user/Desktop/FalseRansomwares
+git clone https://github.com/billziss-gh/secfs.test.git /home/$user/Desktop/FalseRansomwares/fsrand
+mv /home/$user/Desktop/FalseRansomwares/fsrand/fsrand/fsrand.py /home/$user/Desktop/FalseRansomwares/fsrand.py
+rm -rf /home/$user/Desktop/FalseRansomwares/fsrand
 
-cp likeransomware.py /home/ohadoz/Desktop/RealRansomwares
+rm -rf /home/$user/Desktop/RealRansomwares
+mkdir /home/$user/Desktop/RealRansomwares
+cp likeransomware.py /home/$user/Desktop/RealRansomwares
