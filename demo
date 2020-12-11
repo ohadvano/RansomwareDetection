@@ -1,6 +1,6 @@
 #!/bin/bash
 # Parameters
-user="ubuntu"
+user="ohadoz"
 baseDirectory="/home/$user/Desktop/RansomwareDetection"
 testTar="$baseDirectory/TestData/tar/TestData.tar.gz"
 testOutput="$baseDirectory/TestData/output/"
@@ -238,9 +238,9 @@ function build
 showConfig
 cd src
 build
-# run 0
+run 0
 sleep 1
-run 1
+# run 1
 
 # Get final statistics
 printf "\033[1;34mChecking overall results\033[0m\n"
