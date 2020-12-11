@@ -7,7 +7,7 @@ import threading
 import os
 import sys
 
-encryption_timeout = 60
+encryption_timeout = 10
 encrypted_symbol = "enc_"
 
 # this function encrypts a single file
