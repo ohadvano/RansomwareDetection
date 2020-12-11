@@ -1,0 +1,10 @@
+Run ./run_demo
+
+Requirements:
+- Meson
+- Ninja
+- libfuse
+- Python
+- Python3
+- sdhash
+- Edit /usr/local/etc/fuse.conf and remove comment for allow_other
