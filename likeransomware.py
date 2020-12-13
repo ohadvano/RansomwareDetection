@@ -9,8 +9,9 @@ import sys
 from os import walk
 
 def EncryptFile(fileToEncrypt, key):
-    print(fileToEncrypt)
-    print(key)
+    #print(fileToEncrypt)
+    #print(key)
+    pass
 
 def EncryptAllFiles(filesToEncrypt, key):
     for file_to_encrypt in filesToEncrypt:
@@ -35,4 +36,9 @@ base_path = "/home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles"
 files_to_encrypt = GetAllFiles(base_path)
 password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
 key = SHA256.new(password.encode('utf-8')).digest()
+key2 = SHA256.new(password.encode('utf-8')).digest()
+key3 = SHA256.new(password.encode('utf-8')).digest()
+print(key)
+print(key2)
+print(key3)
 EncryptAllFiles(files_to_encrypt, key)
