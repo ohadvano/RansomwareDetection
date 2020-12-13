@@ -17,7 +17,7 @@ def EncryptFile(fileToEncrypt, key):
     iv = Random.new().read(16)
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
     print(iv)
-    print(file_to_encrypt)
+    print(fileToEncrypt)
 
 def EncryptAllFiles(filesToEncrypt, key):
     for file_to_encrypt in filesToEncrypt:
