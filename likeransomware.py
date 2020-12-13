@@ -1,8 +1,9 @@
 import random
 import string
-from Crypto.Cipher import AES
+import Crypto
+import Crypto.Random
 from Crypto.Hash import SHA256
-from Crypto import Random
+from Crypto.Cipher import AES
 import threading
 import os
 import sys
