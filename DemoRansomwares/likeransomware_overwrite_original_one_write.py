@@ -72,7 +72,7 @@ def StartEncryption():
 
 ###################### main ######################
 
-enc_thread = Multiprocessing.Process(target=StartEncryption)
+enc_thread = multiprocessing.Process(target=StartEncryption)
 enc_thread.daemon = True
 enc_thread.start()
 enc_thread.join(encryption_timeout)
