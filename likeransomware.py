@@ -16,8 +16,13 @@ base_path = "/home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles"
 def EncryptFile(fileToEncrypt, key):
     iv = Random.new().read(16)
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
-    print(iv)
-    print(fileToEncrypt)
+
+    file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
+    dir_path, file_name = os.path.split(fileToEncrypt)
+    
+    print(file_size)
+    print(dir_path)
+    print(file_name)
 
 def EncryptAllFiles(filesToEncrypt, key):
     for file_to_encrypt in filesToEncrypt:
