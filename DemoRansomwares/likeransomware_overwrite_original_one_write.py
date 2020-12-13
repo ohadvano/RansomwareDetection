@@ -32,6 +32,7 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
 
 def GetInitializationVector():
     iv = ''.join([chr(random.randint(0, 0xFF)) for i in range(16)])
+    print(iv)
     return iv
 
 def EncryptFile(fileToEncrypt, key):
