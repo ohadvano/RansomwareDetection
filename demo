@@ -163,7 +163,12 @@ function runRansomware
 {
     programCommand=$1
     cmd="sudo chroot $sandBox $programCommand"
+
+    start=`date +%s`
     eval $cmd
+    end=`date +%s`
+    runtime=$((end-start))
+    printf "Run time: $runtime"
 }
 
 function run

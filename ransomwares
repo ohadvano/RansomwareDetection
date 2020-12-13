@@ -1,1 +1,3 @@
-LikeRansomware_Delete_Original_One_Write /python3 /RealRansomwares/likeransomware_delete_original_one_write.py /TestFiles 60
+LikeRansomware_Delete_Original_One_Write /python3 /RealRansomwares/likeransomware_delete_original_one_write.py /TestFiles 3600
+LikeRansomware_Delete_Original_Chunks /python3 /RealRansomwares/likeransomware_delete_original_chunks.py /TestFiles 3600
+LikeRansomware_Overwrite_Original_One_Write /python3 /RealRansomwares/likeransomware_overwrite_original_one_write.py /TestFiles 3600
