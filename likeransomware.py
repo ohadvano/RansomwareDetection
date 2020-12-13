@@ -25,14 +25,15 @@ def encrypt_all_files():
                     pass
         break
 
-def GetAllFiles():
+def GetAllFiles(base_path):
     f = []
-    for (dirpath, dirnames, filenames) in walk(mypath):
+    for (dirpath, dirnames, filenames) in walk(base_path):
         f.extend(filenames)
         break
     return f
 
 ###################### main ######################
 
-files_list = GetAllFiles()
+basePath = "/home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles"
+files_list = GetAllFiles(basePath)
 print(files_list)
