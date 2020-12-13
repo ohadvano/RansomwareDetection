@@ -39,7 +39,7 @@ def EncryptFile(fileToEncrypt, key):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     dir_path, file_name = os.path.split(fileToEncrypt)
     
-    iv = GetInitializationVector()
+    iv = ''.join([chr(random.randint(0, 0xFF)) for i in range(16)])
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
 
     encrypted_content = Encrypt(fileToEncrypt, iv, aes_obj)
