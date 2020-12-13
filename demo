@@ -242,6 +242,7 @@ function build
 
 function copyRansomwares
 {
+    printf "\033[1;34mCopying ransomwares\033[0m\n"
     cp DemoRansomwares/likeransomware*.py /home/$user/Desktop/RealRansomwares
     cp DemoFalseRansomwares/fsrand.py /home/$user/Desktop/FalseRansomwares
 }
