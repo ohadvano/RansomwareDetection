@@ -1,5 +1,3 @@
-Run ./run_demo
-
 Requirements:
 - Meson
 - Ninja
@@ -8,3 +6,23 @@ Requirements:
 - Python3
 - sdhash
 - Edit /usr/local/etc/fuse.conf and remove comment for allow_other
+
+Edits:
+- Edit user file with the user name running the demo
+- Optional: Edit ransomwares and false ransomwares origin path in demo varibles
+- Optional: Change sandbox directory in demo variables
+
+To add ransomwares:
+- Copy ransomwares and all other dependencies to $ransomwaresOriginPath (defined in demo)
+- Copy false ransomwares and all other dependencies to $falseRansomwaresOriginPath (defined in demo)
+- Ransomwares are mapped to root directory of sandbox
+-    i.e if sandbox root is /tmp/sandbox, ransomwares will be in /tmp/sandbox/RealRansomwares (or with name as configed in demo)
+-        A relative sandbox directory path of a ransomware will be /RealRansomwares
+-        A relative sandbox directory path of a false ransomware will be /FalseRansomwares
+- Edit ransomwares file and add lines in the following format:
+-    <Ransomware display name> <command to execute> <command arguments>
+-    Example for a ransomware which is a python script:
+-       EvilRansomware /python3 /RealRansomwares/evil.py argument1 argument 2
+
+To run:
+    Run ./run_demo

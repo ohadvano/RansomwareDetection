@@ -1,6 +1,7 @@
 #!/bin/bash
 # Parameters
-user="ohadoz"
+source user
+
 baseDirectory="/home/$user/Desktop/RansomwareDetection"
 testTar="$baseDirectory/TestData/tar/TestData.tar.gz"
 testOutput="$baseDirectory/TestData/output/"
@@ -254,7 +255,7 @@ showConfig
 copyRansomwares
 cd src
 build
-run 0
+#run 0
 sleep 1
 run 1
 

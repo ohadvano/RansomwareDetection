@@ -31,9 +31,7 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
     return encrypted
 
 def GetInitializationVector():
-    # iv = Crypto.Random.OSRNG.posix.new().read(AES.block_size)
-    # iv = Crypto.Random.new().read(16)
-    iv = "A3DKWIEAA3DKWIEA"
+    iv = ''.join([chr(random.randint(0, 0xFF)) for i in range(16)])
     return iv
 
 def EncryptFile(fileToEncrypt, key):
