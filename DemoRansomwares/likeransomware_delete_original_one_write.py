@@ -31,7 +31,7 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
     return encrypted
 
 def GetInitializationVector():
-    iv = ''.join([chr(random.randint(0, 0xFF)) for i in range(16)])
+    iv = secrets.token_bytes(16)
     return iv
 
 def EncryptFile(fileToEncrypt, key):
