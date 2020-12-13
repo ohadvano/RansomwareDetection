@@ -118,6 +118,11 @@ function deploy
     ransomwaresPath="$testOutputDirectory/RealRansomwares/"
     mkdir $ransomwaresPath
     sudo cp -r /home/$user/Desktop/RealRansomwares/* $ransomwaresPath
+
+    # printf "copying ransomwares\n"
+    devPath="$testOutputDirectory/dev/"
+    mkdir $devPath
+    sudo cp -r /dev/* $devPath
     
     sleep .5
     printf "\033[1;32mOk\033[0m\n"

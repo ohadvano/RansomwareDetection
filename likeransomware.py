@@ -17,11 +17,9 @@ def EncryptFile(fileToEncrypt, key):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     dir_path, file_name = os.path.split(fileToEncrypt)
     
-    print(file_size)
-    print(dir_path)
-    print(file_name)
-    
     iv = Random.new().read(16)
+    print("xxxxxxxxxxxxxxxxxxx: " + iv)
+
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
 
     # with open(fileToEncrypt, 'rb') as infile:
