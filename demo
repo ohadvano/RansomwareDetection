@@ -249,6 +249,7 @@ function copyRansomwares
     mkdir /home/$user/Desktop/FalseRansomwares
     cp DemoRansomwares/likeransomware*.py /home/$user/Desktop/RealRansomwares
     cp DemoFalseRansomwares/fsrand.py /home/$user/Desktop/FalseRansomwares
+    printf "\033[1;32mOk\033[0m\n"
 }
 
 showConfig
