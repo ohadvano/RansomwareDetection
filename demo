@@ -161,7 +161,7 @@ function runRansomware
     eval $cmd
     end=`date +%s`
     runtime=$((end-start))
-    printf "Run time: $runtime"
+    printf "Run time: $runtime seconds\n"
 }
 
 function run
@@ -180,6 +180,11 @@ function run
     do
         ransomwareName=`echo $ransomwarePath | cut -d' ' -f1`
         ransomwareCmd=`echo $ransomwarePath | cut -d' ' -f2-`
+
+        if [[ $ransomwareName == \#* ]]
+        then
+            continue
+        fi
 
         if [ $realRansomware -eq 1 ] 
         then 
