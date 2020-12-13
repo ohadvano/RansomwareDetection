@@ -15,6 +15,7 @@ ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.
 base_path = "/TestFiles/Text/1500KB"
 
 def Encrypt(fileToEncrypt, iv, aes_obj):
+    file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     encrypted = ""
     with open(fileToEncrypt, 'rb') as infile:
         encrypted = encrypted + file_size.encode('utf-8')
