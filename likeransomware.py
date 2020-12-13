@@ -18,15 +18,13 @@ def EncryptFile(fileToEncrypt, key):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     dir_path, file_name = os.path.split(fileToEncrypt)
     
-    iv = "A3DKWIEAA3DKWIEA"
-
+    iv = "A3DKWIEAA3DKWIEA".encode()
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
 
     with open(fileToEncrypt, 'rb') as infile:
         with open(os.path.join(dir_path, encrypted_symbol + file_name), 'wb') as outfile:
             outfile.write(file_size.encode('utf-8'))
             outfile.write(iv)
-
             while True:
                 chunk = infile.read(64 * 1024)
                 if len(chunk) == 0:
