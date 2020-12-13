@@ -49,12 +49,10 @@ def encrypt_all_files():
                     pass
 
 
-print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))  # generate random password
-print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+print(password)
 file_path = "/home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles/Text/4000KB/12866_0.txt"
-print("ccccccccccccccccccccccccccccccccccccccccccc")
+print(file_path)
 key = SHA256.new(password.encode('utf-8')).digest()  # generates a 256bit key from password
-print("ddddddddddddddddddddddddddddddddddddddddddd")
+print(key)
 encrypt_file(key, "12866_0.txt", file_path)  # calls the encrypt function
-print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
