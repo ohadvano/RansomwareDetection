@@ -41,7 +41,7 @@ def EncryptFile(fileToEncrypt, key):
     iv = GetInitializationVector()
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
 
-    encrypted_content = Encrypt(fileToEncrypt, key, iv, aes_obj)
+    encrypted_content = Encrypt(fileToEncrypt, iv, aes_obj)
 
     with open(os.path.join(dir_path, encrypted_symbol + file_name), 'wb') as outfile:
         outfile.write(encrypted_content)
