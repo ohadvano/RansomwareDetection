@@ -6,4 +6,8 @@ git pull
 chmod 777 demo
 chmod 777 statsSingleRun
 chmod 777 statsFinal
+start=`date +%s`
 ./demo
+end=`date +%s`
+runtime=$((end-start))
+printf "Demo run time: $runtime seconds\n"
