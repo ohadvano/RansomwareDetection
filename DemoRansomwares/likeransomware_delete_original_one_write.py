@@ -45,7 +45,7 @@ def EncryptFile(fileToEncrypt, key):
     encrypted_content = Encrypt(fileToEncrypt, iv, aes_obj)
 
     with open(os.path.join(dir_path, encrypted_symbol + file_name), 'wb') as outfile:
-        outfile.write(encrypted_content)
+        outfile.write(encrypted_content.encode())
 
     os.remove(fileToEncrypt)
 
