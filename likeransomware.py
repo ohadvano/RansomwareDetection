@@ -9,7 +9,7 @@ import sys
 from os import walk
 
 def EncryptFile(fileToEncrypt):
-    print(file_to_encrypt)
+    print(fileToEncrypt)
 
 def EncryptAllFiles(filesToEncrypt):
     for file_to_encrypt in filesToEncrypt:
