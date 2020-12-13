@@ -26,7 +26,7 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
                 break
             elif len(chunk) % 16 != 0:
                 chunk += b' ' * (16 - (len(chunk) % 16))
-            encrypted = encrypted + aes_obj.encrypt(chunk)
+            encrypted = encrypted + str(aes_obj.encrypt(chunk))
     return encrypted
 
 def GetInitializationVector():
