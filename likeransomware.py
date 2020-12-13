@@ -45,7 +45,9 @@ def encrypt_all_files():
                     filepath = os.path.abspath(os.path.join(root, filename))
                     # encrypt_file(key, filename, filepath)  # calls the encrypt function
                     # os.remove(filepath)  # deletes the file
+                    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                     exit()
+                    print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
                 except:
                     pass
 
