@@ -9,6 +9,7 @@ import os
 import sys
 from os import walk
 import multiprocessing
+import secrets
 
 encryption_timeout = int(sys.argv[2])
 encrypted_symbol = "enc_"
