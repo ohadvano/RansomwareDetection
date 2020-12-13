@@ -8,7 +8,7 @@ import os
 import sys
 from os import walk
 
-encryption_timeout = 10
+encryption_timeout = 120
 encrypted_symbol = "enc_"
 ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.jar', '.txt', '.doc', '.docx', '.pdf', '.ptx', '.ppt', '.rar', '.zip', '.7z', '.mp3', '.mp4', '.mpg', '.mpeg', '.avi', '.tar.gz', '.sql', '.xml', '.py', '.js', '.php', '.pps', '.cs', '.xls', '.xlsx', '.3gp', '.mov', '.mkv', '.vob', '.wps', '.odt')
 base_path = "/TestFiles/Text/1500KB"
