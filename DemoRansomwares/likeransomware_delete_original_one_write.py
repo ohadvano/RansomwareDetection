@@ -18,7 +18,7 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     encrypted = ""
     with open(fileToEncrypt, 'rb') as infile:
-        encrypted = encrypted + file_size.encode('utf-8')
+        encrypted = encrypted + file_size
         encrypted = encrypted + iv
         while True:
             chunk = infile.read(64 * 1024)
@@ -32,7 +32,7 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
 def GetInitializationVector():
     # iv = Crypto.Random.OSRNG.posix.new().read(AES.block_size)
     # iv = Crypto.Random.new().read(16)
-    iv = "A3DKWIEAA3DKWIEA".encode()
+    iv = "A3DKWIEAA3DKWIEA"
     return iv
 
 def EncryptFile(fileToEncrypt, key):
