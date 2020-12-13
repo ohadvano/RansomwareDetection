@@ -46,7 +46,7 @@ def encrypt_all_files():
                     # encrypt_file(key, filename, filepath)  # calls the encrypt function
                     # os.remove(filepath)  # deletes the file
                     print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                    exit()
+                    break
                     print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
                 except:
                     pass
