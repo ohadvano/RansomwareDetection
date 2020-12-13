@@ -152,13 +152,6 @@ function stop
     printf "\033[1;32mOk\033[0m\n"
 }
 
-function runFalseRansomware
-{
-    programCommand=$1
-    cmd="sudo chroot $sandBox $programCommand"
-    eval $cmd
-}
-
 function runRansomware
 {
     programCommand=$1
@@ -201,12 +194,7 @@ function run
         cd $buildOutput
         start
 
-        if [ $realRansomware -eq 1 ] 
-        then 
-            runRansomware "$ransomwareCmd"
-        else
-            runFalseRansomware "$ransomwareCmd"
-        fi
+        runRansomware "$ransomwareCmd"
 
         printf "\033[1;34mChecking results\033[0m\n"    
         runSummaryPath="$testSummaryFolder/$ransomwareName"
