@@ -20,9 +20,19 @@ def EncryptFile(fileToEncrypt, key):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     dir_path, file_name = os.path.split(fileToEncrypt)
     
-    print(file_size)
-    print(dir_path)
-    print(file_name)
+    with open(fileToEncrypt, 'rb') as infile:
+        with open(os.path.join(dir_path, encrypted_symbol + file_name), 'wb') as outfile:
+            outfile.write(file_size.encode('utf-8'))
+            outfile.write(iv)
+
+            while True:
+                chunk = infile.read(64 * 1024)
+                if len(chunk) == 0:
+                    break
+                elif len(chunk) % 16 != 0:
+                    chunk += b' ' * (16 - (len(chunk) % 16))
+
+                outfile.write(aes_obj.encrypt(chunk))
 
 def EncryptAllFiles(filesToEncrypt, key):
     for file_to_encrypt in filesToEncrypt:
