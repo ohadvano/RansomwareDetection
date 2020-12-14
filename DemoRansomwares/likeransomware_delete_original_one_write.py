@@ -21,7 +21,7 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
     encrypted = ""
     with open(fileToEncrypt, 'rb') as infile:
         encrypted = encrypted + file_size
-        encrypted = encrypted + iv
+        encrypted = encrypted + str(iv)
         while True:
             chunk = infile.read(64 * 1024)
             if len(chunk) == 0:
