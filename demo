@@ -309,7 +309,7 @@ copyRansomwares
 cd src
 build
 run 0
-#getStats
+getStats
 sleep 1
 run 1
 getStats
