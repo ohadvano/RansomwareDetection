@@ -309,8 +309,9 @@ copyRansomwares
 cd src
 build
 run 0
-getStats
+getStats 0
+printStats 0
 sleep 1
 run 1
-getStats
-printStats
+getStats 1
+printStats 1
