@@ -210,7 +210,16 @@ function run
         logOutput=${logOutput// /\\ }
         eval cp $logOutput "$runSummaryPath/log.txt"
         cd ..
-        ./statsSingleRun $ransomwareName "$runSummaryPath/log.txt" "$runSummaryPath/$singleSummaryFile"
+
+        summary_name="$singleSummaryFile"
+        if [ $realRansomware -eq 1 ] 
+        then 
+            summary_name="$singleSummaryFile-real"
+        else
+            summary_name="$singleSummaryFile-false"
+        fi
+
+        ./statsSingleRun $ransomwareName "$runSummaryPath/log.txt" "$runSummaryPath/$summary_name"
 
         printf "\033[1;33mDone.\033[0m\n"
     done < "$ransomwaresFile"
@@ -251,22 +260,57 @@ function copyRansomwares
     printf "\033[1;32mOk\033[0m\n"
 }
 
+function getStats
+{
+    realRansomware=$1
+    summaryFileName="summary"
+    if [ $realRansomware -eq 1 ] 
+    then 
+        printf "\033[1;34mChecking overall results for real ransomwares\033[0m\n"
+        summaryFileName="summary_real"
+    else
+        printf "\033[1;34mChecking overall results for false ransomwares\033[0m\n"
+        summaryFileName="summary_false"
+    fi
+
+    summary_name="$singleSummaryFile"
+    if [ $realRansomware -eq 1 ] 
+    then 
+        summary_name="$singleSummaryFile-real"
+    else
+        summary_name="$singleSummaryFile-false"
+    fi
+
+    ./statsFinal $testSummaryFolder $summaryFileName $summary_name $configPath
+
+    sleep .5
+    printf "\033[1;32mOk\033[0m\n"
+}
+
+function printStats
+{
+    realRansomware=$1
+    summaryFileName="summary"
+    if [ $realRansomware -eq 1 ] 
+    then 
+        printf "\033[1;34mDemo summary for real ransomwares: (detailed summaries at: $testSummaryFolder\033[0m\n"
+        summaryFileName="summary_real"
+    else
+        printf "\033[1;34mDemo summary for false ransomwares: (detailed summaries at: $testSummaryFolder\033[0m\n"
+        summaryFileName="summary_false"
+    fi
+
+    summaryFilePath="$testSummaryFolder/$summaryFileName"
+    cat $summaryFilePath
+}
+
 showConfig
 copyRansomwares
 cd src
 build
-#run 0
+run 0
+#getStats
 sleep 1
 run 1
-
-# Get final statistics
-printf "\033[1;34mChecking overall results\033[0m\n"
-summaryFileName="summary"
-./statsFinal $testSummaryFolder $summaryFileName $singleSummaryFile $configPath
-sleep .5
-printf "\033[1;32mOk\033[0m\n"
-
-# Finish
-printf "\033[1;34mDemo summary: (detailed summaries at: $testSummaryFolder\033[0m\n"
-summaryFilePath="$testSummaryFolder/$summaryFileName"
-cat $summaryFilePath
+getStats
+printStats
