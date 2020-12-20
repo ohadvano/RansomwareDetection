@@ -10,6 +10,7 @@ summaryFile="$statsDirectory/$summaryName"
 totalWrite=0
 totalRmdir=0
 totalForget=0
+totalActions=0
 maxFTCthreshold=0
 maxSMthreshold=0
 maxSEthreshold=0
@@ -37,22 +38,31 @@ fidRegex="\| Files Deletion         \| ([0-9^]+)"
 sukRegex="\| Suspicious Keywords    \| ([0-9^]+)"
 totalRegex="\| Total                  \| ([0-9^]+)"
 
+function Promote_totalActions
+{
+    num=$1
+    totalActions=$((totalActions+num))
+}
+
 function Promote_totalWrite
 {
     num=$1
     totalWrite=$((totalWrite+num))
+    Promote_totalActions $num
 }
 
 function Promote_totalRmdir
 {
     num=$1
     totalRmdir=$((totalRmdir+num))
+    Promote_totalActions $num
 }
 
 function Promote_totalForget
 {
     num=$1
     totalForget=$((totalForget+num))
+    Promote_totalActions $num
 }
 
 function Promote_totalRisk
@@ -184,7 +194,11 @@ do
     done < "$runResultsFile"
 done
 
-summaryTemplate="|----------------------------------------\n| Demo Summary\n|----------------------------------------\n| Demo Configurations:\n|----------------------------------------\n$config\n|----------------------------------------\n| Action name            | Total count\n|----------------------------------------\n| Write                  | $totalWrite\n| Rmdir                  | $totalRmdir\n| Forget                 | $totalForget\n|----------------------------------------\n| Heuristic name         | Max threshold\n|----------------------------------------\n| File type changes      | $maxFTCthreshold\n| Similarity Measurement | $maxSMthreshold\n| Shannon Enthropy       | $maxSEthreshold\n| Files Deletion         | $maxFDthreshold\n| Suspicious Keywords    | $maxSKthreshold\n|----------------------------------------\n| Resolutions\n|----------------------------------------\n| Action name            | Total Risk\n|----------------------------------------\n| Write                  | $totalWriteRisk\n| Rmdir                  | $totalRmdirRisk\n| Forget                 | $totalForgetRisk\n| Total                  | $totalRisk\n|----------------------------------------\n"
+writeRiskPercent=$((totalWriteRisk*100/totalWrite))
+rmRiskPercent=$((totalRmdirRisk*100/totalRmdir))
+forgetRiskPercent=$((totalForgetRisk*100/totalForget))
+
+summaryTemplate="|----------------------------------------\n| Demo Summary\n|----------------------------------------\n| Demo Configurations:\n|----------------------------------------\n$config\n|----------------------------------------\n| Action name            | Total count\n|----------------------------------------\n| Write                  | $totalWrite\n| Rmdir                  | $totalRmdir\n| Forget                 | $totalForget\n| Total                 | $totalActions\n|----------------------------------------\n| Heuristic name         | Max threshold\n|----------------------------------------\n| File type changes      | $maxFTCthreshold\n| Similarity Measurement | $maxSMthreshold\n| Shannon Enthropy       | $maxSEthreshold\n| Files Deletion         | $maxFDthreshold\n| Suspicious Keywords    | $maxSKthreshold\n|----------------------------------------\n| Resolutions\n|----------------------------------------\n| Action name            | Total Risk\n|----------------------------------------\n| Write                  | $totalWriteRisk ($writeRiskPercent%)\n| Rmdir                  | $totalRmdirRisk ($rmRiskPercent%)\n| Forget                 | $totalForgetRisk ($forgetRiskPercent%)\n| Total                  | $totalRisk\n|----------------------------------------\n"
 sudo touch $summaryFile
 sudo chmod 777 $summaryFile
 sudo echo -en "$summaryTemplate" > $summaryFile

@@ -101,7 +101,7 @@ class FsRandomizer(object):
             self.__random_write(f)
     def randomize(self):
         for i in xrange(self.count):
-            op = self.random.choice("Ru")
+            op = self.random.choice("CRu")
             if op == "C":
                 path = self.__newsubpath(self.__getdir())
                 if self.verbose:
