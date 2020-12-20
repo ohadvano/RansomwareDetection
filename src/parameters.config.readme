@@ -1,0 +1,12 @@
+Debug: true; # Debug mode will not effect the actual outcome of file system actions, only monitoring will be effected. If debug: false, then file system will be locked if a risk is found
+LogFilePath: Log_; # Prefix for log files
+TempFilePath: tmpfile; # Temp file name config for internal usage
+TempFilePath2: tmpfile2; # Second temp file name config for internal usage
+SystemLockDownDuration: 5; # Will reject any file system action for this duration
+SimilarityMeasurement: 100; # Minimum similarity threadhold to consider as anomaly
+ShannonEnthropy: 100; # Minimum enthropy considered anomaly
+SuspiciousKeywords: infected,ransomware,encrypt,bitcoin,payment,ransom,virus,crypto; # Keywords to be searched in written content
+MinAccumulatedThreshold: 1.1; # Minimum threshold to be considered a security threat. AccumulatedThreshold = H1_th * H1_we + H2_th * H2_we + H3_th * H3_we + ... (H1_th = Heuristic 1 threshold, H1_we = Heuristic 1 weight)
+HeuristicsWeights: 1,1,1,1,1; # Weight for each heuristinc in accumulated threshold
+IndividualThresholdRegex: 1.1,1.2,1.3,1.4,1.5; # Individual thresholds for each heuristic to be considered a risk
+LookbackTime: 10; # Look back time in actions history.
