@@ -66,6 +66,16 @@ namespace Heuristics
                     bool foundAny = false;
                     for (std::vector<string>::iterator it = _suspiciousKeywords.begin(); it != _suspiciousKeywords.end(); ++it)
                     {
+                        for(auto& c : newContent)
+                        {
+                            c = tolower(c);
+                        }
+
+                        for(auto& c : *it)
+                        {
+                            c = tolower(c);
+                        }
+
                         if (newContent.find(*it) != string::npos) 
                         {
                             foundAny = true;
