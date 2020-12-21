@@ -17,6 +17,7 @@ falseRansomwaresOriginPath="/home/$user/Desktop/FalseRansomwares"
 ransomwaresListFile="$baseDirectory/ransomwares"
 falseRansomwaresListFile="$baseDirectory/falseRansomwares"
 singleSummaryFile="run_summary"
+summaryFileName="summary"
 configPath="$baseDirectory/src/parameters.config"
 # Endparameters
 
@@ -266,26 +267,11 @@ function copyRansomwares
 
 function getStats
 {
-    realRansomware=$1
-    summaryFileName="summary"
-    if [ $realRansomware -eq 1 ] 
-    then 
-        printf "\033[1;34mChecking overall results for real ransomwares\033[0m\n"
-        summaryFileName="summary_real"
-    else
-        printf "\033[1;34mChecking overall results for false ransomwares\033[0m\n"
-        summaryFileName="summary_false"
-    fi
+    printf "\033[1;34mChecking overall results ransomwares\033[0m\n"
 
-    summary_name="$singleSummaryFile"
-    if [ $realRansomware -eq 1 ] 
-    then 
-        summary_name="$singleSummaryFile-real"
-    else
-        summary_name="$singleSummaryFile-false"
-    fi
-
-    ./statsFinal $testSummaryFolder $summaryFileName $summary_name $configPath
+    summary_name="$singleSummaryFile-real"
+    summary_name_f="$singleSummaryFile-false"
+    ./statsFinal $testSummaryFolder $summaryFileName $summary_name $summary_name_f $configPath
 
     sleep .5
     printf "\033[1;32mOk\033[0m\n"
@@ -293,17 +279,6 @@ function getStats
 
 function printStats
 {
-    realRansomware=$1
-    summaryFileName="summary"
-    if [ $realRansomware -eq 1 ] 
-    then 
-        printf "\033[1;34mDemo summary for real ransomwares: (detailed summaries at: $testSummaryFolder\033[0m\n"
-        summaryFileName="summary_real"
-    else
-        printf "\033[1;34mDemo summary for false ransomwares: (detailed summaries at: $testSummaryFolder\033[0m\n"
-        summaryFileName="summary_false"
-    fi
-
     summaryFilePath="$testSummaryFolder/$summaryFileName"
     cat $summaryFilePath
 }
@@ -313,9 +288,7 @@ copyRansomwares
 cd src
 build
 run 0
-getStats 0
-printStats 0
 sleep 1
 run 1
-getStats 1
-printStats 1
+getStats
+printStats
