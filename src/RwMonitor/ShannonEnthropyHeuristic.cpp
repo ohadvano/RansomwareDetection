@@ -62,11 +62,15 @@ namespace Heuristics
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + filePath + "]");
 
                     // Before
-                    double enthropyBefore = CalculateEntropy(GetOldContent(writeAction));
+                    string oldContent = GetOldContent(writeAction);
+                    double enthropyBefore = CalculateEntropy(oldContent);
+                    _logger->WriteLog("before: " + oldContent);
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy before: " + GetDoubleAsString(enthropyBefore) + "]");
 
                     // After
-                    double enthropyAfter = CalculateEntropy(GetNewContent(filePath, writeAction));
+                    string newContent = GetNewContent(filePath, writeAction);
+                    double enthropyAfter = CalculateEntropy(newContent);
+                    _logger->WriteLog("after: " + newContent);
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyAfter) + "]");
 
                     if (enthropyBefore > 0 && Abs(enthropyBefore - enthropyAfter) > _threshold)
