@@ -62,19 +62,11 @@ namespace Heuristics
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + filePath + "]");
 
                     // Before
-                    _tempWriter->Write(GetOldContent(writeAction));
-                    uint8* inputBefore = ReadFile(_tempWriter->TempFilePath);
-                    int lengthBefore = GetLength(inputBefore);
-                    double enthropyBefore = CalculateEntropy(inputBefore, lengthBefore);
-					delete[] inputBefore;
+                    double enthropyBefore = CalculateEntropy(GetOldContent(writeAction));
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy before: " + GetDoubleAsString(enthropyBefore) + "]");
 
                     // After
-                    _tempWriter->Write(GetNewContent(filePath, writeAction));
-                    uint8* inputAfter = ReadFile(_tempWriter->TempFilePath);
-                    int lengthAfter = GetLength(inputAfter);
-                    double enthropyAfter = CalculateEntropy(inputAfter, lengthAfter);
-					delete[] inputAfter;
+                    double enthropyAfter = CalculateEntropy(GetNewContent(filePath, writeAction));
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyAfter) + "]");
 
                     if (enthropyBefore > 0 && Abs(enthropyBefore - enthropyAfter) > _threshold)
@@ -107,13 +99,15 @@ namespace Heuristics
                 heuristicTH = results;
             }
 
-            double CalculateEntropy(uint8* input, int length)
+            double CalculateEntropy(string input)
 			{
+                int length = input.size();
 				std::map<char, int> frequencies;
 
 				for (int i = 0; i < length; ++i)
                 {
-					frequencies[input[i]] ++;
+                    char inputAt = input.at(i);
+					frequencies[inputAt] ++;
                 }
 
 				double infocontent = 0;
