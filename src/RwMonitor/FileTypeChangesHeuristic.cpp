@@ -69,7 +69,6 @@ namespace Heuristics
                     string afterType = RunFileUtility(_tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Type after: " + afterType + "]");
 
-                    _logger->WriteLog("test " + oldContent);
                     bool existedBefore = oldContent != "";
                     if (existedBefore && (beforeType != afterType))
                     {
