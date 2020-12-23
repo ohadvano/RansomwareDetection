@@ -53,7 +53,7 @@ class FsRandomizer(object):
         for entry in listOfFile:
             fullPath = os.path.join(dirName, entry)
             if os.path.isdir(fullPath):
-                allFiles = allFiles + GetAllFiles(fullPath)
+                allFiles = allFiles + self.__get_files_list(fullPath)
             else:
                 if fullPath.endswith(ext):
                     allFiles.append(fullPath)
