@@ -107,6 +107,7 @@ class FsRandomizer(object):
             if path.exists(files_list[file_id]):
                 with open(files_list[file_id], 'r') as chosen_file:
                     chosen_content = chosen_file.read()
+                break
         print(len(chosen_content))
         file.seek(0)
         file.write(chosen_content)
@@ -119,7 +120,6 @@ class FsRandomizer(object):
         with open(path, "r+b") as f:
             self.__random_write(f, self.files_list)
     def randomize(self):
-        print("ok")
         for i in xrange(self.count):
             op = self.random.choice("CRu")
             if op == "C":
