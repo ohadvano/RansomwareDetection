@@ -30,6 +30,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import os, random
+from os import path
 
 ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.jar', '.txt', '.doc', '.docx', '.pdf', '.ptx', '.ppt', '.rar', '.zip', '.7z', '.mp3', '.mp4', '.mpg', '.mpeg', '.avi', '.tar.gz', '.sql', '.xml', '.py', '.js', '.php', '.pps', '.cs', '.xls', '.xlsx', '.3gp', '.mov', '.mkv', '.vob', '.wps', '.odt')
 
@@ -100,12 +101,13 @@ class FsRandomizer(object):
     def __newmode(self, mode):
         return mode | self.random.randint(0, 077)
     def __random_write(self, file, files_list):
-        list_len = len(files_list)
-        print(list_len)
-        file_id = self.random.randint(0, list_len - 1)
-        print(file_id)
-        with open(files_list[file_id], 'r') as chosen_file:
-            chosen_content = chosen_file.read()
+        while True:
+            list_len = len(files_list)
+            file_id = self.random.randint(0, list_len - 1)
+            if path.exists(files_list[file_id]):
+                with open(files_list[file_id], 'r') as chosen_file:
+                    chosen_content = chosen_file.read()
+        print(len(chosen_content))
         file.seek(0)
         file.write(chosen_content)
     def __create(self, path):
