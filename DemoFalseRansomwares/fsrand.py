@@ -99,7 +99,9 @@ class FsRandomizer(object):
         return mode | self.random.randint(0, 077)
     def __random_write(self, file, files_list):
         list_len = len(files_list)
+        print(list_len)
         file_id = self.random.randint(0, list_len - 1)
+        print(file_id)
         with open(files_list[file_id], 'r') as chosen_file:
             chosen_content = chosen_file.read()
         file.seek(0)
