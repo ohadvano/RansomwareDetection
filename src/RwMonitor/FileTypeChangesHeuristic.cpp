@@ -60,7 +60,8 @@ namespace Heuristics
                     string filePath = writeAction->FilePath;
                     _logger->WriteLog("[" + _heuristicName + "][File path: " + writeAction->FilePath + "]");
 
-                    _tempWriter->Write(GetOldContent(writeAction));
+                    string oldContent = GetOldContent(writeAction);
+                    _tempWriter->Write(oldContent);
                     string beforeType = RunFileUtility(_tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Type before: " + beforeType + "]");
 
@@ -68,7 +69,9 @@ namespace Heuristics
                     string afterType = RunFileUtility(_tempWriter->TempFilePath);
                     _logger->WriteLog("[" + _heuristicName + "][Type after: " + afterType + "]");
 
-                    if (beforeType != afterType)
+                    _logger->WriteLog("test " + oldContent);
+                    bool existedBefore = oldContent != "";
+                    if (existedBefore && (beforeType != afterType))
                     {
                         _logger->WriteLog("[" + _heuristicName + "][File type change detected from: " + beforeType + " to: " + afterType + "]");
                         _writeBufHistory->AddNewAction(writeAction);
