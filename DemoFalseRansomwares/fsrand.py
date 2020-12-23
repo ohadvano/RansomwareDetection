@@ -169,7 +169,8 @@ class FsRandomizer(object):
 if "__main__" == __name__:
     import argparse, sys, time
     def info(s):
-        print "%s: %s" % (os.path.basename(sys.argv[0]), s)
+        pass
+        # print "%s: %s" % (os.path.basename(sys.argv[0]), s)
     def warn(s):
         print >> sys.stderr, "%s: %s" % (os.path.basename(sys.argv[0]), s)
     def fail(s, exitcode = 1):

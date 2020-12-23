@@ -10,4 +10,4 @@ start=`date +%s`
 ./demo
 end=`date +%s`
 runtime=$((end-start))
-printf "Demo run time: $runtime seconds\n"
+printf "\033[1;33mDemo run time: $runtime seconds\033[0m\n"

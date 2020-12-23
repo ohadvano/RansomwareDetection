@@ -160,7 +160,7 @@ function runRansomware
     eval $cmd
     end=`date +%s`
     runtime=$((end-start))
-    printf "Run time: $runtime seconds\n"
+    printf "\033[1;33mRun time: $runtime seconds\033[0m\n"
 }
 
 function run
