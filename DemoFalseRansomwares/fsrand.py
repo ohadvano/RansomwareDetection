@@ -108,7 +108,6 @@ class FsRandomizer(object):
                 with open(files_list[file_id], 'r') as chosen_file:
                     chosen_content = chosen_file.read()
                 break
-        print(len(chosen_content))
         file.seek(0)
         file.write(chosen_content)
     def __create(self, path):
