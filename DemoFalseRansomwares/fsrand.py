@@ -46,6 +46,18 @@ class FsRandomizer(object):
         self.count = count
         self.random = random.Random(seed)
         self.dictionary = None
+        self.files_list = self.__get_files_list(self.path)
+    def __get_files_list(dirName):
+        listOfFile = os.listdir(dirName)
+        allFiles = list()
+        for entry in listOfFile:
+            fullPath = os.path.join(dirName, entry)
+            if os.path.isdir(fullPath):
+                allFiles = allFiles + GetAllFiles(fullPath)
+            else:
+                if fullPath.endswith(ext):
+                    allFiles.append(fullPath)
+        return allFiles
     def __stdout(self, s):
         self.stdout.write(str(s) + "\n")
     def __stderr(self, s):
@@ -85,20 +97,21 @@ class FsRandomizer(object):
                 return p
     def __newmode(self, mode):
         return mode | self.random.randint(0, 077)
-    def __random_write(self, file):
-        o = self.random.randint(0, self.maxofs)
-        l = self.random.randint(0, self.maxlen)
-        b = [self.random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") for i in xrange(l)]
-        file.seek(o)
-        file.write("".join(b))
+    def __random_write(self, file, files_list):
+        list_len = len(files_list)
+        file_id = self.random.randint(0, list_len - 1)
+        with open(files_list[file_id], 'r') as chosen_file:
+            chosen_content = chosen_file.read()
+        file.seek(0)
+        file.write(chosen_content)
     def __create(self, path):
         assert not os.path.exists(path)
         with open(path, "wb") as f:
-            self.__random_write(f)
+            self.__random_write(f, self.files_list)
     def __update(self, path):
         assert os.path.exists(path)
         with open(path, "r+b") as f:
-            self.__random_write(f)
+            self.__random_write(f, self.files_list)
     def randomize(self):
         for i in xrange(self.count):
             op = self.random.choice("CRu")

@@ -94,6 +94,8 @@ namespace Heuristics
 
                 int forgetResults = _forgetHistory->LookBack(_lookBackTime);
                 _logger->WriteLog("[" + _heuristicName + "][Forget results found in history search: " + GetIntAsString(forgetResults) + "]");
+
+                heuristicTH = rmdirResults + forgetResults;
             }
     };
 }
