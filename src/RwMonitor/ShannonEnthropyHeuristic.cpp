@@ -77,7 +77,7 @@ namespace Heuristics
 					delete[] inputAfter;
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyAfter) + "]");
 
-                    if (Abs(enthropyBefore - enthropyAfter) > _threshold)
+                    if (enthropyBefore > 0 && Abs(enthropyBefore - enthropyAfter) > _threshold)
                     {
                         _logger->WriteLog("[" + _heuristicName + "][High enthropy change detected]");
                         _writeBufHistory->AddNewAction(writeAction);
@@ -117,7 +117,6 @@ namespace Heuristics
                 }
 
 				double infocontent = 0;
-
 				for (std::pair<char, int> p : frequencies)
 				{
 					double freq = static_cast<double>(p.second) / length;
