@@ -77,9 +77,9 @@ namespace Heuristics
 					delete[] inputAfter;
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyAfter) + "]");
 
-                    if (Abs(enthropyBefore - enthropyAfter) < _threshold)
+                    if (Abs(enthropyBefore - enthropyAfter) > _threshold)
                     {
-                        _logger->WriteLog("[" + _heuristicName + "][High enthropy detected]");
+                        _logger->WriteLog("[" + _heuristicName + "][High enthropy change detected]");
                         _writeBufHistory->AddNewAction(writeAction);
                     }
                 }
