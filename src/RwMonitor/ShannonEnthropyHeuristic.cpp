@@ -74,7 +74,7 @@ namespace Heuristics
                         _logger->WriteLog("[" + _heuristicName + "][High enthropy change detected]");
                         _writeBufHistory->AddNewAction(writeAction);
                     }
-                }
+                } 
 
                 RefreshTH();
                 _logger->WriteLog("[" + _heuristicName + "][New threshold: " + GetThAsString() + "]");
