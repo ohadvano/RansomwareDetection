@@ -250,8 +250,8 @@ function copyRansomwares
     rm -rf /home/$user/Desktop/FalseRansomwares
     mkdir /home/$user/Desktop/RealRansomwares
     mkdir /home/$user/Desktop/FalseRansomwares
-    cp DemoRansomwares/* /home/$user/Desktop/RealRansomwares
-    cp DemoFalseRansomwares/* /home/$user/Desktop/FalseRansomwares
+    cp ./DemoRansomwares/* /home/$user/Desktop/RealRansomwares
+    cp ./DemoFalseRansomwares/* /home/$user/Desktop/FalseRansomwares
 }
 
 function getStats
@@ -274,7 +274,6 @@ function printStats
 showConfig
 cd src
 build
-prepareRansomware
 copyRansomwares
 run 0
 sleep 1
