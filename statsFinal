@@ -256,21 +256,60 @@ do
     done < "$runResultsFile_f"
 done
 
-writeRiskPercent=$((totalWriteRisk*100/totalWrite))
-rmRiskPercent=$((totalRmdirRisk*100/totalRmdir))
-forgetRiskPercent=$((totalForgetRisk*100/totalForget))
+if [ "$totalWrite" = "0" ]; then
+    writeRiskPercent=0
+else 
+    writeRiskPercent=$((totalWriteRisk*100/totalWrite))
+fi
+
+if [ "$totalRmdir" = "0" ]; then
+    rmDirRiskPercent=0
+else 
+    rmDirRiskPercent =$((totalRmdirRisk*100/totalRmdir))
+fi
+
+if [ "$totalForget" = "0" ]; then
+    forgetRiskPercent=0
+else 
+    forgetRiskPercent=$((totalForgetRisk*100/totalForget))
+fi
 
 totalRisk=$((totalWriteRisk+totalRmdirRisk+totalForgetRisk))
 totalActions=$((totalWrite+totalRmdir+totalForget))
-totalRiskPercent=$((totalRisk*100/totalActions))
 
-writeRiskPercent_f=$((totalWriteRisk_f*100/totalWrite_f))
-rmRiskPercent_f=$((totalRmdirRisk_f*100/totalRmdir_f))
-forgetRiskPercent_f=$((totalForgetRisk_f*100/totalForget_f))
+if [ "$totalActions" = "0" ]; then
+    totalRiskPercent=0
+else 
+    totalRiskPercent=$((totalRisk*100/totalActions))
+fi
+
+if [ "$totalWrite_f" = "0" ]; then
+    writeRiskPercent_f=0
+else 
+    writeRiskPercent_f=$((totalWriteRisk_f*100/totalWrite_f))
+fi
+
+if [ "$totalRmdir_f" = "0" ]; then
+    rmDirRiskPercent_f=0
+else 
+    rmDirRiskPercent_f=$((totalRmdirRisk_f*100/totalRmdir_f))
+fi
+
+if [ "$totalForget_f" = "0" ]; then
+    forgetRiskPercent_f=0
+else 
+    forgetRiskPercent_f=$((totalForgetRisk_f*100/totalForget_f))
+fi
 
 totalRisk_f=$((totalWriteRisk_f+totalRmdirRisk_f+totalForgetRisk_f))
 totalActions_f=$((totalWrite_f+totalRmdir_f+totalForget_f))
-totalRiskPercent_f=$((totalRisk_f*100/totalActions_f))
+
+if [ "$totalActions_f" = "0" ]; then
+    totalRiskPercent_f=0
+else 
+    totalRiskPercent_f=$((totalRisk_f*100/totalActions_f))
+fi
+
 
 echo "totalWrite: $totalWrite"
 echo "totalWriteRisk: $totalWriteRisk"
@@ -278,7 +317,7 @@ echo "writeRiskPercent: $writeRiskPercent"
 
 echo "totalRmdir: $totalRmdir"
 echo "totalRmdirRisk: $totalRmdirRisk"
-echo "rmRiskPercent: $rmRiskPercent"
+echo "rmDirRiskPercent : $rmDirRiskPercent "
 
 echo "totalForget: $totalForget"
 echo "totalForgetRisk: $totalForgetRisk"
@@ -294,7 +333,7 @@ echo "writeRiskPercent_f: $writeRiskPercent_f"
 
 echo "totalRmdir_f: $totalRmdir_f"
 echo "totalRmdirRisk_f: $totalRmdirRisk_f"
-echo "rmRiskPercent_f: $rmRiskPercent_f"
+echo "rmDirRiskPercent_f: $rmDirRiskPercent_f"
 
 echo "totalForget_f: $totalForget_f"
 echo "totalForgetRisk_f: $totalForgetRisk_f"
@@ -308,4 +347,4 @@ sudo touch $summaryFile
 sudo chmod 777 $summaryFile
 echo -en "|----------------------------------------\n| Run configurations:\n" > $summaryFile
 echo -en "$config\n" >> $summaryFile
-printf "|--------------------------------------------------------------\n| Demo Summary\n|--------------------------------------------------------------\n| Ransom program tested  |      'Real'      |    'False'\n|--------------------------------------------------------------\n| Action name            |            Total count\n|--------------------------------------------------------------\n| Write                  |      %5d       |      %5d  \n| Rmdir                  |      %5d       |      %5d  \n| Forget                 |      %5d       |      %5d  \n| Total                  |      %5d       |      %5d  \n|--------------------------------------------------------------\n| Heuristic name         |           Max threshold\n|--------------------------------------------------------------\n| File type changes      |      %5d       |      %5d  \n| Similarity Measurement |      %5d       |      %5d  \n| Shannon Enthropy       |      %5d       |      %5d  \n| Files Deletion         |      %5d       |      %5d  \n| Suspicious Keywords    |      %5d       |      %5d  \n|--------------------------------------------------------------\n| Resolutions\n|--------------------------------------------------------------\n| Action name            |            Total Risk\n|--------------------------------------------------------------\n| Write                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Rmdir                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Forget                 | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Total                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n|--------------------------------------------------------------\n" $totalWrite $totalWrite_f $totalRmdir $totalRmdir_f $totalForget $totalForget_f $totalActions $totalActions_f $maxFTCthreshold $maxFTCthreshold_f $maxSMthreshold $maxSMthreshold_f $maxSEthreshold $maxSEthreshold_f $maxFDthreshold $maxFDthreshold_f $maxSKthreshold $maxSKthreshold_f $totalWriteRisk $writeRiskPercent $totalWriteRisk_f $writeRiskPercent_f $totalRmdirRisk $rmRiskPercent $totalRmdirRisk_f $rmRiskPercent_f $totalForgetRisk $forgetRiskPercent $totalForgetRisk_f $forgetRiskPercent_f $totalRisk $totalRiskPercent $totalRisk_f $totalRiskPercent_f >> $summaryFile
+printf "|--------------------------------------------------------------\n| Demo Summary\n|--------------------------------------------------------------\n| Ransom program tested  |      'Real'      |    'False'\n|--------------------------------------------------------------\n| Action name            |            Total count\n|--------------------------------------------------------------\n| Write                  |      %5d       |      %5d  \n| Rmdir                  |      %5d       |      %5d  \n| Forget                 |      %5d       |      %5d  \n| Total                  |      %5d       |      %5d  \n|--------------------------------------------------------------\n| Heuristic name         |           Max threshold\n|--------------------------------------------------------------\n| File type changes      |      %5d       |      %5d  \n| Similarity Measurement |      %5d       |      %5d  \n| Shannon Enthropy       |      %5d       |      %5d  \n| Files Deletion         |      %5d       |      %5d  \n| Suspicious Keywords    |      %5d       |      %5d  \n|--------------------------------------------------------------\n| Resolutions\n|--------------------------------------------------------------\n| Action name            |            Total Risk\n|--------------------------------------------------------------\n| Write                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Rmdir                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Forget                 | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Total                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n|--------------------------------------------------------------\n" $totalWrite $totalWrite_f $totalRmdir $totalRmdir_f $totalForget $totalForget_f $totalActions $totalActions_f $maxFTCthreshold $maxFTCthreshold_f $maxSMthreshold $maxSMthreshold_f $maxSEthreshold $maxSEthreshold_f $maxFDthreshold $maxFDthreshold_f $maxSKthreshold $maxSKthreshold_f 
