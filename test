@@ -1,0 +1,11 @@
+#!/bin/bash
+
+user="ohadoz"
+baseDirectory="/home/$user/Desktop/RansomwareDetection"
+testOutput="$baseDirectory/TestData/output/"
+sandBox="/tmp/sandbox"
+
+mkdir "$testOutput/test1"
+cp sample-2mb-text-file.txt "$testOutput/test1"
+./RansomwareDetection --single $testOutput $sandBox &
+sudo chroot $sandbox /python3 /RealRansomwares/likeransomware_overwrite_original_one_write.py /TestFiles 3600
