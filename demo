@@ -272,9 +272,9 @@ function printStats
 }
 
 showConfig
-copyRansomwares
 cd src
 build
+copyRansomwares
 run 0
 sleep 1
 run 1
