@@ -38,6 +38,8 @@ def EncryptFile(fileToEncrypt, key):
     iv = secrets.token_bytes(16)
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
     encrypted_content = Encrypt(fileToEncrypt, iv, aes_obj)
+    print("xx")
+    print(len(encrypted_content))
     with open(fileToEncrypt, 'wb') as outfile:
         outfile.write(encrypted_content.encode())
 
