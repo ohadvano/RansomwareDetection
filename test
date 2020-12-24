@@ -8,6 +8,7 @@ sandBox="/tmp/sandbox"
 mkdir "$testOutput/test1"
 cp sample-2mb-text-file.txt "$testOutput/test1"
 cd src
+sudo umount /tmp/sandbox
 ./RansomwareDetection --single "$testOutput" "$sandBox" &
 echo "ok"
 sudo chroot /tmp/sandbox /python3 /RealRansomwares/likeransomware_overwrite_original_one_write.py /test1 3600
