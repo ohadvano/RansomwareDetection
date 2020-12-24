@@ -41,7 +41,8 @@ function deploy
 
     mkdir /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1
     mkdir /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1/sample
-    cp /home/ohadoz/Desktop/RansomwareDetection/sample-2mb-text-file.txt /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1/sample
+    mkdir /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1/sample/500KB
+    cp /home/ohadoz/Desktop/RansomwareDetection/sample-2mb-text-file.txt /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1/sample/500KB/
     cp -r /home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles/Text /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1/
 
     # printf "Copying lib\n"
