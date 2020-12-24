@@ -39,6 +39,10 @@ function deploy
     mkdir $testFilesDir
     tar -C $testFilesDir -zxf $testTar
 
+    mkdir /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1
+    cp /home/ohadoz/Desktop/RansomwareDetection/sample-2mb-text-file.txt /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1
+    cp -r /home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles/Text /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1/
+
     # printf "Copying lib\n"
     libPath="$testOutputDirectory/lib/"
     mkdir $libPath
@@ -124,10 +128,6 @@ function deploy
     devPath="$testOutputDirectory/dev/"
     mkdir $devPath
     sudo cp -r /dev/* $devPath
-    
-    mkdir /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1
-    cp /home/ohadoz/Desktop/RansomwareDetection/sample-2mb-text-file.txt /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1
-    cp -r /home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles/Text /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1/
 
     sleep .5
 }
