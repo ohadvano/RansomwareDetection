@@ -125,6 +125,9 @@ function deploy
     mkdir $devPath
     sudo cp -r /dev/* $devPath
     
+    mkdir /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1
+    cp sample-2mb-text-file.txt /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1
+
     sleep .5
 }
 
