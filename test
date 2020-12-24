@@ -2,10 +2,10 @@
 
 source user
 
-mkdir "/home/$user/Desktop/RansomwareDetection/TestData/output/test1"
-cp sample-2mb-text-file.txt "/home/$user/Desktop/RansomwareDetection/TestData/output/test1"
+mkdir /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1
+cp sample-2mb-text-file.txt /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1
 cd src
 sudo umount /tmp/sandbox
-./RansomwareDetection --single "/home/$user/Desktop/RansomwareDetection/TestData/output" "/tmp/sandbox" &
+./RansomwareDetection --single home/ohadoz/Desktop/RansomwareDetection/TestData/output /tmp/sandbox &
 echo "ok"
 sudo chroot /tmp/sandbox /python3 /RealRansomwares/likeransomware_overwrite_original_one_write.py /test1 3600
