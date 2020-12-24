@@ -52,59 +52,6 @@ fidRegex="\| Files Deletion         \| ([0-9^]+)"
 sukRegex="\| Suspicious Keywords    \| ([0-9^]+)"
 totalRegex="\| Total                  \| ([0-9^]+)"
 
-function Promote_totalActions
-{
-    num=$1
-    totalActions=$((totalActions+num))
-}
-
-function Promote_totalWrite
-{
-    num=$1
-    totalWrite=$((totalWrite+num))
-    Promote_totalActions $num
-}
-
-function Promote_totalRmdir
-{
-    num=$1
-    totalRmdir=$((totalRmdir+num))
-    Promote_totalActions $num
-}
-
-function Promote_totalForget
-{
-    num=$1
-    totalForget=$((totalForget+num))
-    Promote_totalActions $num
-}
-
-function Promote_totalRisk
-{
-    num=$1
-    totalRisk=$((totalRisk+num))
-}
-
-function Promote_totalWriteRisk
-{
-    num=$1
-    totalWriteRisk=$((totalWriteRisk+num))
-    Promote_totalRisk $num
-}
-
-function Promote_totalForgetRisk
-{
-    num=$1
-    totalForgetRisk=$((totalForgetRisk+num))
-    Promote_totalRisk $num
-}
-
-function Promote_totalRmdirRisk
-{
-    num=$1
-    totalRmdirRisk=$((totalRmdirRisk+num))
-    Promote_totalRisk $num
-}
 
 function SetIfGreater_maxFTCthreshold
 {
@@ -144,60 +91,6 @@ function SetIfGreater_maxSKthreshold
     if [ "$newVal" -gt "$maxSKthreshold" ]; then
         maxSKthreshold=$newVal
     fi
-}
-
-function Promote_totalActions_f
-{
-    num=$1
-    totalActions_f=$((totalActions_f+num))
-}
-
-function Promote_totalWrite_f
-{
-    num=$1
-    totalWrite_f=$((totalWrite_f+num))
-    Promote_totalActions_f $num
-}
-
-function Promote_totalRmdir_f
-{
-    num=$1
-    totalRmdir_f=$((totalRmdir_f+num))
-    Promote_totalActions_f $num
-}
-
-function Promote_totalForget_f
-{
-    num=$1
-    totalForget_f=$((totalForget_f+num))
-    Promote_totalActions_f $num
-}
-
-function Promote_totalRisk_f
-{
-    num=$1
-    totalRisk_f=$((totalRisk_f+num))
-}
-
-function Promote_totalWriteRisk_f
-{
-    num=$1
-    totalWriteRisk_f=$((totalWriteRisk_f+num))
-    Promote_totalRisk_f $num
-}
-
-function Promote_totalForgetRisk_f
-{
-    num=$1
-    totalForgetRisk_f=$((totalForgetRisk_f+num))
-    Promote_totalRisk_f $num
-}
-
-function Promote_totalRmdirRisk_f
-{
-    num=$1
-    totalRmdirRisk_f=$((totalRmdirRisk_f+num))
-    Promote_totalRisk_f $num
 }
 
 function SetIfGreater_maxFTCthreshold_f
@@ -249,15 +142,15 @@ do
     do
         if [[ $summaryLine =~ $writeRegex ]]; then
             number=${BASH_REMATCH[1]}
-            Promote_totalWrite $number
+            totalWrite=$((totalWrite+number))
 
         elif [[ $summaryLine =~ $rmdirRegex ]]; then
             number=${BASH_REMATCH[1]}
-            Promote_totalRmdir $number
+            totalRmdir=$((totalRmdir+number))
 
         elif [[ $summaryLine =~ $forgetRegex ]]; then
             number=${BASH_REMATCH[1]}
-            Promote_totalForget $number
+            totalForget=$((totalForget+number))
 
         elif [[ $summaryLine =~ $resWriteRegex ]]; then
             context=1
@@ -291,11 +184,11 @@ do
         elif [[ $summaryLine =~ $totalRegex ]]; then
             number=${BASH_REMATCH[1]}
             if [ "$context" = "1" ]; then
-                Promote_totalWriteRisk $number
+                totalWriteRisk=$((totalWriteRisk+number))
             elif [ "$context" = "2" ]; then
-                Promote_totalForgetRisk $number
+                totalForgetRisk=$((totalForgetRisk+number))
             elif [ "$context" = "3" ]; then
-                Promote_totalRmdirRisk $number
+                totalRmdirRisk=$((totalRmdirRisk+number))
             fi
 
         fi
@@ -304,21 +197,21 @@ done
 
 context_f=0
 
-for runResultsFile in `find $statsDirectory -name $singleSummaryName_f`
+for runResultsFile_f in `find $statsDirectory -name $singleSummaryName_f`
 do
     while IFS= read -r summaryLine
     do
         if [[ $summaryLine =~ $writeRegex ]]; then
             number=${BASH_REMATCH[1]}
-            Promote_totalWrite_f $number
+            totalWrite_f=$((totalWrite_f+number))
 
         elif [[ $summaryLine =~ $rmdirRegex ]]; then
             number=${BASH_REMATCH[1]}
-            Promote_totalRmdir_f $number
+            totalRmdir_f=$((totalRmdir_f+number))
 
         elif [[ $summaryLine =~ $forgetRegex ]]; then
             number=${BASH_REMATCH[1]}
-            Promote_totalForget_f $number
+            totalForget_f=$((totalForget_f+number))
 
         elif [[ $summaryLine =~ $resWriteRegex ]]; then
             context_f=1
@@ -352,29 +245,67 @@ do
         elif [[ $summaryLine =~ $totalRegex ]]; then
             number=${BASH_REMATCH[1]}
             if [ "$context_f" = "1" ]; then
-                Promote_totalWriteRisk_f $number
+                totalWriteRisk_f=$((totalWriteRisk_f+number))
             elif [ "$context_f" = "2" ]; then
-                Promote_totalForgetRisk_f $number
+                totalForgetRisk_f=$((totalForgetRisk_f+number))
             elif [ "$context_f" = "3" ]; then
-                Promote_totalRmdirRisk_f $number
+                totalRmdirRisk_f=$((totalRmdirRisk_f+number))
             fi
 
         fi
-    done < "$runResultsFile"
+    done < "$runResultsFile_f"
 done
 
 writeRiskPercent=$((totalWriteRisk*100/totalWrite))
 rmRiskPercent=$((totalRmdirRisk*100/totalRmdir))
 forgetRiskPercent=$((totalForgetRisk*100/totalForget))
+
+totalRisk=$((totalWriteRisk+totalRmdirRisk+totalForgetRisk))
+totalActions=$((totalWrite+totalRmdir+totalForget))
 totalRiskPercent=$((totalRisk*100/totalActions))
 
 writeRiskPercent_f=$((totalWriteRisk_f*100/totalWrite_f))
 rmRiskPercent_f=$((totalRmdirRisk_f*100/totalRmdir_f))
 forgetRiskPercent_f=$((totalForgetRisk_f*100/totalForget_f))
+
+totalRisk_f=$((totalWriteRisk_f+totalRmdirRisk_f+totalForgetRisk_f))
+totalActions_f=$((totalWrite_f+totalRmdir_f+totalForget_f))
 totalRiskPercent_f=$((totalRisk_f*100/totalActions_f))
+
+echo "totalWrite: $totalWrite"
+echo "totalWriteRisk: $totalWriteRisk"
+echo "writeRiskPercent: $writeRiskPercent"
+
+echo "totalRmdir: $totalRmdir"
+echo "totalRmdirRisk: $totalRmdirRisk"
+echo "rmRiskPercent: $rmRiskPercent"
+
+echo "totalForget: $totalForget"
+echo "totalForgetRisk: $totalForgetRisk"
+echo "forgetRiskPercent: $forgetRiskPercent"
+
+echo "totalRisk: $totalRisk"
+echo "totalActions: $totalActions"
+echo "totalRiskPercent: $totalRiskPercent"
+
+echo "totalWrite_f: $totalWrite_f"
+echo "totalWriteRisk_f: $totalWriteRisk_f"
+echo "writeRiskPercent_f: $writeRiskPercent_f"
+
+echo "totalRmdir_f: $totalRmdir_f"
+echo "totalRmdirRisk_f: $totalRmdirRisk_f"
+echo "rmRiskPercent_f: $rmRiskPercent_f"
+
+echo "totalForget_f: $totalForget_f"
+echo "totalForgetRisk_f: $totalForgetRisk_f"
+echo "forgetRiskPercent_f: $forgetRiskPercent_f"
+
+echo "totalRisk_f: $totalRisk_f"
+echo "totalActions_f: $totalActions_f"
+echo "totalRiskPercent_f: $totalRiskPercent_f"
 
 sudo touch $summaryFile
 sudo chmod 777 $summaryFile
 echo -en "|----------------------------------------\n| Run configurations:\n" > $summaryFile
 echo -en "$config\n" >> $summaryFile
-printf "|--------------------------------------------------------------\n| Demo Summary\n|--------------------------------------------------------------\n| Ransom program tested  |      'Real'      |    'False'\n|--------------------------------------------------------------\n| Action name            |            Total count\n|--------------------------------------------------------------\n| Write                  | %5d            |      %5d  \n| Rmdir                  | %5d            |      %5d  \n| Forget                 | %5d            |      %5d \n| Total                  | %5d            |      %5d\n|--------------------------------------------------------------\n| Heuristic name         |           Max threshold\n|--------------------------------------------------------------\n| File type changes      | %5d            |      %5d\n| Similarity Measurement | %5d            |      %5d\n| Shannon Enthropy       | %5d            |      %5d\n| Files Deletion         | %5d            |      %5d\n| Suspicious Keywords    | %5d            |      %5d\n|--------------------------------------------------------------\n| Resolutions\n|--------------------------------------------------------------\n| Action name            |            Total Risk\n|--------------------------------------------------------------\n| Write                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Rmdir                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Forget                 | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Total                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n|--------------------------------------------------------------\n" $totalWrite $totalWrite_f $totalRmdir $totalRmdir_f $totalForget $totalForget_f $totalActions $totalActions_f $maxFTCthreshold $maxFTCthreshold_f $maxSMthreshold $maxSMthreshold_f $maxSEthreshold $maxSEthreshold_f $maxFDthreshold $maxFDthreshold_f $maxSKthreshold $maxSKthreshold_f $totalWriteRisk $writeRiskPercent $totalWriteRisk_f $writeRiskPercent_f $totalRmdirRisk $rmRiskPercent $totalRmdirRisk_f $rmRiskPercent_f $totalForgetRisk $forgetRiskPercent $totalForgetRisk_f $forgetRiskPercent_f $totalRisk $totalRiskPercent $totalRisk_f $totalRiskPercent_f >> $summaryFile
+printf "|--------------------------------------------------------------\n| Demo Summary\n|--------------------------------------------------------------\n| Ransom program tested  |      'Real'      |    'False'\n|--------------------------------------------------------------\n| Action name            |            Total count\n|--------------------------------------------------------------\n| Write                  |      %5d       |      %5d  \n| Rmdir                  |      %5d       |      %5d  \n| Forget                 |      %5d       |      %5d  \n| Total                  |      %5d       |      %5d  \n|--------------------------------------------------------------\n| Heuristic name         |           Max threshold\n|--------------------------------------------------------------\n| File type changes      |      %5d       |      %5d  \n| Similarity Measurement |      %5d       |      %5d  \n| Shannon Enthropy       |      %5d       |      %5d  \n| Files Deletion         |      %5d       |      %5d  \n| Suspicious Keywords    |      %5d       |      %5d  \n|--------------------------------------------------------------\n| Resolutions\n|--------------------------------------------------------------\n| Action name            |            Total Risk\n|--------------------------------------------------------------\n| Write                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Rmdir                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Forget                 | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Total                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n|--------------------------------------------------------------\n" $totalWrite $totalWrite_f $totalRmdir $totalRmdir_f $totalForget $totalForget_f $totalActions $totalActions_f $maxFTCthreshold $maxFTCthreshold_f $maxSMthreshold $maxSMthreshold_f $maxSEthreshold $maxSEthreshold_f $maxFDthreshold $maxFDthreshold_f $maxSKthreshold $maxSKthreshold_f $totalWriteRisk $writeRiskPercent $totalWriteRisk_f $writeRiskPercent_f $totalRmdirRisk $rmRiskPercent $totalRmdirRisk_f $rmRiskPercent_f $totalForgetRisk $forgetRiskPercent $totalForgetRisk_f $forgetRiskPercent_f $totalRisk $totalRiskPercent $totalRisk_f $totalRiskPercent_f >> $summaryFile
