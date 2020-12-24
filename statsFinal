@@ -311,38 +311,6 @@ else
 fi
 
 
-echo "totalWrite: $totalWrite"
-echo "totalWriteRisk: $totalWriteRisk"
-echo "writeRiskPercent: $writeRiskPercent"
-
-echo "totalRmdir: $totalRmdir"
-echo "totalRmdirRisk: $totalRmdirRisk"
-echo "rmDirRiskPercent : $rmDirRiskPercent "
-
-echo "totalForget: $totalForget"
-echo "totalForgetRisk: $totalForgetRisk"
-echo "forgetRiskPercent: $forgetRiskPercent"
-
-echo "totalRisk: $totalRisk"
-echo "totalActions: $totalActions"
-echo "totalRiskPercent: $totalRiskPercent"
-
-echo "totalWrite_f: $totalWrite_f"
-echo "totalWriteRisk_f: $totalWriteRisk_f"
-echo "writeRiskPercent_f: $writeRiskPercent_f"
-
-echo "totalRmdir_f: $totalRmdir_f"
-echo "totalRmdirRisk_f: $totalRmdirRisk_f"
-echo "rmDirRiskPercent_f: $rmDirRiskPercent_f"
-
-echo "totalForget_f: $totalForget_f"
-echo "totalForgetRisk_f: $totalForgetRisk_f"
-echo "forgetRiskPercent_f: $forgetRiskPercent_f"
-
-echo "totalRisk_f: $totalRisk_f"
-echo "totalActions_f: $totalActions_f"
-echo "totalRiskPercent_f: $totalRiskPercent_f"
-
 sudo touch $summaryFile
 sudo chmod 777 $summaryFile
 echo -en "|----------------------------------------\n| Run configurations:\n" > $summaryFile
