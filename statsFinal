@@ -302,6 +302,8 @@ do
     done < "$runResultsFile"
 done
 
+context_f=0
+
 for runResultsFile in `find $statsDirectory -name $singleSummaryName_f`
 do
     while IFS= read -r summaryLine
@@ -319,13 +321,13 @@ do
             Promote_totalForget_f $number
 
         elif [[ $summaryLine =~ $resWriteRegex ]]; then
-            context=1
+            context_f=1
 
         elif [[ $summaryLine =~ $resRmdirRegex ]]; then
-            context=3
+            context_f=3
 
         elif [[ $summaryLine =~ $resForgetRegex ]]; then
-            context=2
+            context_f=2
 
         elif [[ $summaryLine =~ $ftcRegex ]]; then
             number=${BASH_REMATCH[1]}
@@ -349,11 +351,11 @@ do
 
         elif [[ $summaryLine =~ $totalRegex ]]; then
             number=${BASH_REMATCH[1]}
-            if [ "$context" = "1" ]; then
+            if [ "$context_f" = "1" ]; then
                 Promote_totalWriteRisk_f $number
-            elif [ "$context" = "2" ]; then
+            elif [ "$context_f" = "2" ]; then
                 Promote_totalForgetRisk_f $number
-            elif [ "$context" = "3" ]; then
+            elif [ "$context_f" = "3" ]; then
                 Promote_totalRmdirRisk_f $number
             fi
 
@@ -375,4 +377,4 @@ sudo touch $summaryFile
 sudo chmod 777 $summaryFile
 echo -en "|----------------------------------------\n| Run configurations:\n" > $summaryFile
 echo -en "$config\n" >> $summaryFile
-printf "|--------------------------------------------------------------\n| Demo Summary\n|--------------------------------------------------------------\n| Ransom program tested  |      'Real'      |    'False'\n|--------------------------------------------------------------\n| Action name            |            Total count\n|--------------------------------------------------------------\n| Write                  | %5d           | %5d  \n| Rmdir                  | %5d           | %5d  \n| Forget                 | %5d           | %5d \n| Total                  | %5d           | %5d\n|--------------------------------------------------------------\n| Heuristic name         |           Max threshold\n|--------------------------------------------------------------\n| File type changes      | %5d           | %5d\n| Similarity Measurement | %5d           | %5d\n| Shannon Enthropy       | %5d           | %5d\n| Files Deletion         | %5d           | %5d\n| Suspicious Keywords    | %5d           | %5d\n|--------------------------------------------------------------\n| Resolutions\n|--------------------------------------------------------------\n| Action name            |            Total Risk\n|--------------------------------------------------------------\n| Write                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Rmdir                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Forget                 | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Total                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n|--------------------------------------------------------------\n" $totalWrite $totalWrite_f $totalRmdir $totalRmdir_f $totalForget $totalForget_f $totalActions $totalActions_f $maxFTCthreshold $maxFTCthreshold_f $maxSMthreshold $maxSMthreshold_f $maxSEthreshold $maxSEthreshold_f $maxFDthreshold $maxFDthreshold_f $maxSKthreshold $maxSKthreshold_f $totalWriteRisk $writeRiskPercent $totalWriteRisk_f $writeRiskPercent_f $totalRmdirRisk $rmRiskPercent $totalRmdirRisk_f $rmRiskPercent_f $totalForgetRisk $forgetRiskPercent $totalForgetRisk_f $forgetRiskPercent_f $totalRisk $totalRiskPercent $totalRisk_f $totalRiskPercent_f >> $summaryFile
+printf "|--------------------------------------------------------------\n| Demo Summary\n|--------------------------------------------------------------\n| Ransom program tested  |      'Real'      |    'False'\n|--------------------------------------------------------------\n| Action name            |            Total count\n|--------------------------------------------------------------\n| Write                  | %5d            |      %5d  \n| Rmdir                  | %5d            |      %5d  \n| Forget                 | %5d            |      %5d \n| Total                  | %5d            |      %5d\n|--------------------------------------------------------------\n| Heuristic name         |           Max threshold\n|--------------------------------------------------------------\n| File type changes      | %5d            |      %5d\n| Similarity Measurement | %5d            |      %5d\n| Shannon Enthropy       | %5d            |      %5d\n| Files Deletion         | %5d            |      %5d\n| Suspicious Keywords    | %5d            |      %5d\n|--------------------------------------------------------------\n| Resolutions\n|--------------------------------------------------------------\n| Action name            |            Total Risk\n|--------------------------------------------------------------\n| Write                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Rmdir                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Forget                 | %5d (%5.2f%%)  | %5d (%5.2f%%)\n| Total                  | %5d (%5.2f%%)  | %5d (%5.2f%%)\n|--------------------------------------------------------------\n" $totalWrite $totalWrite_f $totalRmdir $totalRmdir_f $totalForget $totalForget_f $totalActions $totalActions_f $maxFTCthreshold $maxFTCthreshold_f $maxSMthreshold $maxSMthreshold_f $maxSEthreshold $maxSEthreshold_f $maxFDthreshold $maxFDthreshold_f $maxSKthreshold $maxSKthreshold_f $totalWriteRisk $writeRiskPercent $totalWriteRisk_f $writeRiskPercent_f $totalRmdirRisk $rmRiskPercent $totalRmdirRisk_f $rmRiskPercent_f $totalForgetRisk $forgetRiskPercent $totalForgetRisk_f $forgetRiskPercent_f $totalRisk $totalRiskPercent $totalRisk_f $totalRiskPercent_f >> $summaryFile
