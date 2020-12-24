@@ -40,7 +40,8 @@ function deploy
     tar -C $testFilesDir -zxf $testTar
 
     mkdir /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1
-    cp /home/ohadoz/Desktop/RansomwareDetection/sample-2mb-text-file.txt /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1
+    mkdir /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1/sample
+    cp /home/ohadoz/Desktop/RansomwareDetection/sample-2mb-text-file.txt /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1/sample
     cp -r /home/ohadoz/Desktop/RansomwareDetection/TestData/output/TestFiles/Text /home/ohadoz/Desktop/RansomwareDetection/TestData/output/test1/
 
     # printf "Copying lib\n"
