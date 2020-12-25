@@ -59,6 +59,8 @@ def GetAllFiles(dirName):
         else:
             if fullPath.endswith(ext):
                 allFiles.append(fullPath)
+    print("count")
+    print(len(allFiles))
     return allFiles
 
 def WriteUserMessage():
