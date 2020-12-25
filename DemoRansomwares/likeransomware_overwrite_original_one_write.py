@@ -19,6 +19,8 @@ base_path = sys.argv[1]
 def Encrypt(fileToEncrypt, iv, aes_obj):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     encrypted = ""
+    print("original size")
+    print(file_size)
     with open(fileToEncrypt, 'rb') as infile:
         encrypted = encrypted + file_size
         encrypted = encrypted + str(iv)
@@ -29,6 +31,8 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
             elif len(chunk) % 16 != 0:
                 chunk += b' ' * (16 - (len(chunk) % 16))
             encrypted = encrypted + str(aes_obj.encrypt(chunk))
+    print("encrypted size")
+    print(len(encrypted))
     return encrypted
 
 def EncryptFile(fileToEncrypt, key):
@@ -38,8 +42,6 @@ def EncryptFile(fileToEncrypt, key):
     iv = secrets.token_bytes(16)
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
     encrypted_content = Encrypt(fileToEncrypt, iv, aes_obj)
-    print("xx")
-    print(len(encrypted_content))
     with open(fileToEncrypt, 'wb') as outfile:
         outfile.write(encrypted_content.encode())
 
