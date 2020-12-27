@@ -20,7 +20,7 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     encrypted = ""
     print("encrypting " + fileToEncrypt)
-    print("original size: " + os.path.getsize(fileToEncrypt))
+    print("original size: " + str(os.path.getsize(fileToEncrypt)))
     with open(fileToEncrypt, 'rb') as infile:
         encrypted = encrypted + file_size
         encrypted = encrypted + str(iv)
