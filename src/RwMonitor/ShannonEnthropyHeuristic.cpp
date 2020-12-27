@@ -65,7 +65,7 @@ namespace Heuristics
                     string oldContent = GetOldContent(writeAction);
                     double enthropyBefore = CalculateEntropy(oldContent);
                     size_t sizeBefore = oldContent.size();
-                    string s2 = std::to_string(sizeBefore);
+                    string s1 = std::to_string(sizeBefore);
                     _logger->WriteLog("size before: " + s1);
                     _logger->WriteLog("before: " + oldContent.substr(0, 1000));
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy before: " + GetDoubleAsString(enthropyBefore) + "]");
