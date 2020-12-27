@@ -66,7 +66,7 @@ namespace Heuristics
                     double enthropyBefore = CalculateEntropy(oldContent);
                     size_t sizeBefore = oldContent.size();
                     _logger->WriteLog("size before: ");
-                    _logger->WriteLog("before: " + oldContent);
+                    _logger->WriteLog("before: " + oldContent.substr(0, 1000));
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy before: " + GetDoubleAsString(enthropyBefore) + "]");
 
                     // After
@@ -74,7 +74,7 @@ namespace Heuristics
                     double enthropyAfter = CalculateEntropy(newContent);
                     size_t sizeAfter = newContent.size();
                     _logger->WriteLog("size after: ");
-                    _logger->WriteLog("after: " + newContent);
+                    _logger->WriteLog("after: " + newContent.substr(0, 1000));
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyAfter) + "]");
 
                     if (enthropyBefore > 0 && Abs(enthropyBefore - enthropyAfter) > _threshold)
