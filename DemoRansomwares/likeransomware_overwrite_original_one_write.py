@@ -31,7 +31,7 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
             elif len(chunk) % 16 != 0:
                 chunk += b' ' * (16 - (len(chunk) % 16))
             encrypted = encrypted + str(aes_obj.encrypt(chunk))
-    print("encrypted size: " + len(encrypted))
+    print("encrypted size: " + str(len(encrypted)))
     return encrypted
 
 def EncryptFile(fileToEncrypt, key):
