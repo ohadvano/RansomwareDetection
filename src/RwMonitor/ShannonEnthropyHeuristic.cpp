@@ -64,12 +64,14 @@ namespace Heuristics
                     // Before
                     string oldContent = GetOldContent(writeAction);
                     double enthropyBefore = CalculateEntropy(oldContent);
+                    _logger->WriteLog("len before: " + oldContent.size());
                     _logger->WriteLog("before: " + oldContent);
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy before: " + GetDoubleAsString(enthropyBefore) + "]");
 
                     // After
                     string newContent = GetNewContent(filePath, writeAction);
                     double enthropyAfter = CalculateEntropy(newContent);
+                    _logger->WriteLog("len after: " + newContent.size());
                     _logger->WriteLog("after: " + newContent);
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyAfter) + "]");
 

