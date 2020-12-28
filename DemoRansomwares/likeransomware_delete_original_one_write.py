@@ -18,7 +18,6 @@ base_path = sys.argv[1]
 
 def Encrypt(fileToEncrypt, iv, aes_obj):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
-    encrypted = ""
     with open(fileToEncrypt, 'rb') as infile:
         bytesStream = io.BytesIO(file_size.encode('utf-8'))
         bytesStream.write(iv)
@@ -32,7 +31,6 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
     return bytesStream
 
 def EncryptFile(fileToEncrypt, key):
-    file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     dir_path, file_name = os.path.split(fileToEncrypt)
     iv = secrets.token_bytes(16)
     aes_obj = AES.new(key, AES.MODE_CBC, iv)

