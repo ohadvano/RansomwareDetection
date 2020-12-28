@@ -20,28 +20,25 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     encrypted = ""
     with open(fileToEncrypt, 'rb') as infile:
-        encrypted = encrypted + file_size
-        encrypted = encrypted + str(iv)
+        bytesStream = io.BytesIO(file_size.encode('utf-8'))
+        bytesStream.write(iv)
         while True:
             chunk = infile.read(64 * 1024)
             if len(chunk) == 0:
                 break
             elif len(chunk) % 16 != 0:
                 chunk += b' ' * (16 - (len(chunk) % 16))
-            encrypted = encrypted + str(aes_obj.encrypt(chunk))
-    return encrypted
+            bytesStream.write(aes_obj.encrypt(chunk))
+    return bytesStream
 
 def EncryptFile(fileToEncrypt, key):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
     dir_path, file_name = os.path.split(fileToEncrypt)
-    
     iv = secrets.token_bytes(16)
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
-
-    encrypted_content = Encrypt(fileToEncrypt, iv, aes_obj)
-
+    encrypted_content_bytes_stream = Encrypt(fileToEncrypt, iv, aes_obj)
     with open(os.path.join(dir_path, encrypted_symbol + file_name), 'wb') as outfile:
-        outfile.write(encrypted_content.encode())
+        outfile.write(encrypted_content_bytes_stream.getbuffer())
 
     os.remove(fileToEncrypt)
 

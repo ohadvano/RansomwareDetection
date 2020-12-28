@@ -38,7 +38,7 @@ def EncryptFile(fileToEncrypt, key):
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
     encrypted_content_byte_stream = Encrypt(fileToEncrypt, iv, aes_obj)
     with open(fileToEncrypt, 'wb') as outfile:
-        outfile.write(encrypted_content_byte_stream.getbytes())
+        outfile.write(encrypted_content_byte_stream.getbuffer())
 
 def EncryptAllFiles(filesToEncrypt, key):
     for file_to_encrypt in filesToEncrypt:
