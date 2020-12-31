@@ -200,6 +200,7 @@ if "__main__" == __name__:
         fsrand.stdout = sys.stdout
         fsrand.stderr = sys.stderr
         fsrand.verbose = args.verbose
+        print("3333333333333333333333333333")
         fsrand.randomize()
     def __entry():
         try:
