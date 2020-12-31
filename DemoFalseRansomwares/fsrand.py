@@ -54,7 +54,11 @@ class FsRandomizer(object):
         self.files_list = self.__get_files_list(self.path)
         print(len(self.files_list))
     def __get_files_list(self, dirName):
-        return [f for f in listdir(dirName) if isfile(join(dirName, f))]
+        all_files = []
+        for r, d, f in os.walk(dirName):
+            for file in f:
+                all_files.append(os.path.join(r, file))
+        return all_files
     def __stdout(self, s):
         self.stdout.write(str(s) + "\n")
     def __stderr(self, s):
@@ -113,9 +117,7 @@ class FsRandomizer(object):
         with open(path, "r+b") as f:
             self.__random_write(f, self.files_list)
     def randomize(self):
-        print("111111111111111111111111111")
         for i in xrange(self.count):
-            print("222222222222222222222222")
             op = self.random.choice("CRu")
             if op == "C":
                 path = self.__newsubpath(self.__getdir())
@@ -189,14 +191,11 @@ if "__main__" == __name__:
                 args.dictionary = [l.strip() for l in f]
         info("count=%s seed=%s" % (args.count, args.seed))
         os.umask(0)
-        print("9")
         fsrand = FsRandomizer(args.path, args.count, args.seed)
-        print("10")
         fsrand.dictionary = args.dictionary
         fsrand.stdout = sys.stdout
         fsrand.stderr = sys.stderr
         fsrand.verbose = args.verbose
-        print("3333333333333333333333333333")
         fsrand.randomize()
     def __entry():
         try:
