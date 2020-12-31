@@ -54,7 +54,7 @@ class FsRandomizer(object):
         self.files_list = self.__get_files_list(self.path)
         print(len(self.files_list))
     def __get_files_list(self, dirName):
-        return [f for f in listdir(mypath) if isfile(join(mypath, f))]
+        return [f for f in listdir(dirName) if isfile(join(dirName, f))]
     def __stdout(self, s):
         self.stdout.write(str(s) + "\n")
     def __stderr(self, s):
