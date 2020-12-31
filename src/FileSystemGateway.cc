@@ -992,6 +992,7 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
     if (fd == -1) {
         auto err = errno;
         if (err == ENFILE || err == EMFILE)
+            cout << "4444444444444444444444444444444444444444" << endl;
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
         fuse_reply_err(req, err);
         return;
