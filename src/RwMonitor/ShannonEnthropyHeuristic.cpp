@@ -66,8 +66,6 @@ namespace Heuristics
                     double enthropyBefore = CalculateEntropy(oldContent);
                     size_t sizeBefore = oldContent.size();
                     string s1 = std::to_string(sizeBefore);
-                    _logger->WriteLog("size before: " + s1);
-                    _logger->WriteLog("before: " + oldContent.substr(0, 1000));
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy before: " + GetDoubleAsString(enthropyBefore) + "]");
 
                     // After
@@ -75,8 +73,6 @@ namespace Heuristics
                     double enthropyAfter = CalculateEntropy(newContent);
                     size_t sizeAfter = newContent.size();
                     string s2 = std::to_string(sizeAfter);
-                    _logger->WriteLog("size after: " + s2);
-                    _logger->WriteLog("after: " + newContent.substr(0, 1000));
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyAfter) + "]");
 
                     if (enthropyBefore > 0 && Abs(enthropyBefore - enthropyAfter) > _threshold)

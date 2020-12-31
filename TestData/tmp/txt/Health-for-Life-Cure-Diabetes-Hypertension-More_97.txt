@@ -1,0 +1,291 @@
+
+NutraSweet,
+
+Maple
+
+Processed
+
+Raw Honey,
+
+Sugar,
+
+Equal,
+
+Stevia
+
+Syrup, Rice
+
+SWEETENERS
+
+Honey,
+
+Raw Sugar
+
+Brown
+
+Aspartame,
+
+Syrup
+
+Molasses
+
+Sugar
+
+Sweet 'N Low
+
+Dates, Figs,
+
+Lemons,
+
+Melons,
+
+Oranges,
+
+Watermelon,
+
+Grapes,
+
+Bananas,
+
+Plums,
+
+Sour
+
+Limes,
+
+Papaya,
+
+Cherries,
+
+Blackberries,
+
+Processed
+
+FRUITS
+
+Cherries,
+
+Grapefruit, Blueberries, Pineapple,
+
+Cranberries,
+
+Fruit Juices
+
+Rhubarb
+
+Mangoes,
+
+Apples,
+
+Peaches,
+
+Prunes
+
+Papayas
+
+Kiwi, Pears,
+
+Avocados
+
+Raisins
+
+Carrots,
+
+Asparagus,
+
+Squash,
+
+Tomatoes,
+
+Cooked
+
+Onions,
+
+Green
+
+Fresh Corn,
+
+Spinach,
+
+Vegetable
+
+Instant
+
+Beans, Beets, Mushrooms,
+
+BEANS
+
+Kidney Beans,
+
+Juices,
+
+Potatoes,
+
+Celery,
+
+Cabbage,
+
+VEGETABLES String Beans,
+
+Chocolate
+
+Parsley, Raw
+
+Creamed
+
+Lettuce,
+
+Peas, Potato
+
+LEGUMES
+
+Pinto Beans,
+
+Spinach,
+
+Corn
+
+Zucchini, Skins, Olives,
+
+Navy Beans,
+
+Broccoli,
+
+Sweet Potato Soybeans,
+
+Lima Beans
+
+Garlic
+
+Tofu
+
+Chestnuts,
+
+Pecans,
+
+Brazil nuts
+
+Cashews,
+
+Almonds
+
+Pumpkin & NUTS SEEDS
+
+Peanuts,
+
+Sunflower
+
+Walnuts
+
+Seeds
+
+Flax Seed
+
+Olive Oil
+
+Canola Oil
+
+OILS
+
+Corn Oil
+
+Oil
+
+Sprouted
+
+White Rice, Wheat, White
+
+Amaranth,
+
+GRAINS
+
+Wheat Bread,
+
+Corn,
+
+Flour,
+
+Millet, Wild
+
+CEREALS
+
+Spelt, Brown Buckwheat,
+
+Pastries,
+
+Rice, Quinoa
+
+Rice
+
+Oats, Rye
+
+Pasta
+
+Turkey,
+
+Venison, Cold
+
+Beef, Pork,
+
+MEATS
+
+Chicken,
+
+Water Fish
+
+Shellfish
+
+Lamb
+
+Soy Cheese,
+
+Eggs, Butter,
+
+Cheese,
+
+Soy Milk,
+
+Yogurt,
+
+Homogenized
+
+Breast Milk
+
+Goat Milk, EGGS DAIRY
+
+Buttermilk,
+
+Raw Milk
+
+Milk, Ice
+
+Goat Cheese,
+
+Cottage
+
+Cream
+
+Whey
+
+Cheese
+
+Herb Teas,
+
+Beer, Soft
+
+Green Tea
+
+Ginger Tea BEVERAGES
+
+Tea
+
+Coffee
+
+Lemon Water
+
+Drinks
+
+13
+
+NUTRIENTS
+

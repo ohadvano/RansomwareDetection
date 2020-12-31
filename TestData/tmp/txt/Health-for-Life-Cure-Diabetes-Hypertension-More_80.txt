@@ -1,0 +1,291 @@
+
+Red Cabbage +6.3
+
+Nectarine
+
+Liver -3.0
+
+Rutabaga +3.1
+
+Orange -9.2
+
+Lobster
+
+Sea Veggies
+
+Papaya -9.4
+
+Mussels
+
+Spinach, green +13.1
+
+Peach -9.7
+
+Organ Meats -3.0
+
+Sprouts +28.5
+
+Pear -9.9
+
+Oyster -5.0
+
+Squash
+
+Pineapple -12.6
+
+Pork -38.0
+
+Sweet Potatoes/Yams +6
+
+Plum, red fleshed -4.9
+
+Sardines, in sauce -25.0
+
+Tomatoes +13.6
+
+Plum, yellow flesh -4.9
+
+Sausage
+
+Turnip
+
+Raisins
+
+Scallops
+
+Watercress +7.7
+
+Raspberries -5.1
+
+Shrimp
+
+Wheat Grass +33.8
+
+Rhubarb
+
+Scallops
+
+Zucchini +5.7
+
+Strawberries -5.4
+
+Shellfish
+
+Tangerine -8.5
+
+Turkey -18.0
+
+FRUITS
+
+Watermelon -1.0
+
+Veal
+
+Avocado +15.6
+
+Yellow Flesh Plums -4.9
+
+Venison
+
+41
+
+Banana, unripe +4.8
+
+FATS & OILS
+
+Cherries, sour +3.5
+
+GRAIN
+
+Avacado Oil
+
+Coconut, fresh +.05
+
+Barley
+
+Butter -3.9
+
+Lemon +9.9
+
+Bran, wheat
+
+Canola Oil
+
+Lime +8.2
+
+Bran, oat
+
+Corn Oil -6.5
+
+Corn
+
+Hemp Seed Oil
+
+BEANS
+
+Cornstarch
+
+Flax Oil
+
+Black Beans
+
+Hemp Seed Flour
+
+Lard
+
+Buckwheat +0.5
+
+Oats rolled, oatmeal
+
+Margarine â€“7.5
+
+Chick Peas/Garbanzo Beans
+
+Quinoa
+
+Olive Oil
+
+Green Peas
+
+Rice
+
+Safflower Oil
+
+Kidney Beans
+
+Rice, brown -12.5
+
+Sesame Oil
+
+Lentils +0.6
+
+Rye
+
+Sunflower Oil -6.7
+
+Lima Beans +12.0
+
+Wheat -10.1
+
+Pinto Beans
+
+Wheat Germ
+
+SWEETENERS
+
+Soy Nuts +26.5
+
+Artificial Sweeteners -26.5
+
+Soybeans, fresh +12.0
+
+NUTS
+
+Carob
+
+Tofu +3.2
+
+Cashews -9.3
+
+Honey â€“ 7.6
+
+White Beans +12.1
+
+Hazelnuts -2.0
+
+Sugar, white â€“ 33.6
+
+Navy Beans +12.1
+
+Macadamia -3.2
+
+Corn Syrup
+
+Peanuts -12.8
+
+High Fructose
+
+NUTS
+
+Peanut Butter
+
+Corn Syrup -38.5
+
+Almonds +3.6
+
+Pecans
+
+Brazil Nuts +0.5
+
+Walnuts -8.0
+
+ALCOHOL
+
+Chestnuts
+
+Beer -26.8
+
+FISH
+
+Spirits -38.7
+
+SEEDS
+
+Freshwater Fish -11.8
+
+Hard Liquor -38.7
+
+Caraway +2.3
+
+Saltwater Fish -20
+
+Wine -16.4
+
+Cumin +1.1
+
+Salmon
+
+Fennel +1.3
+
+Sardines
+
+OTHER FOODS
+
+Flax +1.3
+
+Trout
+
+Ketchup -12.4
+
+Pumpkin +5.6
+
+Tuna
+
+Coffee -25.1
+
+Sesame +0.5
+
+Vinegar -39.4
+
+Sunflower +5.4
+
+Mustard -19.2
+
+Wheat Kernel +11.4
+
+Pepper
+
+Soy Sauce -36.2
+
+MINERALS
+
+Soft Drinks
+
+Cesium: pH 14
+
+Potassium: pH 14
+
+DRUGS & CHEMICALS
+
+Sodium: pH 14
+
