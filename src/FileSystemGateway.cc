@@ -715,6 +715,8 @@ static DirHandle *get_dir_handle(fuse_file_info *fi)
 
 static void sfs_opendir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
+    cout << "3333333333333333333333333" << endl;
+    
     Inode& inode = get_inode(ino);
     auto d = new (nothrow) DirHandle;
     if (d == nullptr) {
@@ -932,6 +934,8 @@ static void sfs_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
 
 static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
+    cout << "111111111111111111111" << endl;
+
     if (_internalAction)
     {
         return;
@@ -1067,6 +1071,8 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi)
 {
+    cout << "222222222222222222222" << endl;
+
     _logger->WriteLog("[GATEWAY - WRITE ACTION CAPTURED]");
     uint64_t fd = fi->fh;
 
