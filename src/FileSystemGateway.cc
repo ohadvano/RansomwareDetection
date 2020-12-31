@@ -468,7 +468,10 @@ static void sfs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
         fuse_reply_entry(req, &e);
     } else if (err) {
         if (err == ENFILE || err == EMFILE)
+        {
+            cout << "9999999999999999999" << endl;
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
+        }
         fuse_reply_err(req, err);
     } else {
         fuse_reply_entry(req, &e);
@@ -714,9 +717,7 @@ static DirHandle *get_dir_handle(fuse_file_info *fi)
 
 
 static void sfs_opendir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
-{
-    cout << "3333333333333333333333333" << endl;
-    
+{   
     Inode& inode = get_inode(ino);
     auto d = new (nothrow) DirHandle;
     if (d == nullptr) {
@@ -753,7 +754,10 @@ out_errno:
     auto error = errno;
     delete d;
     if (error == ENFILE || error == EMFILE)
+    {
+        cout << "88888888888888888888888888888" << endl;
         cerr << "ERROR: Reached maximum number of file descriptors." << endl;
+    }
     fuse_reply_err(req, error);
 }
 
@@ -853,7 +857,10 @@ error:
     // return what we've collected until that point.
     if (err && rem == size) {
         if (err == ENFILE || err == EMFILE)
+        {
+            cout << "7777777777777777777777777" << endl;
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
+        }
         fuse_reply_err(req, err);
     } else {
         if (fs.debug)
@@ -901,7 +908,10 @@ static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
     if (fd == -1) {
         auto err = errno;
         if (err == ENFILE || err == EMFILE)
+        {
+            cout << "6666666666666666666666666" << endl;
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
+        }
         fuse_reply_err(req, err);
         return;
     }
@@ -911,7 +921,10 @@ static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
     auto err = do_lookup(parent, name, &e);
     if (err) {
         if (err == ENFILE || err == EMFILE)
+        {
+            cout << "55555555555555555555555555555555555" << endl;
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
+        }
         fuse_reply_err(req, err);
     } else
         fuse_reply_create(req, &e, fi);
@@ -934,8 +947,6 @@ static void sfs_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
 
 static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
 {
-    cout << "111111111111111111111" << endl;
-
     if (_internalAction)
     {
         return;
@@ -992,8 +1003,10 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
     if (fd == -1) {
         auto err = errno;
         if (err == ENFILE || err == EMFILE)
+        {
             cout << "4444444444444444444444444444444444444444" << endl;
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
+        }
         fuse_reply_err(req, err);
         return;
     }
@@ -1072,8 +1085,6 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi)
 {
-    cout << "222222222222222222222" << endl;
-
     _logger->WriteLog("[GATEWAY - WRITE ACTION CAPTURED]");
     uint64_t fd = fi->fh;
 
