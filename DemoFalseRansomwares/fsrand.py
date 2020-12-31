@@ -203,10 +203,15 @@ if "__main__" == __name__:
                 args.dictionary = [l.strip() for l in f]
         info("count=%s seed=%s" % (args.count, args.seed))
         os.umask(0)
+        print("9")
         fsrand = FsRandomizer(args.path, args.count, args.seed)
+        print("10")
         fsrand.dictionary = args.dictionary
+        print("11")
         fsrand.stdout = sys.stdout
+        print("12")
         fsrand.stderr = sys.stderr
+        print("13")
         fsrand.verbose = args.verbose
         print("3333333333333333333333333333")
         fsrand.randomize()
