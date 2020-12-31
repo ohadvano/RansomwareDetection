@@ -40,16 +40,27 @@ class Devnull(object):
 devnull = Devnull()
 class FsRandomizer(object):
     def __init__(self, path, count, seed):
+        print("x1")
         self.stdout = devnull
+        print("x2")
         self.stderr = devnull
+        print("x3")
         self.verbose = 0
+        print("x4")
         self.maxofs = 192*1024
+        print("x5")
         self.maxlen =  64*1024
+        print("x6")
         self.path = os.path.realpath(path)
+        print("x7")
         self.count = count
+        print("x8")
         self.random = random.Random(seed)
+        print("x9")
         self.dictionary = None
+        print("x10")
         self.files_list = self.__get_files_list(self.path)
+        print("x11")
     def __get_files_list(self, dirName):
         listOfFile = os.listdir(dirName)
         allFiles = list()
@@ -179,21 +190,13 @@ if "__main__" == __name__:
         warn(s)
         sys.exit(exitcode)
     def main():
-        print("1")
         p = argparse.ArgumentParser()
-        print("2")
         p.add_argument("-v", "--verbose", action="count", default=0)
-        print("3")
         p.add_argument("-c", "--count", type=int, default=100)
-        print("4")
         p.add_argument("-s", "--seed", type=int, default=0)
-        print("5")
         p.add_argument("-d", "--dictionary")
-        print("6")
         p.add_argument("path")
-        print("7")
         args = p.parse_args(sys.argv[1:])
-        print("8")
         if args.seed == 0:
             args.seed = int(time.time())
         if not os.path.isdir(args.path):
@@ -207,11 +210,8 @@ if "__main__" == __name__:
         fsrand = FsRandomizer(args.path, args.count, args.seed)
         print("10")
         fsrand.dictionary = args.dictionary
-        print("11")
         fsrand.stdout = sys.stdout
-        print("12")
         fsrand.stderr = sys.stderr
-        print("13")
         fsrand.verbose = args.verbose
         print("3333333333333333333333333333")
         fsrand.randomize()
