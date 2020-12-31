@@ -119,8 +119,9 @@ class FsRandomizer(object):
         with open(path, "r+b") as f:
             self.__random_write(f, self.files_list)
     def randomize(self):
-        print("abc")
+        print("111111111111111111111111111")
         for i in xrange(self.count):
+            print("222222222222222222222222")
             op = self.random.choice("CRu")
             if op == "C":
                 path = self.__newsubpath(self.__getdir())
