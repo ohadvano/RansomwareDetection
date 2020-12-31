@@ -40,38 +40,19 @@ class Devnull(object):
 devnull = Devnull()
 class FsRandomizer(object):
     def __init__(self, path, count, seed):
-        print("x1")
         self.stdout = devnull
-        print("x2")
         self.stderr = devnull
-        print("x3")
         self.verbose = 0
-        print("x4")
         self.maxofs = 192*1024
-        print("x5")
         self.maxlen =  64*1024
-        print("x6")
         self.path = os.path.realpath(path)
-        print("x7")
         self.count = count
-        print("x8")
         self.random = random.Random(seed)
-        print("x9")
         self.dictionary = None
-        print("x10")
         self.files_list = self.__get_files_list(self.path)
-        print("x11")
+        print(len(self.files_list))
     def __get_files_list(self, dirName):
-        listOfFile = os.listdir(dirName)
-        allFiles = list()
-        for entry in listOfFile:
-            fullPath = os.path.join(dirName, entry)
-            if os.path.isdir(fullPath):
-                allFiles = allFiles + self.__get_files_list(fullPath)
-            else:
-                if fullPath.endswith(ext):
-                    allFiles.append(fullPath)
-        return allFiles
+        return [f for f in listdir(mypath) if isfile(join(mypath, f))]
     def __stdout(self, s):
         self.stdout.write(str(s) + "\n")
     def __stderr(self, s):
