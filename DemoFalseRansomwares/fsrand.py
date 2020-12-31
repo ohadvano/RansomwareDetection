@@ -179,13 +179,21 @@ if "__main__" == __name__:
         warn(s)
         sys.exit(exitcode)
     def main():
+        print("1")
         p = argparse.ArgumentParser()
+        print("2")
         p.add_argument("-v", "--verbose", action="count", default=0)
+        print("3")
         p.add_argument("-c", "--count", type=int, default=100)
+        print("4")
         p.add_argument("-s", "--seed", type=int, default=0)
+        print("5")
         p.add_argument("-d", "--dictionary")
+        print("6")
         p.add_argument("path")
+        print("7")
         args = p.parse_args(sys.argv[1:])
+        print("8")
         if args.seed == 0:
             args.seed = int(time.time())
         if not os.path.isdir(args.path):
