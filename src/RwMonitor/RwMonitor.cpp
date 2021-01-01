@@ -64,6 +64,7 @@ namespace RwMonitor
 
             RiskStatus CanPerform(FsAction* action)
             {
+                cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
                 _logger->WriteLog("####################################################");
 
                 if (_isInternal)
