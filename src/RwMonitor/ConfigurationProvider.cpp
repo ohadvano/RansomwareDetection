@@ -116,6 +116,7 @@ namespace Configurations
 
                 stringstream strStream;
                 strStream << inFile.rdbuf();
+                inFile.close();
                 string str = strStream.str();
 
                 char* runningModeStr = Parse(str, _runningModeRegex);

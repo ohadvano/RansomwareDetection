@@ -52,6 +52,7 @@ namespace Heuristics
 
             void CalculateTH(FsAction* action) override
             {
+                cout << "1111111111111111111111111111111111111111111111111111" << endl;
                 if (action->ActionName == "ForgetAction")
                 {
                     _logger->WriteLog("[" + _heuristicName + "][Forget action detected]");
