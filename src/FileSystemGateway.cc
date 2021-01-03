@@ -469,7 +469,6 @@ static void sfs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
     } else if (err) {
         if (err == ENFILE || err == EMFILE)
         {
-            cout << "9999999999999999999" << endl;
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
         }
         fuse_reply_err(req, err);
@@ -755,7 +754,6 @@ out_errno:
     delete d;
     if (error == ENFILE || error == EMFILE)
     {
-        cout << "88888888888888888888888888888" << endl;
         cerr << "ERROR: Reached maximum number of file descriptors." << endl;
     }
     fuse_reply_err(req, error);
@@ -858,7 +856,6 @@ error:
     if (err && rem == size) {
         if (err == ENFILE || err == EMFILE)
         {
-            cout << "7777777777777777777777777" << endl;
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
         }
         fuse_reply_err(req, err);
@@ -909,7 +906,6 @@ static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
         auto err = errno;
         if (err == ENFILE || err == EMFILE)
         {
-            cout << "6666666666666666666666666" << endl;
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
         }
         fuse_reply_err(req, err);
@@ -922,7 +918,6 @@ static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
     if (err) {
         if (err == ENFILE || err == EMFILE)
         {
-            cout << "55555555555555555555555555555555555" << endl;
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
         }
         fuse_reply_err(req, err);
@@ -1004,7 +999,6 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
         auto err = errno;
         if (err == ENFILE || err == EMFILE)
         {
-            cout << "4444444444444444444444444444444444444444" << endl;
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
         }
         fuse_reply_err(req, err);

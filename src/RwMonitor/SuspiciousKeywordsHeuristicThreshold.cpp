@@ -52,8 +52,6 @@ namespace Heuristics
 
             void CalculateTH(FsAction* action) override
             {
-                                cout << "2222222222222222222222222222222222222222222" << endl;
-
                 if (action->ActionName == "WriteBufAction")
                 {
                     _logger->WriteLog("[" + _heuristicName + "][Write action detected]");
