@@ -3,6 +3,7 @@
   Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
   Copyright (C) 2017       Nikolaus Rath <Nikolaus@rath.org>
   Copyright (C) 2018       Valve, Inc
+
   This program can be distributed under the terms of the GNU GPLv2.
   See the file COPYING.
 */
@@ -73,13 +74,90 @@
 #include <cstdio>
 #include <cstdlib>
 #include <list>
-#include "cxxopts.hpp"
 #include <mutex>
 #include <fstream>
 #include <thread>
 #include <iomanip>
+#include "cxxopts.hpp"
 
 using namespace std;
+
+////////////////////// Ransomware Detection Helpers ////////////////////////////
+
+// RansomwareMonitor includes
+#include "RwMonitor/RwMonitor.cpp"
+#include "RwMonitor/ConfigurationProvider.cpp"
+
+using namespace RwMonitor;
+using namespace FileSystemActions;
+
+// RansomwareMonitor
+typedef RwThreatDetector* RwDetector;
+RwDetector RansomwareMonitor;
+Logger* _logger;
+double _fileSystemLockDownDurationInSeconds;
+static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
+static string _rwInLockDownMessage = "Set in lock down message for user";
+static map<string, string>* _fileMap = new map<string, string>;
+static bool _internalAction = false;
+
+/* Returns true if the system is in lock down because of previous malicious action
+   Should also prompt the user when in lockdown */
+bool IsInLockDown()
+{
+    // Zero case means not initialized
+    if (_fileSystemLockDownStart == 0)
+    {
+        return false;
+    }
+
+    time_t now = time(0);
+    double timePassed = difftime(now, _fileSystemLockDownStart);
+    if (timePassed < _fileSystemLockDownDurationInSeconds)
+    {
+        double remainingTime = _fileSystemLockDownDurationInSeconds - timePassed;
+        cout << "\033[1;33mAction denied because file system is in lockdown. Time remaining: " << remainingTime << " seconds.\033[0m" << endl;
+        return true;
+    }
+
+    return false;
+}
+
+/* Starts file system lockdown and prompts user about it */
+void StartLockDown()
+{
+    // time(0) returns current system time
+    time_t now = time(0);
+
+    _fileSystemLockDownStart = now;
+    cout << "\033[1;31mMalicous action detected. Starting file system lockdown for " << _fileSystemLockDownDurationInSeconds << " seconds.\033[0m" << endl;
+}
+
+/* Returns true if the action is legal
+   Returns false if the action is illegal for any reason (also if in lock down) */
+bool PerformRansomwareValidations(FsAction* action)
+{
+    if (IsInLockDown())
+    {
+        return false;
+    }
+
+    RiskStatus risk = RansomwareMonitor->CanPerform(action);
+    if (risk == Risky)
+    {
+        StartLockDown();
+        return false;
+    }
+
+    return true;
+}
+
+void InternalDebug(string name)
+{
+    cout << name << endl;
+}
+
+////////////////////// End ransomware detection helpers ////////////////////////////
 
 /* We are re-using pointers to our `struct sfs_inode` and `struct
    sfs_dirp` elements as inodes and file handles. This means that we
@@ -106,7 +184,8 @@ static void forget_one(fuse_ino_t ino, uint64_t n);
 typedef std::pair<ino_t, dev_t> SrcId;
 
 // Define a hash function for SrcId
-namespace std {
+namespace std 
+{
     template<>
     struct hash<SrcId> {
         size_t operator()(const SrcId& id) const {
@@ -118,7 +197,8 @@ namespace std {
 // Maps files in the source directory tree to inodes
 typedef std::unordered_map<SrcId, Inode> InodeMap;
 
-struct Inode {
+struct Inode 
+{
     int fd {-1};
     dev_t src_dev {0};
     ino_t src_ino {0};
@@ -139,7 +219,8 @@ struct Inode {
     }
 };
 
-struct Fs {
+struct Fs 
+{
     // Must be acquired *after* any Inode.m locks.
     std::mutex mutex;
     InodeMap inodes; // protected by mutex
@@ -161,7 +242,8 @@ static Fs fs{};
             static_cast<fuse_buf_copy_flags>(0))
 
 
-static Inode& get_inode(fuse_ino_t ino) {
+static Inode& get_inode(fuse_ino_t ino) 
+{
     if (ino == FUSE_ROOT_ID)
         return fs.root;
 
@@ -174,13 +256,15 @@ static Inode& get_inode(fuse_ino_t ino) {
 }
 
 
-static int get_fs_fd(fuse_ino_t ino) {
+static int get_fs_fd(fuse_ino_t ino) 
+{
     int fd = get_inode(ino).fd;
     return fd;
 }
 
 
-static void sfs_init(void *userdata, fuse_conn_info *conn) {
+static void sfs_init(void *userdata, fuse_conn_info *conn) 
+{
     (void)userdata;
     if (conn->capable & FUSE_CAP_EXPORT_SUPPORT)
         conn->want |= FUSE_CAP_EXPORT_SUPPORT;
@@ -201,7 +285,8 @@ static void sfs_init(void *userdata, fuse_conn_info *conn) {
 }
 
 
-static void sfs_getattr(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) {
+static void sfs_getattr(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
+{
     (void)fi;
     Inode& inode = get_inode(ino);
     struct stat attr;
@@ -216,7 +301,8 @@ static void sfs_getattr(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) {
 
 
 static void do_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-                       int valid, struct fuse_file_info* fi) {
+                       int valid, struct fuse_file_info* fi) 
+{
     Inode& inode = get_inode(ino);
     int ifd = inode.fd;
     int res;
@@ -292,14 +378,16 @@ out_err:
 
 
 static void sfs_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-                        int valid, fuse_file_info *fi) {
+                        int valid, fuse_file_info *fi) 
+{
     (void) ino;
     do_setattr(req, ino, attr, valid, fi);
 }
 
 
 static int do_lookup(fuse_ino_t parent, const char *name,
-                     fuse_entry_param *e) {
+                     fuse_entry_param *e) 
+{
     if (fs.debug)
         cerr << "DEBUG: lookup(): name=" << name
              << ", parent=" << parent << endl;
@@ -369,7 +457,8 @@ static int do_lookup(fuse_ino_t parent, const char *name,
 }
 
 
-static void sfs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name) {
+static void sfs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name) 
+{
     fuse_entry_param e {};
     auto err = do_lookup(parent, name, &e);
     if (err == ENOENT) {
@@ -379,7 +468,9 @@ static void sfs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name) {
         fuse_reply_entry(req, &e);
     } else if (err) {
         if (err == ENFILE || err == EMFILE)
+        {
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
+        }
         fuse_reply_err(req, err);
     } else {
         fuse_reply_entry(req, &e);
@@ -389,7 +480,8 @@ static void sfs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name) {
 
 static void mknod_symlink(fuse_req_t req, fuse_ino_t parent,
                               const char *name, mode_t mode, dev_t rdev,
-                              const char *link) {
+                              const char *link) 
+{
     int res;
     Inode& inode_p = get_inode(parent);
     auto saverr = ENOMEM;
@@ -420,25 +512,29 @@ out:
 
 
 static void sfs_mknod(fuse_req_t req, fuse_ino_t parent, const char *name,
-                      mode_t mode, dev_t rdev) {
+                      mode_t mode, dev_t rdev) 
+{
     mknod_symlink(req, parent, name, mode, rdev, nullptr);
 }
 
 
 static void sfs_mkdir(fuse_req_t req, fuse_ino_t parent, const char *name,
-                      mode_t mode) {
+                      mode_t mode) 
+{
     mknod_symlink(req, parent, name, S_IFDIR | mode, 0, nullptr);
 }
 
 
 static void sfs_symlink(fuse_req_t req, const char *link, fuse_ino_t parent,
-                        const char *name) {
+                        const char *name) 
+{
     mknod_symlink(req, parent, name, S_IFLNK, 0, link);
 }
 
 
 static void sfs_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
-                     const char *name) {
+                     const char *name) 
+{
     Inode& inode = get_inode(ino);
     Inode& inode_p = get_inode(parent);
     fuse_entry_param e {};
@@ -469,8 +565,23 @@ static void sfs_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
     return;
 }
 
+static void sfs_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name) 
+{
+    _logger->WriteLog("[GATEWAY - RMDIR ACTION CAPTURED]");
 
-static void sfs_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name) {
+    // Ransomware monitor
+    pid_t callingPid = getpid();
+    string directoryPath(name);
+    FsAction* action = new RmdirAction(directoryPath, callingPid);
+
+    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
+    if (shouldIgnoreRequest)
+    {
+        _logger->WriteLog("[GATEWAY - ACTION DENIED]");
+        fuse_reply_err(req, errno);
+        return;
+    }
+
     Inode& inode_p = get_inode(parent);
     lock_guard<mutex> g {inode_p.m};
     auto res = unlinkat(inode_p.fd, name, AT_REMOVEDIR);
@@ -480,7 +591,8 @@ static void sfs_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name) {
 
 static void sfs_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
                        fuse_ino_t newparent, const char *newname,
-                       unsigned int flags) {
+                       unsigned int flags) 
+{
     Inode& inode_p = get_inode(parent);
     Inode& inode_np = get_inode(newparent);
     if (flags) {
@@ -493,14 +605,16 @@ static void sfs_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
 }
 
 
-static void sfs_unlink(fuse_req_t req, fuse_ino_t parent, const char *name) {
+static void sfs_unlink(fuse_req_t req, fuse_ino_t parent, const char *name) 
+{
     Inode& inode_p = get_inode(parent);
     auto res = unlinkat(inode_p.fd, name, 0);
     fuse_reply_err(req, res == -1 ? errno : 0);
 }
 
 
-static void forget_one(fuse_ino_t ino, uint64_t n) {
+static void forget_one(fuse_ino_t ino, uint64_t n) 
+{
     Inode& inode = get_inode(ino);
     unique_lock<mutex> l {inode.m};
 
@@ -523,21 +637,48 @@ static void forget_one(fuse_ino_t ino, uint64_t n) {
                  << " lookup count now " << inode.nlookup << endl;
 }
 
-static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup) {
+static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup) 
+{
+    _logger->WriteLog("[GATEWAY - FORGET ACTION CAPTURED]");
+
+    Inode& inode = get_inode(ino);
+    int fd = inode.fd;
+    int maxFilePath = 4096;
+    char buf[64];
+    sprintf(buf, "/proc/self/fd/%i", fd);
+    char path[maxFilePath];
+    int pathSize = (int)readlink(buf, path, maxFilePath);
+    path[pathSize] = 0;
+    string filePath(path);
+    
+    // Ransomware monitor
+    pid_t callingPid = getpid();
+    FsAction* action = new ForgetAction(filePath, callingPid);
+
+    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
+    if (shouldIgnoreRequest)
+    {
+        _logger->WriteLog("[GATEWAY - ACTION DENIED]");
+        fuse_reply_none(req);
+        return;
+    }
+
     forget_one(ino, nlookup);
     fuse_reply_none(req);
 }
 
 
 static void sfs_forget_multi(fuse_req_t req, size_t count,
-                             fuse_forget_data *forgets) {
-    for (int i = 0; i < count; i++)
+                             fuse_forget_data *forgets) 
+{
+    for (int i = 0; i < (int)count; i++)
         forget_one(forgets[i].ino, forgets[i].nlookup);
     fuse_reply_none(req);
 }
 
 
-static void sfs_readlink(fuse_req_t req, fuse_ino_t ino) {
+static void sfs_readlink(fuse_req_t req, fuse_ino_t ino) 
+{
     Inode& inode = get_inode(ino);
     char buf[PATH_MAX + 1];
     auto res = readlinkat(inode.fd, "", buf, sizeof(buf));
@@ -552,7 +693,8 @@ static void sfs_readlink(fuse_req_t req, fuse_ino_t ino) {
 }
 
 
-struct DirHandle {
+struct DirHandle 
+{
     DIR *dp {nullptr};
     off_t offset;
 
@@ -567,12 +709,14 @@ struct DirHandle {
 };
 
 
-static DirHandle *get_dir_handle(fuse_file_info *fi) {
+static DirHandle *get_dir_handle(fuse_file_info *fi) 
+{
     return reinterpret_cast<DirHandle*>(fi->fh);
 }
 
 
-static void sfs_opendir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) {
+static void sfs_opendir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
+{   
     Inode& inode = get_inode(ino);
     auto d = new (nothrow) DirHandle;
     if (d == nullptr) {
@@ -609,19 +753,23 @@ out_errno:
     auto error = errno;
     delete d;
     if (error == ENFILE || error == EMFILE)
+    {
         cerr << "ERROR: Reached maximum number of file descriptors." << endl;
+    }
     fuse_reply_err(req, error);
 }
 
 
-static bool is_dot_or_dotdot(const char *name) {
+static bool is_dot_or_dotdot(const char *name) 
+{
     return name[0] == '.' &&
            (name[1] == '\0' || (name[1] == '.' && name[2] == '\0'));
 }
 
 
 static void do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
-                    off_t offset, fuse_file_info *fi, int plus) {
+                    off_t offset, fuse_file_info *fi, int plus) 
+{
     auto d = get_dir_handle(fi);
     Inode& inode = get_inode(ino);
     lock_guard<mutex> g {inode.m};
@@ -707,7 +855,9 @@ error:
     // return what we've collected until that point.
     if (err && rem == size) {
         if (err == ENFILE || err == EMFILE)
+        {
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
+        }
         fuse_reply_err(req, err);
     } else {
         if (fs.debug)
@@ -721,20 +871,23 @@ error:
 
 
 static void sfs_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
-                        off_t offset, fuse_file_info *fi) {
+                        off_t offset, fuse_file_info *fi) 
+{
     // operation logging is done in readdir to reduce code duplication
     do_readdir(req, ino, size, offset, fi, 0);
 }
 
 
 static void sfs_readdirplus(fuse_req_t req, fuse_ino_t ino, size_t size,
-                            off_t offset, fuse_file_info *fi) {
+                            off_t offset, fuse_file_info *fi) 
+{
     // operation logging is done in readdir to reduce code duplication
     do_readdir(req, ino, size, offset, fi, 1);
 }
 
 
-static void sfs_releasedir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) {
+static void sfs_releasedir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
+{
     (void) ino;
     auto d = get_dir_handle(fi);
     delete d;
@@ -743,7 +896,8 @@ static void sfs_releasedir(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) {
 
 
 static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-                       mode_t mode, fuse_file_info *fi) {
+                       mode_t mode, fuse_file_info *fi) 
+{
     Inode& inode_p = get_inode(parent);
 
     auto fd = openat(inode_p.fd, name,
@@ -751,7 +905,9 @@ static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
     if (fd == -1) {
         auto err = errno;
         if (err == ENFILE || err == EMFILE)
+        {
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
+        }
         fuse_reply_err(req, err);
         return;
     }
@@ -761,7 +917,9 @@ static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
     auto err = do_lookup(parent, name, &e);
     if (err) {
         if (err == ENFILE || err == EMFILE)
+        {
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
+        }
         fuse_reply_err(req, err);
     } else
         fuse_reply_create(req, &e, fi);
@@ -769,7 +927,8 @@ static void sfs_create(fuse_req_t req, fuse_ino_t parent, const char *name,
 
 
 static void sfs_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
-                         fuse_file_info *fi) {
+                         fuse_file_info *fi) 
+{
     (void) ino;
     int res;
     int fd = dirfd(get_dir_handle(fi)->dp);
@@ -781,8 +940,39 @@ static void sfs_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
 }
 
 
-static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) {
+static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
+{
+    if (_internalAction)
+    {
+        return;
+    }
+
+    _internalAction = true;
+
     Inode& inode = get_inode(ino);
+
+    int fileDesc = inode.fd;
+
+    int maxFilePath = 4096;
+    char pathBuf[64];
+    sprintf(pathBuf, "/proc/self/fd/%i", fileDesc);
+    char path[maxFilePath];
+    int pathSize = (int)readlink(pathBuf, path, maxFilePath);
+    path[pathSize] = 0;
+    string filePath(path);
+
+    string res;
+    string fileContent;
+    ifstream file(filePath);
+
+    while (getline(file, res))
+    {
+        fileContent = fileContent + res;
+    }
+
+    file.close();
+
+    (*_fileMap)[filePath] = fileContent;
 
     /* With writeback cache, kernel may send read requests even
        when userspace opened write-only */
@@ -808,7 +998,9 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) {
     if (fd == -1) {
         auto err = errno;
         if (err == ENFILE || err == EMFILE)
+        {
             cerr << "ERROR: Reached maximum number of file descriptors." << endl;
+        }
         fuse_reply_err(req, err);
         return;
     }
@@ -816,17 +1008,21 @@ static void sfs_open(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) {
     fi->keep_cache = (fs.timeout != 0);
     fi->fh = fd;
     fuse_reply_open(req, fi);
+
+    _internalAction = false;
 }
 
 
-static void sfs_release(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) {
+static void sfs_release(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) 
+{
     (void) ino;
     close(fi->fh);
     fuse_reply_err(req, 0);
 }
 
 
-static void sfs_flush(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) {
+static void sfs_flush(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi)
+{
     (void) ino;
     auto res = close(dup(fi->fh));
     fuse_reply_err(req, res == -1 ? errno : 0);
@@ -834,7 +1030,8 @@ static void sfs_flush(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi) {
 
 
 static void sfs_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
-                      fuse_file_info *fi) {
+                      fuse_file_info *fi)
+{
     (void) ino;
     int res;
     if (datasync)
@@ -845,8 +1042,8 @@ static void sfs_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
 }
 
 
-static void do_read(fuse_req_t req, size_t size, off_t off, fuse_file_info *fi) {
-
+static void do_read(fuse_req_t req, size_t size, off_t off, fuse_file_info *fi) 
+{
     fuse_bufvec buf = FUSE_BUFVEC_INIT(size);
     buf.buf[0].flags = static_cast<fuse_buf_flags>(
         FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
@@ -857,14 +1054,15 @@ static void do_read(fuse_req_t req, size_t size, off_t off, fuse_file_info *fi) 
 }
 
 static void sfs_read(fuse_req_t req, fuse_ino_t ino, size_t size, off_t off,
-                     fuse_file_info *fi) {
+                     fuse_file_info *fi) 
+{
     (void) ino;
     do_read(req, size, off, fi);
 }
 
-
 static void do_write_buf(fuse_req_t req, size_t size, off_t off,
-                         fuse_bufvec *in_buf, fuse_file_info *fi) {
+                         fuse_bufvec *in_buf, fuse_file_info *fi)
+{
     fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size);
     out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
         FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
@@ -878,16 +1076,88 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
         fuse_reply_write(req, (size_t)res);
 }
 
-
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
-                          off_t off, fuse_file_info *fi) {
+                          off_t off, fuse_file_info *fi)
+{
+    _logger->WriteLog("[GATEWAY - WRITE ACTION CAPTURED]");
+    uint64_t fd = fi->fh;
+
+    int maxFilePath = 4096;
+    char buf[64];
+    sprintf(buf, "/proc/self/fd/%i", (int)fd);
+    char path[maxFilePath];
+    int pathSize = (int)readlink(buf, path, maxFilePath);
+    path[pathSize] = 0;
+    string filePath(path);
+
+    string oldFileContent;
+    if ((*_fileMap).count(filePath) == 0)
+    {
+        string res;
+        ifstream file(filePath);
+
+        while (getline(file, res))
+        {
+            oldFileContent = oldFileContent + res;
+        }
+
+        file.close();
+    }
+    else
+    {
+        oldFileContent = (*_fileMap)[filePath];
+        (*_fileMap).erase(filePath);
+    }
+
+    string newContent;
+    const char* tmpFilePath = "/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp";
+
+    int tmpFd = open(tmpFilePath, O_RDWR | O_CREAT, 0777);
+    auto size2 {fuse_buf_size(in_buf)};
+    fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size2);
+    out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
+        FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
+    out_buf.buf[0].fd = tmpFd;
+    out_buf.buf[0].pos = off;
+    fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
+    close(tmpFd);
+
+    string line;
+    ifstream tempFile(tmpFilePath);
+    while (getline(tempFile, line))
+    {
+        newContent = newContent + line;
+    }
+
+    tempFile.close();
+    remove(tmpFilePath);
+
+    in_buf->idx = 0;
+    in_buf->off = 0;
+
+    pid_t callingPid = getpid();
+    FsAction* action = new WriteBufAction(
+        filePath,
+        oldFileContent,
+        newContent,
+        callingPid);
+
+    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
+    if (shouldIgnoreRequest)
+    {
+        _logger->WriteLog("[GATEWAY - ACTION DENIED]");
+        fuse_reply_err(req, errno);
+        return;
+    }
+
     (void) ino;
     auto size {fuse_buf_size(in_buf)};
     do_write_buf(req, size, off, in_buf, fi);
 }
 
 
-static void sfs_statfs(fuse_req_t req, fuse_ino_t ino) {
+static void sfs_statfs(fuse_req_t req, fuse_ino_t ino) 
+{
     struct statvfs stbuf;
 
     auto res = fstatvfs(get_fs_fd(ino), &stbuf);
@@ -900,7 +1170,8 @@ static void sfs_statfs(fuse_req_t req, fuse_ino_t ino) {
 
 #ifdef HAVE_POSIX_FALLOCATE
 static void sfs_fallocate(fuse_req_t req, fuse_ino_t ino, int mode,
-                          off_t offset, off_t length, fuse_file_info *fi) {
+                          off_t offset, off_t length, fuse_file_info *fi) 
+{
     (void) ino;
     if (mode) {
         fuse_reply_err(req, EOPNOTSUPP);
@@ -913,7 +1184,8 @@ static void sfs_fallocate(fuse_req_t req, fuse_ino_t ino, int mode,
 #endif
 
 static void sfs_flock(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi,
-                      int op) {
+                      int op) 
+{
     (void) ino;
     auto res = flock(fi->fh, op);
     fuse_reply_err(req, res == -1 ? errno : 0);
@@ -922,7 +1194,8 @@ static void sfs_flock(fuse_req_t req, fuse_ino_t ino, fuse_file_info *fi,
 
 #ifdef HAVE_SETXATTR
 static void sfs_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
-                         size_t size) {
+                         size_t size) 
+{
     char *value = nullptr;
     Inode& inode = get_inode(ino);
     ssize_t ret;
@@ -965,7 +1238,8 @@ out:
 }
 
 
-static void sfs_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size) {
+static void sfs_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size) 
+{
     char *value = nullptr;
     Inode& inode = get_inode(ino);
     ssize_t ret;
@@ -1008,7 +1282,8 @@ out:
 
 
 static void sfs_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
-                         const char *value, size_t size, int flags) {
+                         const char *value, size_t size, int flags) 
+{
     Inode& inode = get_inode(ino);
     ssize_t ret;
     int saverr;
@@ -1023,7 +1298,8 @@ static void sfs_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
 }
 
 
-static void sfs_removexattr(fuse_req_t req, fuse_ino_t ino, const char *name) {
+static void sfs_removexattr(fuse_req_t req, fuse_ino_t ino, const char *name) 
+{
     char procname[64];
     Inode& inode = get_inode(ino);
     ssize_t ret;
@@ -1038,7 +1314,8 @@ static void sfs_removexattr(fuse_req_t req, fuse_ino_t ino, const char *name) {
 #endif
 
 
-static void assign_operations(fuse_lowlevel_ops &sfs_oper) {
+static void assign_operations(fuse_lowlevel_ops &sfs_oper) 
+{
     sfs_oper.init = sfs_init;
     sfs_oper.lookup = sfs_lookup;
     sfs_oper.mkdir = sfs_mkdir;
@@ -1078,12 +1355,15 @@ static void assign_operations(fuse_lowlevel_ops &sfs_oper) {
 #endif
 }
 
-static void print_usage(char *prog_name) {
+
+static void print_usage(char *prog_name) 
+{
     cout << "Usage: " << prog_name << " --help\n"
          << "       " << prog_name << " [options] <source> <mountpoint>\n";
 }
 
-static cxxopts::ParseResult parse_wrapper(cxxopts::Options& parser, int& argc, char**& argv) {
+static cxxopts::ParseResult parse_wrapper(cxxopts::Options& parser, int& argc, char**& argv) 
+{
     try {
         return parser.parse(argc, argv);
     } catch (cxxopts::option_not_exists_exception& exc) {
@@ -1094,7 +1374,8 @@ static cxxopts::ParseResult parse_wrapper(cxxopts::Options& parser, int& argc, c
 }
 
 
-static cxxopts::ParseResult parse_options(int argc, char **argv) {
+static cxxopts::ParseResult parse_options(int argc, char **argv) 
+{
     cxxopts::Options opt_parser(argv[0]);
     opt_parser.add_options()
         ("debug", "Enable filesystem debug messages")
@@ -1131,7 +1412,8 @@ static cxxopts::ParseResult parse_options(int argc, char **argv) {
 }
 
 
-static void maximize_fd_limit() {
+static void maximize_fd_limit() 
+{
     struct rlimit lim {};
     auto res = getrlimit(RLIMIT_NOFILE, &lim);
     if (res != 0) {
@@ -1145,7 +1427,14 @@ static void maximize_fd_limit() {
 }
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) 
+{
+    mkdir("Run", 0777);
+    RansomwareMonitor = new RwThreatDetector();
+    delete (new RwMonitorLoader((RwThreatDetector*)RansomwareMonitor));
+
+    _fileSystemLockDownDurationInSeconds = RansomwareMonitor->_configurationProvider->GetSystemLockDownDuration();
+    _logger = RansomwareMonitor->GetLogger();
 
     // Parse command line options
     auto options {parse_options(argc, argv)};
@@ -1176,7 +1465,7 @@ int main(int argc, char *argv[]) {
     fuse_args args = FUSE_ARGS_INIT(0, nullptr);
     if (fuse_opt_add_arg(&args, argv[0]) ||
         fuse_opt_add_arg(&args, "-o") ||
-        fuse_opt_add_arg(&args, "default_permissions,fsname=hpps") ||
+        fuse_opt_add_arg(&args, "default_permissions,allow_other,fsname=hpps") ||
         (options.count("debug-fuse") && fuse_opt_add_arg(&args, "-odebug")))
         errx(3, "ERROR: Out of memory");
 
@@ -1188,7 +1477,6 @@ int main(int argc, char *argv[]) {
 
     if (fuse_set_signal_handlers(se) != 0)
         goto err_out2;
-
     // Don't apply umask, use modes exactly as specified
     umask(0);
 
@@ -1198,10 +1486,15 @@ int main(int argc, char *argv[]) {
     loop_config.max_idle_threads = 10;
     if (fuse_session_mount(se, argv[2]) != 0)
         goto err_out3;
+
     if (options.count("single"))
+    {
         ret = fuse_session_loop(se);
+    }
     else
+    {
         ret = fuse_session_loop_mt(se, &loop_config);
+    }
 
     fuse_session_unmount(se);
 
