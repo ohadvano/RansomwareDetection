@@ -1145,7 +1145,9 @@ static void maximize_fd_limit() {
 }
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) 
+{
+    mkdir("Run", 0777);
 
     // Parse command line options
     auto options {parse_options(argc, argv)};
@@ -1176,7 +1178,7 @@ int main(int argc, char *argv[]) {
     fuse_args args = FUSE_ARGS_INIT(0, nullptr);
     if (fuse_opt_add_arg(&args, argv[0]) ||
         fuse_opt_add_arg(&args, "-o") ||
-        fuse_opt_add_arg(&args, "default_permissions,fsname=hpps") ||
+        fuse_opt_add_arg(&args, "default_permissions,allow_other,fsname=hpps") ||
         (options.count("debug-fuse") && fuse_opt_add_arg(&args, "-odebug")))
         errx(3, "ERROR: Out of memory");
 
@@ -1188,7 +1190,6 @@ int main(int argc, char *argv[]) {
 
     if (fuse_set_signal_handlers(se) != 0)
         goto err_out2;
-
     // Don't apply umask, use modes exactly as specified
     umask(0);
 
@@ -1198,10 +1199,15 @@ int main(int argc, char *argv[]) {
     loop_config.max_idle_threads = 10;
     if (fuse_session_mount(se, argv[2]) != 0)
         goto err_out3;
+
     if (options.count("single"))
+    {
         ret = fuse_session_loop(se);
+    }
     else
+    {
         ret = fuse_session_loop_mt(se, &loop_config);
+    }
 
     fuse_session_unmount(se);
 
