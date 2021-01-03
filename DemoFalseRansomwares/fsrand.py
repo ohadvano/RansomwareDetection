@@ -52,8 +52,6 @@ class FsRandomizer(object):
         self.random = random.Random(seed)
         self.dictionary = None
         self.files_list = self.__get_files_list(self.path)
-        print("xxxxxxxxxxxxxxxx")
-        print(len(self.files_list))
     def __get_files_list(self, dirName):
         all_files = []
         for r, d, f in os.walk(dirName):
