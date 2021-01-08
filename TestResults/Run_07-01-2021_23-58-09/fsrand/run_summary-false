@@ -1,0 +1,45 @@
+|----------------------------------------
+| Run statistics for test: fsrand
+|----------------------------------------
+| Actions
+|----------------------------------------
+| Action name            | Total count
+|----------------------------------------
+| Write                  | 2425
+| Rmdir                  | 2205
+| Forget                 | 2377
+|----------------------------------------
+| Heuristics
+|----------------------------------------
+| Heuristic name         | Max threshold
+|----------------------------------------
+| File type changes      | 81
+| Similarity Measurement | 34
+| Shannon Enthropy       | 30
+| Files Deletion         | 527
+| Suspicious Keywords    | 15
+|----------------------------------------
+| Resolutions - Write
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | 49
+| IndividualThresholds   | 1009
+| Total                  | 1009
+|----------------------------------------
+| Resolutions - Rmdir
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | 28
+| IndividualThresholds   | 952
+| Total                  | 952
+|----------------------------------------
+| Resolutions - Forget
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | 35
+| IndividualThresholds   | 995
+| Total                  | 995
+|----------------------------------------

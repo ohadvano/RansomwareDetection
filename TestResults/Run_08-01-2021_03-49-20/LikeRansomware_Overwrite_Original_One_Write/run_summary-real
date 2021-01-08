@@ -1,0 +1,45 @@
+|----------------------------------------
+| Run statistics for test: LikeRansomware_Overwrite_Original_One_Write
+|----------------------------------------
+| Actions
+|----------------------------------------
+| Action name            | Total count
+|----------------------------------------
+| Write                  | 1369
+| Rmdir                  | 0
+| Forget                 | 0
+|----------------------------------------
+| Heuristics
+|----------------------------------------
+| Heuristic name         | Max threshold
+|----------------------------------------
+| File type changes      | 532
+| Similarity Measurement | 108
+| Shannon Enthropy       | 426
+| Files Deletion         | 0
+| Suspicious Keywords    | 7
+|----------------------------------------
+| Resolutions - Write
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | 0
+| IndividualThresholds   | 1219
+| Total                  | 1219
+|----------------------------------------
+| Resolutions - Rmdir
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | 0
+| IndividualThresholds   | 0
+| Total                  | 0
+|----------------------------------------
+| Resolutions - Forget
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | 0
+| IndividualThresholds   | 0
+| Total                  | 0
+|----------------------------------------

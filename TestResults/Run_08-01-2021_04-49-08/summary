@@ -1,0 +1,78 @@
+|----------------------------------------
+| Run configurations:
+| # Debug mode will not effect the actual outcome of file system actions  only monitoring will be effected. 
+| # If debug: false  then file system will be locked if a risk is found
+| Debug: true
+| 
+| # Prefix for log files
+| LogFilePath: Log_
+| 
+| # Temp file name config for internal usage
+| TempFilePath: tmpfile
+| 
+| # Second temp file name config for internal usage
+| TempFilePath2: tmpfile2
+| 
+| # Will reject any file system action for this duration
+| SystemLockDownDuration: 5
+| 
+| # Maximum similarity threadhold to consider as anomaly
+| SimilarityMeasurement: 40
+| 
+| # Minimum enthropy change considered anomaly
+| ShannonEnthropy: 2
+| 
+| # Suspected encryption enthropy
+| SuspectedEncryptionEnthropy: 7.9
+| 
+| # Keywords to be searched in written content
+| SuspiciousKeywords: infected ransomware encrypt bitcoin payment ransom virus crypto
+| 
+| # Minimum threshold to be considered a security threat. 
+| # AccumulatedThreshold = H1_th * H1_we + H2_th * H2_we + H3_th * H3_we + ... 
+| # (H1_th = Heuristic 1 threshold  H1_we = Heuristic 1 weight)
+| MinAccumulatedThreshold: 2000
+| 
+| # Weight for each heuristinc in accumulated threshold
+| HeuristicsWeights: 5 2 4 1 1
+| 
+| # Individual thresholds for each heuristic to be considered a risk
+| # FileTypeChangesHeuristic  
+| # SimilarityMeasurementHeuristic
+| # ShannonEnthropyHeuristic
+| # FilesDeletionHeuristic 
+| # SuspiciousKeywordsHeuristicThreshold
+| IndividualThresholdRegex: 170 70 150 10000 10000
+| 
+| # Look back time in actions history
+| LookbackTime: 30
+| 
+|--------------------------------------------------------------
+| Demo Summary
+|--------------------------------------------------------------
+| Ransom program tested  |      'Real'      |    'False'
+|--------------------------------------------------------------
+| Action name            |            Total count
+|--------------------------------------------------------------
+| Write                  |       4104       |       2402  
+| Rmdir                  |          0       |       2181  
+| Forget                 |       2734       |       2422  
+| Total                  |       6838       |       7005  
+|--------------------------------------------------------------
+| Heuristic name         |           Max threshold
+|--------------------------------------------------------------
+| File type changes      |        544       |        130  
+| Similarity Measurement |        101       |         46  
+| Shannon Enthropy       |        406       |        107  
+| Files Deletion         |        667       |        833  
+| Suspicious Keywords    |          7       |         19  
+|--------------------------------------------------------------
+| Resolutions
+|--------------------------------------------------------------
+| Action name            |            Total Risk
+|--------------------------------------------------------------
+| Write                  |  3654 (89.00%)   |     0 ( 0.00%)
+| Rmdir                  |     0 ( 0.00%)   |     0 ( 0.00%)
+| Forget                 |  2434 (89.00%)   |     0 ( 0.00%)
+| Total                  |  6088 (89.00%)   |     0 ( 0.00%)
+|--------------------------------------------------------------

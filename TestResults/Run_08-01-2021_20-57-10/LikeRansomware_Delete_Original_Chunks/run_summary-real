@@ -1,0 +1,45 @@
+|----------------------------------------
+| Run statistics for test: LikeRansomware_Delete_Original_Chunks
+|----------------------------------------
+| Actions
+|----------------------------------------
+| Action name            | Total count
+|----------------------------------------
+| Write                  | 1369
+| Rmdir                  | 0
+| Forget                 | 1367
+|----------------------------------------
+| Heuristics
+|----------------------------------------
+| Heuristic name         | Max threshold
+|----------------------------------------
+| File type changes      | 0
+| Similarity Measurement | 0
+| Shannon Enthropy       | 360
+| Files Deletion         | 600
+| Suspicious Keywords    | 7
+|----------------------------------------
+| Resolutions - Write
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | 18
+| IndividualThresholds   | 1269
+| Total                  | 1269
+|----------------------------------------
+| Resolutions - Rmdir
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | 0
+| IndividualThresholds   | 0
+| Total                  | 0
+|----------------------------------------
+| Resolutions - Forget
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | 18
+| IndividualThresholds   | 1268
+| Total                  | 1268
+|----------------------------------------
