@@ -65,15 +65,11 @@ namespace Heuristics
                     // Before
                     string oldContent = GetOldContent(writeAction);
                     double enthropyBefore = CalculateEntropy(oldContent);
-                    size_t sizeBefore = oldContent.size();
-                    string s1 = std::to_string(sizeBefore);
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy before: " + GetDoubleAsString(enthropyBefore) + "]");
 
                     // After
                     string newContent = GetNewContent(filePath, writeAction);
                     double enthropyAfter = CalculateEntropy(newContent);
-                    size_t sizeAfter = newContent.size();
-                    string s2 = std::to_string(sizeAfter);
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyAfter) + "]");
 
                     if ((enthropyBefore > 0 && Abs(enthropyBefore - enthropyAfter) > _threshold) ||
