@@ -197,6 +197,7 @@ namespace RwMonitor
 
                 bool result = sum > minThreshold;
 
+                _logger->WriteLog("[Accumulated thresholds: " + Convert(sum) + "]");
                 string resultAsString = result ? "Risk" : "Safe";
                 _logger->WriteLog("[Checking action with: " + conditionDescription + "][Condition result: " + resultAsString + "]");
 
