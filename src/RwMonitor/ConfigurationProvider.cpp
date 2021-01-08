@@ -32,6 +32,11 @@ namespace Configurations
                 return _enthropyTh;
             }
 
+            double GetSuspectedEncryptionEnthropyThreshold()
+            {
+                return _suspectedEnthropyTh;
+            }
+
             vector<string> GetSuspiciousKeywords()
             {
                 return _suspiciousKeywords;
@@ -86,6 +91,7 @@ namespace Configurations
             bool _isDebugMode;
             int _similarityTh;
             int _enthropyTh;
+            double _suspectedEnthropyTh;
             int _systemLockDownDuration;
             vector<string> _suspiciousKeywords;
             char* _logFilePath;
@@ -103,6 +109,7 @@ namespace Configurations
             regex _systemLockDownDurationRegex = regex("SystemLockDownDuration: (.*);");
             regex _similarityThRegex = regex("SimilarityMeasurement: (.*);");
             regex _enthropyThRegex = regex("ShannonEnthropy: (.*);");
+            regex _suspectedEncryptedEnthropyThRegex = regex("SuspectedEncryptionEnthropy: (.*);");
             regex _suspiciousKeywordsRegex = regex("SuspiciousKeywords: (.*);");
             regex _minAccumulatedThresholdRegex = regex("MinAccumulatedThreshold: (.*);");
             regex _heuristicsWeightsRegex = regex("HeuristicsWeights: (.*);");
@@ -122,6 +129,7 @@ namespace Configurations
                 char* runningModeStr = Parse(str, _runningModeRegex);
                 char* similarityString = Parse(str, _similarityThRegex);
                 char* enthropyString = Parse(str, _enthropyThRegex);
+                char* suspectedEnthropyString = Parse(str, _suspectedEncryptedEnthropyThRegex);
                 char* systemLockDownDurationString = Parse(str, _systemLockDownDurationRegex);
                 char* suspiciousKeywordsString = Parse(str, _suspiciousKeywordsRegex);
                 char* logFilePathString = Parse(str, _logFilePathRegex);
@@ -135,6 +143,7 @@ namespace Configurations
                 _isDebugMode = IsDebugMode(runningModeStr);
                 _similarityTh = ConvertToInt(similarityString);
                 _enthropyTh = ConvertToInt(enthropyString);
+                _suspectedEnthropyTh = ConvertToDouble(suspectedEnthropyString);
                 _systemLockDownDuration = ConvertToInt(systemLockDownDurationString);
                 _suspiciousKeywords = SplitToWords(suspiciousKeywordsString, ',');
                 _logFilePath = logFilePathString;

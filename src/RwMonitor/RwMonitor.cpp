@@ -245,12 +245,13 @@ namespace RwMonitor
 
                 int similarityMeasurementHeuristicThreshold = cp->GetSimilarityThreshold();
                 int shannonEnthropyHeuristicThreshold = cp->GetEnthropyThreshold();
+                double suspectedEncryptionEnthropyThreshold = cp->GetSuspectedEncryptionEnthropyThreshold();
                 vector<string> suspiciousKeywords = cp->GetSuspiciousKeywords();
                 int lookbackTime = cp->GetLookbackTime();
 
                 monitorToLoad->AddHeuristic(new FileTypeChangesHeuristic(logger, tempWriter, lookbackTime));
                 monitorToLoad->AddHeuristic(new SimilarityMeasurementHeuristic(logger, tempWriter, tempWriter2, similarityMeasurementHeuristicThreshold, lookbackTime));
-                monitorToLoad->AddHeuristic(new ShannonEnthropyHeuristic(logger, tempWriter, shannonEnthropyHeuristicThreshold, lookbackTime));
+                monitorToLoad->AddHeuristic(new ShannonEnthropyHeuristic(logger, tempWriter, shannonEnthropyHeuristicThreshold, suspectedEncryptionEnthropyThreshold, lookbackTime));
                 monitorToLoad->AddHeuristic(new FilesDeletionHeuristic(logger, tempWriter, lookbackTime));
                 monitorToLoad->AddHeuristic(new SuspiciousKeywordsHeuristicThreshold(logger, tempWriter, suspiciousKeywords, lookbackTime));
             }

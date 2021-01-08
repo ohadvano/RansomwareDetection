@@ -38,12 +38,13 @@ namespace Heuristics
     class ShannonEnthropyHeuristic : public HeuristicBase
     {
         public:
-            ShannonEnthropyHeuristic(Logger* logger, TempWriter* tempWriter, int threshold, int lookbackTime)
+            ShannonEnthropyHeuristic(Logger* logger, TempWriter* tempWriter, int threshold, double suspiciousEncryptionEnthropyTh, int lookbackTime)
                 : HeuristicBase { lookbackTime }
             {
                 _tempWriter = tempWriter;
                 _logger = logger;
                 _threshold = threshold;
+                _suspiciousEncryptionEnthropyTh = suspiciousEncryptionEnthropyTh;
 
                 _logger->WriteLog("[" + _heuristicName + "][Init]");
 
@@ -76,7 +77,7 @@ namespace Heuristics
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyAfter) + "]");
 
                     if ((enthropyBefore > 0 && Abs(enthropyBefore - enthropyAfter) > _threshold) ||
-                        (enthropyAfter > 7.9))
+                        (enthropyAfter > _suspiciousEncryptionEnthropyTh))
                     {
                         _logger->WriteLog("[" + _heuristicName + "][High enthropy change detected]");
                         _writeBufHistory->AddNewAction(writeAction);
@@ -96,6 +97,7 @@ namespace Heuristics
         private:
             ActionHistory<WriteBufAction*>* _writeBufHistory;
             double _threshold;
+            double _suspiciousEncryptionEnthropyTh;
             string _heuristicName = "Shannon Enthropy";
 
             void RefreshTH()
