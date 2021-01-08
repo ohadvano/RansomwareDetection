@@ -75,7 +75,8 @@ namespace Heuristics
                     string s2 = std::to_string(sizeAfter);
                     _logger->WriteLog("[" + _heuristicName + "][Enthropy after: " + GetDoubleAsString(enthropyAfter) + "]");
 
-                    if (enthropyBefore > 0 && Abs(enthropyBefore - enthropyAfter) > _threshold)
+                    if ((enthropyBefore > 0 && Abs(enthropyBefore - enthropyAfter) > _threshold) ||
+                        (enthropyAfter > 7.5))
                     {
                         _logger->WriteLog("[" + _heuristicName + "][High enthropy change detected]");
                         _writeBufHistory->AddNewAction(writeAction);
