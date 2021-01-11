@@ -96,6 +96,7 @@ typedef RwThreatDetector* RwDetector;
 RwDetector RansomwareMonitor;
 Logger* _logger;
 double _fileSystemLockDownDurationInSeconds;
+bool _active;
 static time_t _fileSystemLockDownStart = 0; // Zero means not initialized
 static string _rwInLockDownMessage = "Set in lock down message for user";
 static map<string, string>* _fileMap = new map<string, string>;
@@ -567,19 +568,22 @@ static void sfs_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
 
 static void sfs_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name) 
 {
-    _logger->WriteLog("[GATEWAY - RMDIR ACTION CAPTURED]");
-
-    // Ransomware monitor
-    pid_t callingPid = getpid();
-    string directoryPath(name);
-    FsAction* action = new RmdirAction(directoryPath, callingPid);
-
-    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    if (shouldIgnoreRequest)
+    if (_active)
     {
-        _logger->WriteLog("[GATEWAY - ACTION DENIED]");
-        fuse_reply_err(req, errno);
-        return;
+        _logger->WriteLog("[GATEWAY - RMDIR ACTION CAPTURED]");
+
+        // Ransomware monitor
+        pid_t callingPid = getpid();
+        string directoryPath(name);
+        FsAction* action = new RmdirAction(directoryPath, callingPid);
+
+        bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
+        if (shouldIgnoreRequest)
+        {
+            _logger->WriteLog("[GATEWAY - ACTION DENIED]");
+            fuse_reply_err(req, errno);
+            return;
+        }
     }
 
     Inode& inode_p = get_inode(parent);
@@ -639,28 +643,31 @@ static void forget_one(fuse_ino_t ino, uint64_t n)
 
 static void sfs_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup) 
 {
-    _logger->WriteLog("[GATEWAY - FORGET ACTION CAPTURED]");
-
-    Inode& inode = get_inode(ino);
-    int fd = inode.fd;
-    int maxFilePath = 4096;
-    char buf[64];
-    sprintf(buf, "/proc/self/fd/%i", fd);
-    char path[maxFilePath];
-    int pathSize = (int)readlink(buf, path, maxFilePath);
-    path[pathSize] = 0;
-    string filePath(path);
-    
-    // Ransomware monitor
-    pid_t callingPid = getpid();
-    FsAction* action = new ForgetAction(filePath, callingPid);
-
-    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    if (shouldIgnoreRequest)
+    if (_active)
     {
-        _logger->WriteLog("[GATEWAY - ACTION DENIED]");
-        fuse_reply_none(req);
-        return;
+        _logger->WriteLog("[GATEWAY - FORGET ACTION CAPTURED]");
+
+        Inode& inode = get_inode(ino);
+        int fd = inode.fd;
+        int maxFilePath = 4096;
+        char buf[64];
+        sprintf(buf, "/proc/self/fd/%i", fd);
+        char path[maxFilePath];
+        int pathSize = (int)readlink(buf, path, maxFilePath);
+        path[pathSize] = 0;
+        string filePath(path);
+        
+        // Ransomware monitor
+        pid_t callingPid = getpid();
+        FsAction* action = new ForgetAction(filePath, callingPid);
+
+        bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
+        if (shouldIgnoreRequest)
+        {
+            _logger->WriteLog("[GATEWAY - ACTION DENIED]");
+            fuse_reply_none(req);
+            return;
+        }
     }
 
     forget_one(ino, nlookup);
@@ -1079,75 +1086,78 @@ static void do_write_buf(fuse_req_t req, size_t size, off_t off,
 static void sfs_write_buf(fuse_req_t req, fuse_ino_t ino, fuse_bufvec *in_buf,
                           off_t off, fuse_file_info *fi)
 {
-    _logger->WriteLog("[GATEWAY - WRITE ACTION CAPTURED]");
-    uint64_t fd = fi->fh;
-
-    int maxFilePath = 4096;
-    char buf[64];
-    sprintf(buf, "/proc/self/fd/%i", (int)fd);
-    char path[maxFilePath];
-    int pathSize = (int)readlink(buf, path, maxFilePath);
-    path[pathSize] = 0;
-    string filePath(path);
-
-    string oldFileContent;
-    if ((*_fileMap).count(filePath) == 0)
+    if (_active)
     {
-        string res;
-        ifstream file(filePath);
+        _logger->WriteLog("[GATEWAY - WRITE ACTION CAPTURED]");
+        uint64_t fd = fi->fh;
 
-        while (getline(file, res))
+        int maxFilePath = 4096;
+        char buf[64];
+        sprintf(buf, "/proc/self/fd/%i", (int)fd);
+        char path[maxFilePath];
+        int pathSize = (int)readlink(buf, path, maxFilePath);
+        path[pathSize] = 0;
+        string filePath(path);
+
+        string oldFileContent;
+        if ((*_fileMap).count(filePath) == 0)
         {
-            oldFileContent = oldFileContent + res;
+            string res;
+            ifstream file(filePath);
+
+            while (getline(file, res))
+            {
+                oldFileContent = oldFileContent + res;
+            }
+
+            file.close();
+        }
+        else
+        {
+            oldFileContent = (*_fileMap)[filePath];
+            (*_fileMap).erase(filePath);
         }
 
-        file.close();
-    }
-    else
-    {
-        oldFileContent = (*_fileMap)[filePath];
-        (*_fileMap).erase(filePath);
-    }
+        string newContent;
+        const char* tmpFilePath = "/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp";
 
-    string newContent;
-    const char* tmpFilePath = "/home/ohadoz/Desktop/RansomwareDetection/src/Run/tmp";
+        int tmpFd = open(tmpFilePath, O_RDWR | O_CREAT, 0777);
+        auto size2 {fuse_buf_size(in_buf)};
+        fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size2);
+        out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
+            FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
+        out_buf.buf[0].fd = tmpFd;
+        out_buf.buf[0].pos = off;
+        fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
+        close(tmpFd);
 
-    int tmpFd = open(tmpFilePath, O_RDWR | O_CREAT, 0777);
-    auto size2 {fuse_buf_size(in_buf)};
-    fuse_bufvec out_buf = FUSE_BUFVEC_INIT(size2);
-    out_buf.buf[0].flags = static_cast<fuse_buf_flags>(
-        FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK);
-    out_buf.buf[0].fd = tmpFd;
-    out_buf.buf[0].pos = off;
-    fuse_buf_copy(&out_buf, in_buf, FUSE_BUF_COPY_FLAGS);
-    close(tmpFd);
+        string line;
+        ifstream tempFile(tmpFilePath);
+        while (getline(tempFile, line))
+        {
+            newContent = newContent + line;
+        }
 
-    string line;
-    ifstream tempFile(tmpFilePath);
-    while (getline(tempFile, line))
-    {
-        newContent = newContent + line;
-    }
+        tempFile.close();
+        remove(tmpFilePath);
 
-    tempFile.close();
-    remove(tmpFilePath);
+        in_buf->idx = 0;
+        in_buf->off = 0;
 
-    in_buf->idx = 0;
-    in_buf->off = 0;
+        pid_t callingPid = getpid();
+        FsAction* action = new WriteBufAction(
+            filePath,
+            oldFileContent,
+            newContent,
+            callingPid);
 
-    pid_t callingPid = getpid();
-    FsAction* action = new WriteBufAction(
-        filePath,
-        oldFileContent,
-        newContent,
-        callingPid);
-
-    bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
-    if (shouldIgnoreRequest)
-    {
-        _logger->WriteLog("[GATEWAY - ACTION DENIED]");
-        fuse_reply_err(req, errno);
-        return;
+        bool shouldIgnoreRequest = PerformRansomwareValidations(action) == false;
+        if (shouldIgnoreRequest)
+        {
+            _logger->WriteLog("[GATEWAY - ACTION DENIED]");
+            fuse_reply_err(req, errno);
+            return;
+        }
     }
 
     (void) ino;
@@ -1427,13 +1437,14 @@ static void maximize_fd_limit()
 }
 
 
-int main(int argc, char *argv[]) 
+int main(int argc, char *argv[])
 {
     mkdir("Run", 0777);
     RansomwareMonitor = new RwThreatDetector();
     delete (new RwMonitorLoader((RwThreatDetector*)RansomwareMonitor));
 
     _fileSystemLockDownDurationInSeconds = RansomwareMonitor->_configurationProvider->GetSystemLockDownDuration();
+    _active = RansomwareMonitor->_configurationProvider->IsActive();
     _logger = RansomwareMonitor->GetLogger();
 
     // Parse command line options

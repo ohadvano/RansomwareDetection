@@ -47,6 +47,11 @@ namespace Configurations
                 return _isDebugMode;
             }
 
+            bool IsActive()
+            {
+                return _isActive;
+            }
+
             char* GetLogFilePath()
             {
                 return _logFilePath;
@@ -89,6 +94,7 @@ namespace Configurations
 
         private:
             bool _isDebugMode;
+            bool _isActive;
             int _similarityTh;
             int _enthropyTh;
             double _suspectedEnthropyTh;
@@ -103,6 +109,7 @@ namespace Configurations
             int _lookbackTime;
 
             regex _runningModeRegex = regex("Debug: (.*);");
+            regex _isActiveRegex = regex("Active: (.*);");
             regex _logFilePathRegex = regex("LogFilePath: (.*);");
             regex _tmpFilePathRegex = regex("TempFilePath: (.*);");
             regex _tmpFilePath2Regex = regex("TempFilePath2: (.*);");
@@ -126,6 +133,7 @@ namespace Configurations
                 inFile.close();
                 string str = strStream.str();
 
+                char* activeStr = Parse(str, _isActiveRegex);
                 char* runningModeStr = Parse(str, _runningModeRegex);
                 char* similarityString = Parse(str, _similarityThRegex);
                 char* enthropyString = Parse(str, _enthropyThRegex);
@@ -140,6 +148,7 @@ namespace Configurations
                 char* individualThreshold = Parse(str, _individualThresholdRegex);
                 char* lookbackTime = Parse(str, _lookbackTimeRegex);
 
+                _isActive = IsActive(activeStr);
                 _isDebugMode = IsDebugMode(runningModeStr);
                 _similarityTh = ConvertToInt(similarityString);
                 _enthropyTh = ConvertToInt(enthropyString);
@@ -176,6 +185,17 @@ namespace Configurations
             }
 
             bool IsDebugMode(char* str)
+            {
+                string strAsString(str);
+                if (strAsString == "true")
+                {
+                    return true;
+                }
+                
+                return false;
+            }
+
+            bool IsActive(char* str)
             {
                 string strAsString(str);
                 if (strAsString == "true")
