@@ -1,0 +1,8 @@
+[2021-01-11 19:37:44][Log started]
+[2021-01-11 19:37:44][Debug: Yes]
+[2021-01-11 19:37:44][Ransomware monitor started]
+[2021-01-11 19:37:44][File Type Changes][Init]
+[2021-01-11 19:37:44][Similarity Measurement][Init]
+[2021-01-11 19:37:44][Shannon Enthropy][Init]
+[2021-01-11 19:37:44][Files Deletion][Init]
+[2021-01-11 19:37:44][Suspicious Keywords][Init]

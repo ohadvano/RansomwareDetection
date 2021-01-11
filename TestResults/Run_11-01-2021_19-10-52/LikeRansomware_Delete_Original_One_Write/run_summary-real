@@ -1,0 +1,45 @@
+|----------------------------------------
+| Run statistics for test: LikeRansomware_Delete_Original_One_Write
+|----------------------------------------
+| Actions
+|----------------------------------------
+| Action name            | Total count
+|----------------------------------------
+| Write                  | 1369
+| Rmdir                  | 0
+| Forget                 | 1367
+|----------------------------------------
+| Heuristics
+|----------------------------------------
+| Heuristic name         | Max threshold
+|----------------------------------------
+| File type changes      | 0
+| Similarity Measurement | 1
+| Shannon Enthropy       | 357
+| Files Deletion         | 597
+| Suspicious Keywords    | 7
+|----------------------------------------
+| Resolutions - Write
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | 11
+| IndividualThresholds   | 1249
+| Total                  | 1249
+|----------------------------------------
+| Resolutions - Rmdir
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | 0
+| IndividualThresholds   | 0
+| Total                  | 0
+|----------------------------------------
+| Resolutions - Forget
+|----------------------------------------
+| Condition name         | Total Risk
+|----------------------------------------
+| AccumulatedThreshold   | 12
+| IndividualThresholds   | 1248
+| Total                  | 1248
+|----------------------------------------
